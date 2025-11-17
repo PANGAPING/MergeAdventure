@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using FlyEggFrameWork.GameGlobalConfig;
 using System;
 using FlyEggFrameWork.Tools;
+using System.IO;
 
 public static class ConfigSystem
 {
@@ -119,6 +120,45 @@ public static class ConfigSystem
             Debug.LogError("There is no item id:" + itemID.ToString());
             return null;
         }
+    }
+
+
+    public static MapSetting GetMapSetting(int level = 1)
+    {
+        string mapSettingPath = Path.Combine(FoldPath.MapSettingFolderPath, "MapSetting_" + level.ToString());
+        MapSetting mapSetting = new MapSetting(level);
+        mapSetting.Items = new ItemModel[0];
+        mapSetting.Trees = new TreeModel[0];
+        mapSetting.Generators = new GeneratorModel[0];
+        mapSetting.Mechanisms = new MechanismModel[0];
+        mapSetting.StartPos = new int[2] { 0, 0 };
+
+        if (!File.Exists(mapSettingPath))
+        {
+            File.WriteAllText(mapSettingPath, JsonConvert.SerializeObject(mapSetting));
+        }
+        else
+        {
+            string json = File.ReadAllText(mapSettingPath);
+            mapSetting = JsonConvert.DeserializeObject<MapSetting>(json);
+            if (mapSetting.StartPos == null || mapSetting.StartPos.Length != 2)
+            {
+                mapSetting.StartPos = new int[2] { 0, 0 };
+            }
+        }
+        return mapSetting;
+    }
+
+    public static void SaveMapSetting(int level = 1, MapSetting mapSetting = null)
+    {
+        string mapSettingPath = Path.Combine(FoldPath.MapSettingFolderPath, "MapSetting_" + level.ToString());
+
+        if (File.Exists(mapSettingPath))
+        {
+            File.Delete(mapSettingPath);
+        }
+
+        File.WriteAllText(mapSettingPath, JsonConvert.SerializeObject(mapSetting));
     }
 
     public static string GetConfigJsonText(string path)
