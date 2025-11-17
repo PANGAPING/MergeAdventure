@@ -58,9 +58,11 @@ namespace FlyEggFrameWork.GameGlobalConfig
     {
         public static string TreeConfig = Path.Combine(FoldPath.DefaultJsonConfigFolder, "TreeConfig");
 
-        public static string DropItemConfig = Path.Combine(FoldPath.DefaultJsonConfigFolder, "DropItemConfig");
+        public static string ItemConfig = Path.Combine(FoldPath.DefaultJsonConfigFolder, "ItemConfig");
 
-        public static string MapSettingItemConfig = Path.Combine(FoldPath.DefaultJsonConfigFolder, "MapSettingItemConfig");
+        public static string MechanismConfig = Path.Combine(FoldPath.DefaultJsonConfigFolder, "MechanismConfig");
+
+        public static string GeneratorConfig = Path.Combine(FoldPath.DefaultJsonConfigFolder, "GeneratorConfig");
 
         public static string LocalizationExcelFile = Path.Combine(FoldPath.LocalizationFolderPath, "Localization.xlsx");
 

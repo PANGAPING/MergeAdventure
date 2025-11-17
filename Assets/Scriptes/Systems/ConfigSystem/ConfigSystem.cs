@@ -8,12 +8,118 @@ using FlyEggFrameWork.Tools;
 
 public static class ConfigSystem
 {
+    public static Dictionary<int, ItemConfig> ItemConfigs { get; set; }
+    public static Dictionary<int,TreeConfig> TreeConfigs { get; set; }
+    public static Dictionary<int,GeneratorConfig> GeneratorConfigs { get; set; }
+    public static Dictionary<int,MechanismConfig> MechanismConfigs { get; set; }
 
 
     public static void LoadConfigs()
     {
+        InitItemConfig();
     }
 
+    private static void InitItemConfig()
+    {
+        ItemConfigs = new Dictionary<int, ItemConfig>();
+
+        ItemConfig[] itemConfigs = LoadJsonConfigArray<ItemConfig>(ConfigPath.ItemConfig);
+
+        for (int i = 0; i < itemConfigs.Length; i++)
+        {
+            ItemConfig itemConfig = itemConfigs[i];
+            ItemConfigs[itemConfig.ID] = itemConfig;
+        }
+    }
+
+    public static ItemConfig GetItemConfig(int itemID)
+    {
+        try
+        {
+            return ItemConfigs[itemID];
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("There is no item id:" + itemID.ToString());
+            return null;
+        }
+    }
+
+    private static void InitTreeConfig()
+    {
+        TreeConfigs = new Dictionary<int, TreeConfig>();
+
+        TreeConfig[] itemConfigs = LoadJsonConfigArray<TreeConfig>(ConfigPath.TreeConfig);
+
+        for (int i = 0; i < itemConfigs.Length; i++)
+        {
+            TreeConfig itemConfig = itemConfigs[i];
+            TreeConfigs[itemConfig.ID] = itemConfig;
+        }
+    }
+
+    public static TreeConfig GetTreeConfig(int itemID)
+    {
+        try
+        {
+            return TreeConfigs[itemID];
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("There is no item id:" + itemID.ToString());
+            return null;
+        }
+    }
+    private static void InitGeneratorConfig()
+    {
+        GeneratorConfigs = new Dictionary<int, GeneratorConfig>();
+
+        GeneratorConfig[] itemConfigs = LoadJsonConfigArray<GeneratorConfig>(ConfigPath.GeneratorConfig);
+
+        for (int i = 0; i < itemConfigs.Length; i++)
+        {
+            GeneratorConfig itemConfig = itemConfigs[i];
+            GeneratorConfigs[itemConfig.ID] = itemConfig;
+        }
+    }
+
+    public static GeneratorConfig GetGeneratorConfig(int itemID)
+    {
+        try
+        {
+            return GeneratorConfigs[itemID];
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("There is no item id:" + itemID.ToString());
+            return null;
+        }
+    }
+    private static void InitMechanismConfig()
+    {
+        MechanismConfigs = new Dictionary<int, MechanismConfig>();
+
+        MechanismConfig[] itemConfigs = LoadJsonConfigArray<MechanismConfig>(ConfigPath.MechanismConfig);
+
+        for (int i = 0; i < itemConfigs.Length; i++)
+        {
+            MechanismConfig itemConfig = itemConfigs[i];
+            MechanismConfigs[itemConfig.ID] = itemConfig;
+        }
+    }
+
+    public static MechanismConfig GetMechanismConfig(int itemID)
+    {
+        try
+        {
+            return MechanismConfigs[itemID];
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("There is no item id:" + itemID.ToString());
+            return null;
+        }
+    }
 
     public static string GetConfigJsonText(string path)
     {
