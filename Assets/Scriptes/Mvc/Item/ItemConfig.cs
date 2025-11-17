@@ -37,13 +37,21 @@ public class ItemConfig : FlyEggConfig
 }
 public enum ItemType
 {
+    [StringValue("NORMAL")]
     NORMAL,
+    [StringValue("TREE")]
     TREE,
+    [StringValue("GENERATOR")]
     GENERATOR,
+    [StringValue("FOG")]
     FOG,
+    [StringValue("ELF")]
     ELF,
+    [StringValue("CHAIN")]
     CHAIN,
+    [StringValue("STACK")]
     STACK,
+    [StringValue("ELFCLOUD")]
     ELFCLOUD
 }
 

@@ -424,9 +424,7 @@ public class LevelEditor : EditorWindow
     private void DrawItems()
     {
         GUILayout.BeginVertical();
-        itemScrollVec = GUILayout.BeginScrollView(itemScrollVec, GUILayout.Height(300), GUILayout.Width(600));
-
-        ItemType itemType = ((ItemType[])Enum.GetValues(typeof(ItemType)))[itemTypeIndex];
+        itemScrollVec = GUILayout.BeginScrollView(itemScrollVec, GUILayout.Height(350), GUILayout.Width(500));
 
         int rowItemCount = 6;
 
@@ -434,7 +432,7 @@ public class LevelEditor : EditorWindow
         int rowIndex = 0;
 
 
-        List<ItemConfig> itemConfigs = ConfigSystem.GetItemConfigs(itemType);
+        List<ItemConfig> itemConfigs = ConfigSystem.GetItemConfigs(NowItemType);
 
         foreach (ItemConfig itemConfig in itemConfigs)
         {
@@ -444,6 +442,7 @@ public class LevelEditor : EditorWindow
                 {
                     if (rowIndex != 0)
                     {
+                        GUILayout.FlexibleSpace();
                         GUILayout.Space(10);
                         GUILayout.EndHorizontal();
                     }
@@ -460,8 +459,9 @@ public class LevelEditor : EditorWindow
             }
             itemIndex++;
         }
-
         GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+
         GUILayout.EndScrollView();
         GUILayout.EndVertical();
     }
