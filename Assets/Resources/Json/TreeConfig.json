@@ -1,164 +1,29 @@
 ﻿[
   {
-    "ID": 10001.0,
-    "Name": "StartStar",
-    "ItemID": null,
-    "DropItemCount": 12.0,
-    "DropItemIds": "[10201]",
-    "DropItemRatios": "[1]",
-    "MaxHealthCount": 6.0
-  },
-  {
-    "ID": 10002.0,
-    "Name": "LockNet",
-    "ItemID": null,
-    "DropItemCount": 16.0,
-    "DropItemIds": "[10101]",
-    "DropItemRatios": "[1]",
-    "MaxHealthCount": 4.0
-  },
-  {
-    "ID": 10003.0,
-    "Name": "BlackCloud",
-    "ItemID": null,
-    "DropItemCount": 16.0,
-    "DropItemIds": "[20101]",
-    "DropItemRatios": "[1]",
-    "MaxHealthCount": 5.0
-  },
-  {
-    "ID": 10004.0,
-    "Name": "Door",
-    "ItemID": null,
-    "DropItemCount": 1.0,
-    "DropItemIds": "[20105]",
-    "DropItemRatios": "[1]",
-    "MaxHealthCount": 1.0
-  },
-  {
-    "ID": 10005.0,
-    "Name": "HalfBlackCloud",
-    "ItemID": null,
-    "DropItemCount": 6.0,
-    "DropItemIds": "[10301]",
+    "ID": 1200101.0,
+    "Name": "Shu1_Lv1",
+    "ItemID": 1200101.0,
+    "DropItemCount": 8.0,
+    "DropItemIds": "[1100101]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 2.0
   },
   {
-    "ID": 0.0,
-    "Name": "Jelly",
-    "ItemID": null,
-    "DropItemCount": 12.0,
-    "DropItemIds": "[40101]",
+    "ID": 1200102.0,
+    "Name": "Shu1_Lv2",
+    "ItemID": 1200102.0,
+    "DropItemCount": 16.0,
+    "DropItemIds": "[1100101]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 4.0
   },
   {
-    "ID": 10007.0,
-    "Name": "BlueJelly",
-    "ItemID": null,
-    "DropItemCount": 12.0,
-    "DropItemIds": "[40201]",
-    "DropItemRatios": "[1]",
-    "MaxHealthCount": 4.0
-  },
-  {
-    "ID": 20001.0,
-    "Name": "GrassStack",
-    "ItemID": null,
-    "DropItemCount": 9.0,
-    "DropItemIds": "[30201]",
-    "DropItemRatios": "[1]",
-    "MaxHealthCount": 3.0
-  },
-  {
-    "ID": 20002.0,
-    "Name": "DarkGrassStack",
-    "ItemID": null,
-    "DropItemCount": 28.0,
-    "DropItemIds": "[30301]",
-    "DropItemRatios": "[1]",
-    "MaxHealthCount": 7.0
-  },
-  {
-    "ID": 20003.0,
-    "Name": "LockStack",
-    "ItemID": null,
-    "DropItemCount": 32.0,
-    "DropItemIds": "[50101]",
+    "ID": 1200103.0,
+    "Name": "Shu1_Lv3",
+    "ItemID": 1200103.0,
+    "DropItemCount": 24.0,
+    "DropItemIds": "[1100101]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 6.0
-  },
-  {
-    "ID": 80101.0,
-    "Name": "ArrowJelly_Up",
-    "ItemID": null,
-    "DropItemCount": 1.0,
-    "DropItemIds": "[40101,20101]",
-    "DropItemRatios": "[0.75,0.25]",
-    "MaxHealthCount": 1.0
-  },
-  {
-    "ID": 80102.0,
-    "Name": "ArrowJelly_Down",
-    "ItemID": null,
-    "DropItemCount": 2.0,
-    "DropItemIds": "[40101,20101]",
-    "DropItemRatios": "[0.75,0.25]",
-    "MaxHealthCount": 1.0
-  },
-  {
-    "ID": 80103.0,
-    "Name": "ArrowJelly_Left",
-    "ItemID": null,
-    "DropItemCount": 4.0,
-    "DropItemIds": "[40101,20101]",
-    "DropItemRatios": "[0.75,0.25]",
-    "MaxHealthCount": 1.0
-  },
-  {
-    "ID": 80104.0,
-    "Name": "ArrowJelly_Right",
-    "ItemID": null,
-    "DropItemCount": 8.0,
-    "DropItemIds": "[40101,20101]",
-    "DropItemRatios": "[0.75,0.25]",
-    "MaxHealthCount": 1.0
-  },
-  {
-    "ID": 80201.0,
-    "Name": "ArrowJelly_All",
-    "ItemID": null,
-    "DropItemCount": 1.0,
-    "DropItemIds": "[40201,20101]",
-    "DropItemRatios": "[0.75,0.25]",
-    "MaxHealthCount": 1.0
-  },
-  {
-    "ID": 80202.0,
-    "Name": "ArrowJelly_None",
-    "ItemID": null,
-    "DropItemCount": 2.0,
-    "DropItemIds": "[40201,20101]",
-    "DropItemRatios": "[0.75,0.25]",
-    "MaxHealthCount": 1.0
-  },
-  {
-    "ID": 80203.0,
-    "Name": "SurfaceJelly_Normal",
-    "ItemID": null,
-    "DropItemCount": 4.0,
-    "DropItemIds": "[40201,20101]",
-    "DropItemRatios": "[0.75,0.25]",
-    "MaxHealthCount": 1.0
-  },
-  {
-    "ID": 80204.0,
-    "Name": "SurfaceJelly_Broken",
-    "ItemID": null,
-    "DropItemCount": 8.0,
-    "DropItemIds": "[40201,20101]",
-    "DropItemRatios": "[0.75,0.25]",
-    "MaxHealthCount": 1.0
   }
 ]
