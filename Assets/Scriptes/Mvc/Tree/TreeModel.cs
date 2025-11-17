@@ -4,17 +4,12 @@ using UnityEngine;
 using FlyEggFrameWork;
 using Newtonsoft.Json;
 
-public class TreeModel : FlyEggModel
+public class TreeModel : ItemModel
 {
     [JsonIgnore]
     public TreeConfig Config { get; set; }
 
-    [JsonIgnore]
-    public ItemConfig ItemConfig { get; set; }
-
     public int ConfigID;
-
-    public int[] TilePos;
 
     public int HealthCount;
 
@@ -50,14 +45,6 @@ public class TreeModel : FlyEggModel
         {
             Config = ConfigSystem.GetTreeConfig(ConfigID);
         }
-
         return Config;
-    }
-
-    public ItemConfig GetItemConfig() {
-        if (ItemConfig == null) { 
-            ItemConfig = ConfigSystem.GetItemConfig(ConfigID);
-        }
-        return ItemConfig;
     }
 }

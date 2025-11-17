@@ -4,17 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GeneratorModel :  FlyEggModel
+public class GeneratorModel : ItemModel
 {
     [JsonIgnore]
     public GeneratorConfig Config { get; set; }
 
-    [JsonIgnore]
-    public ItemConfig ItemConfig { get; set; }
-
     public int ConfigID;
-
-    public int[] TilePos;
 
     public int HealthCount;
 
@@ -52,14 +47,5 @@ public class GeneratorModel :  FlyEggModel
         }
 
         return Config;
-    }
-
-    public ItemConfig GetItemConfig()
-    {
-        if (ItemConfig == null)
-        {
-            ItemConfig = ConfigSystem.GetItemConfig(ConfigID);
-        }
-        return ItemConfig;
     }
 }

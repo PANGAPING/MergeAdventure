@@ -1,43 +1,60 @@
+using FlyEggFrameWork;
 using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
-public class ItemModel : MonoBehaviour
+public class ItemModel : FlyEggModel
 {
     [JsonIgnore]
-    public ItemConfig Config { get; set; }
+    public ItemConfig ItemConfig { get; set; }
 
-    public int ConfigID;
+    public int ItemConfigID;
 
     public int[] TilePos;
 
-    public ItemModel() {
-        if (Config == null && ConfigID != 0) {
-            Config = ConfigSystem.GetItemConfig(ConfigID);
+    public int[,] TilePoses;
+
+
+    public ItemModel()
+    {
+        if (ItemConfig == null &&  ItemConfigID!= 0)
+        {
+            ItemConfig = ConfigSystem.GetItemConfig(ItemConfigID);
         }
     }
 
-    public ItemModel(int configID, int[] tilePos) { 
-        ConfigID = configID;
+    public ItemModel(int itemConfigID, int[] tilePos) { 
+        ItemConfigID = itemConfigID;
         TilePos = tilePos;
+        TilePoses = new int[0, 0];
     }
 
     public ItemModel(ItemConfig config, int[] tilePos) {
-        Config = config;
-        ConfigID = Config.ID;
+        ItemConfig = config;
+        ItemConfigID = config.ID;
         TilePos = tilePos;
+        TilePoses = new int[0, 0];
     }
 
-    public ItemConfig GetConfig() {
-        if (Config == null) {
-            Config = ConfigSystem.GetItemConfig(ConfigID);
+    public ItemModel(ItemConfig config, int[] tilePos, int[,] tilePoses)
+    {
+        ItemConfig = config;
+        ItemConfigID = config.ID;
+        TilePos = tilePos;
+        TilePoses = tilePoses;
+    }
+
+    public ItemConfig GetItemConfig() {
+        if (ItemConfig == null) {
+            ItemConfig = ConfigSystem.GetItemConfig(ItemConfigID);
         }
-        return Config;
+        return ItemConfig;
     }
 
     public ItemType GetItemType()
     {
-        return GetConfig().Type;
+        return GetItemConfig().Type;
     }
 }

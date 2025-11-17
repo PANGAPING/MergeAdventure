@@ -6,6 +6,7 @@ using FlyEggFrameWork.GameGlobalConfig;
 using System;
 using FlyEggFrameWork.Tools;
 using System.IO;
+using System.Linq;
 
 public static class ConfigSystem
 {
@@ -44,6 +45,11 @@ public static class ConfigSystem
             Debug.LogError("There is no item id:" + itemID.ToString());
             return null;
         }
+    }
+
+    public static List<ItemConfig> GetItemConfigs(ItemType itemType) {
+
+        return ItemConfigs.Values.ToList().FindAll(x => x.Type == itemType);
     }
 
     private static void InitTreeConfig()

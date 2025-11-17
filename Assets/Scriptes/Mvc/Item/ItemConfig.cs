@@ -26,6 +26,12 @@ public class ItemConfig : FlyEggConfig
     [JsonConverter(typeof(IntegerJsonConverter))]
     public int Movable = 0;
 
+    [JsonConverter(typeof(IntegerJsonConverter))]
+    public int Obstacle= 0;
+
+    [JsonConverter(typeof(IntegerJsonConverter))]
+    public int Layer = 0;
+
     [JsonConverter(typeof(IntegerArrayJsonConverter))]
     public int[] IntData;
 }

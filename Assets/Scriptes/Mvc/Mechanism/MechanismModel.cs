@@ -4,17 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MechanismModel : FlyEggModel
+public class MechanismModel : ItemModel
 {
     [JsonIgnore]
     public MechanismConfig Config { get; set; }
 
-    [JsonIgnore]
-    public ItemConfig ItemConfig { get; set; }
-
     public int ConfigID;
-
-    public int[] TilePos;
 
     public MechanismModel()
     {
@@ -44,13 +39,5 @@ public class MechanismModel : FlyEggModel
         }
 
         return Config;
-    }
-    public ItemConfig GetItemConfig()
-    {
-        if (ItemConfig == null)
-        {
-            ItemConfig = ConfigSystem.GetItemConfig(ConfigID);
-        }
-        return ItemConfig;
     }
 }

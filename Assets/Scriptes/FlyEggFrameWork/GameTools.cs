@@ -34,6 +34,17 @@ namespace FlyEggFrameWork.Tools
             }
             return array2;
         }
+        public static Vector2Int[] Array2ToVector2IntArray(int[,] arr2)
+        {
+            Vector2Int[] vector2IntArr = new Vector2Int[arr2.GetLength(0)];
+
+            for (int i = 0; i < vector2IntArr.Length; i++)
+            {
+                vector2IntArr[i] = new Vector2Int(arr2[i, 0], arr2[i, 1]);
+            }
+
+            return vector2IntArr;
+        }
 
         public static Vector3Int[] Array2ToVector3IntArray(int[,] arr2)
         {
@@ -48,7 +59,13 @@ namespace FlyEggFrameWork.Tools
             return vector3IntArr;
         }
 
-
+        public static Vector2Int ArrayToVector2Int(int[] arr)
+        {
+            Vector2Int vector2Int = new Vector2Int();
+            vector2Int.x = arr[0];
+            vector2Int.y = arr[1];
+            return vector2Int;
+        }
 
 
         public static Vector3Int ArrayToVector3Int(int[] arr)

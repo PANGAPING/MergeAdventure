@@ -1,0 +1,535 @@
+using Codice.Client.BaseCommands.Merge.Xml;
+using Codice.Client.Common.ProcessTree;
+using FlyEggFrameWork.GameGlobalConfig;
+using FlyEggFrameWork.Tools;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEditor.TerrainTools;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class LevelEditor : EditorWindow
+{
+    private static LevelEditor Instance;
+
+    private static SceneView SceneView;
+
+    private bool editing = false;
+
+    private int editingLevel = 1;
+
+    private GameObject TileCursor;
+
+    private Vector2Int activeTilePos;
+
+    private TileBase activeTileBase;
+
+    private static Color DefaultGUIBackgroundColor;
+
+    [Header("LevelData")]
+    private MapSetting MapSetting;
+
+    //item instances
+    private Dictionary<ItemType, Dictionary<Vector2Int,TileItem>> itemMap;
+
+    //item models
+    private Dictionary<ItemType,List<ItemModel>> itemModelListMap;
+
+
+    [Header("Options")]
+    private static string[] ItemTypesString = new string[] { };
+
+    private static ItemType[] ItemTypes = new ItemType[] { };
+
+    private static int itemTypeIndex = 0;
+
+    private static ItemType NowItemType;
+
+    private static string filterString = "";
+
+    [Header("Items")]
+    [Space]
+    private ItemConfig usingItem;
+
+    private TreeConfig usingTree;
+
+    private MechanismConfig usingMapSettingItem;
+
+    private GameObject usingItemObj;
+
+    public ItemEditorCell usingItemEditorCell;
+
+    private int itemIntConfigValue = 0;
+
+    [Header("Scroll Para")]
+    [Space]
+    protected Vector2 itemScrollVec = Vector2.zero;
+
+    [Header("Node")]
+    [Space]
+    protected Transform WorldNode;
+
+    protected Transform BoardNode;
+
+    protected GridLayoutGroup BoardLayoutGroup;
+
+    public Dictionary<ItemType, Transform> NodeMap;
+
+    [Header("Helper")]
+    [Space]
+    protected GridHelper _gridHelper;
+
+
+
+    [MenuItem("Level/LevelEditor")]
+    private static void ShowLevelEditorEnter()
+    {
+        Instance = EditorWindow.GetWindow<LevelEditor>();
+
+        DefaultGUIBackgroundColor = GUI.backgroundColor;
+
+        ItemTypesString = new string[Enum.GetNames(typeof(ItemType)).Length];
+        ItemTypes = (ItemType[])Enum.GetValues(typeof(ItemType));
+        for (int i = 0; i < ItemTypes.Length; i++)
+        {
+            ItemTypesString[i] = EnumUtils.GetStringValue(ItemTypes[i]);
+        }
+
+        ConfigSystem.LoadConfigs();
+        Instance.Show();
+    }
+
+    private void OnEnable()
+    {
+        SceneView.duringSceneGui += OnSceneGUI;
+        SceneVisibilityManager.instance.DisableAllPicking();
+    }
+
+
+    private void OnDestroy()
+    {
+        EndEditLevel();
+        SceneView.duringSceneGui -= OnSceneGUI;
+        SceneVisibilityManager.instance.EnableAllPicking();
+    }
+
+
+    void OnGUI()
+    {
+        DrawOptions();
+    }
+
+
+    private void StartEditLevel()
+    {
+        EditorSceneManager.OpenScene(Path.Combine(Application.dataPath, "Scenes", "LevelEditorScene.unity"));
+        editing = true;
+
+        GameObject worldNodeObj = GameObject.Find("World");
+        if (worldNodeObj != null)
+        {
+            DestroyImmediate(worldNodeObj);
+        }
+        worldNodeObj = new GameObject("World");
+        WorldNode = worldNodeObj.transform;
+        WorldNode.transform.position = Vector3.zero;
+        WorldNode.transform.rotation = Quaternion.identity;
+        CommonTool.DeleteAllChildrenImmediate(WorldNode);
+
+        GameObject boardNodeObj = GameObject.Find("Canvas/GameBoard");
+        if (boardNodeObj != null) {
+            DestroyImmediate(boardNodeObj); 
+        }
+
+        GameObject boardPrefab = Resources.Load<GameObject>(Path.Combine(FoldPath.PrefabFolderPath, "GameBoard"));
+        GameObject boardObj = GameObject.Instantiate(boardPrefab, WorldNode);
+        boardPrefab.name = "GameBoard";
+        BoardNode = boardObj.transform;
+        BoardLayoutGroup = BoardNode.GetComponent<GridLayoutGroup>();
+
+        _gridHelper = new GridHelper(BoardLayoutGroup);
+
+        SceneVisibilityManager.instance.DisableAllPicking();
+        LoadMap();
+    }
+
+    private void LoadMap() {
+        MapSetting = ConfigSystem.GetMapSetting(editingLevel);
+
+        foreach (ItemType itemType in ItemTypes)
+        {
+            string itemTypeString = EnumUtils.GetStringValue(itemType);
+            Transform node = new GameObject(itemTypeString).transform;
+            node.SetParent(WorldNode);
+            NodeMap.Add(itemType, node);
+            itemModelListMap.Add(itemType, new List<ItemModel>());
+        }
+
+        foreach (ItemType itemType in ItemTypes) {
+            itemMap.Add(itemType, new Dictionary<Vector2Int, TileItem>());
+        }
+
+        for (int i = 0; i < MapSetting.Items.Length; i++)
+        {
+            ItemModel itemModel =MapSetting.Items[i];
+            MountTileItem(itemModel);
+        }
+
+        for (int i = 0; i < MapSetting.Trees.Length; i++)
+        {
+            ItemModel itemModel = MapSetting.Trees[i];
+            MountTileItem(itemModel);
+        }
+
+        for (int i = 0; i < MapSetting.Generators.Length; i++)
+        {
+            ItemModel itemModel = MapSetting.Generators[i];
+            MountTileItem(itemModel);
+        }
+
+        for (int i = 0; i < MapSetting.Mechanisms.Length; i++) {
+            ItemModel itemModel = MapSetting.Mechanisms[i]; 
+            MountTileItem(itemModel);
+        }
+
+    }
+
+
+    private void MountTileItem(ItemModel itemModel)
+    {
+
+        ItemConfig itemConfig = ConfigSystem.GetItemConfig(itemModel.ItemConfigID);
+
+        GameObject itemPrefab = Resources.Load<GameObject>(Path.Combine(FoldPath.PrefabFolderPath, itemConfig.PrefabPath));
+
+        GameObject itemObject = GameObject.Instantiate(itemPrefab, NodeMap[itemConfig.Type]);
+
+        SceneVisibilityManager.instance.DisablePicking(itemObject, true);
+
+        TileItem item = itemObject.GetComponent<TileItem>();
+
+        item.MountModel(itemModel);
+
+        Vector2Int tilePos = CommonTool.ArrayToVector2Int(itemModel.TilePos);
+        Vector2Int[] tilePoses = new Vector2Int[0];
+        
+        if (itemModel.TilePoses != null)
+        {
+            tilePoses = CommonTool.Array2ToVector2IntArray(itemModel.TilePoses);
+        }
+
+
+        itemMap[itemConfig.Type][tilePos] = item;
+        itemModelListMap[itemConfig.Type].Add(itemModel);
+
+        if (tilePoses.Length > 0)
+        {
+            PutObjectOnTile(itemObject, tilePoses,0);
+        }
+        else
+        {
+            PutObjectOnTile(itemObject, tilePos,0);
+        }
+    }
+
+  
+    private void PutObjectOnTile(GameObject gameObject, Vector2Int tilePos, float zOffset = 0)
+    {
+        gameObject.transform.position = _gridHelper.GetCellWorldPosition(tilePos);
+        gameObject.transform.position += Vector3.forward * zOffset;
+    }
+
+    private void PutObjectOnTile(GameObject gameObject, Vector2Int[] tilePoses, float zOffset = 0)
+    {
+        gameObject.transform.position =_gridHelper.GetCellWorldPosition(tilePoses);
+        gameObject.transform.position += Vector3.forward * zOffset;
+    }
+
+
+    private void TestLevel()
+    {
+        EditorSceneManager.OpenScene(Path.Combine(Application.dataPath, "Scenes", "GameScene.unity"));
+        Close();
+    }
+    private void EndEditLevel()
+    {
+        editing = false;
+    }
+
+    private void DrawOptions()
+    {
+
+        EditorGUILayout.BeginVertical();
+
+        DrawLevelChoose();
+
+        DrawItemFilter();
+
+        DrawItems();
+
+        DrawItemExtraConfigPanel();
+
+        DrawViewHelperPanel();
+
+        DrawSaveButton();
+        DrawTestButton();
+
+        EditorGUILayout.EndVertical();
+    }
+
+
+
+    private void OnSceneGUI(SceneView sceneView)
+    {
+        string openingSceneName = EditorSceneManager.GetActiveScene().name;
+
+        if (openingSceneName != "LevelEditorScene" || !editing)
+        {
+            return;
+        }
+
+        // Get the current event
+        Event currentEvent = Event.current;
+
+        // Check if the event type is a mouse move event
+        if (currentEvent.type == EventType.MouseMove)
+        {
+            // Get the mouse position in the Scene view
+            Vector3 mousePosition = Event.current.mousePosition;
+            Ray ray = HandleUtility.GUIPointToWorldRay(mousePosition);
+            UpdateTileCursor(ray.origin);
+            if (usingItemObj != null)
+            {
+                UpdateUsingItem(ray.origin);
+            }
+        }
+        else if (currentEvent.type == EventType.MouseDown)
+        {
+            if (currentEvent.button == 0)
+            {
+                if (activeTileBase != null)
+                {
+                    SceneVisibilityManager.instance.DisableAllPicking();
+                }
+            }
+            else if (currentEvent.button == 1)
+            {
+            }
+        }
+    }
+
+    private void UpdateUsingItem(Vector3 mousePosition)
+    {
+        mousePosition.z = 10;
+        usingItemObj.transform.position = mousePosition;
+        usingItemObj.transform.rotation = Quaternion.identity;
+    }
+    private void UpdateTileCursor(Vector3 mousePosition)
+    {
+        var mousePos = mousePosition;
+
+        Vector2Int activeTilePos = _gridHelper.GetGridPosition(mousePos);
+        GameObject activeTileObj = _gridHelper.GetCellAtPosition(activeTilePos);
+        activeTileBase = activeTileObj != null ? activeTileObj.GetComponent<TileBase>() : null;
+
+        if (activeTileBase == null) {
+            TileCursor.SetActive(false);
+            return;
+        }
+
+        TileCursor.SetActive(true);
+        Vector2 tileCenterPosition =_gridHelper.GetCellWorldPosition(activeTilePos);
+        TileCursor.transform.position = tileCenterPosition;
+        TileCursor.transform.rotation = Quaternion.identity;
+    }
+
+
+    private void DrawLevelChoose()
+    {
+        GUILayout.Space(10);
+
+        GUILayout.BeginHorizontal(GUILayout.Height(40));
+
+
+        GUILayout.Space(10);
+
+        GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
+
+        GUIStyle labStyle = new GUIStyle(UnityEditor.EditorStyles.label);
+        labStyle.fontSize = 18;
+        labStyle.fontStyle = FontStyle.Bold;
+        EditorGUILayout.LabelField("Level:", labStyle, GUILayout.Width(60));
+
+        GUILayout.FlexibleSpace();
+
+        GUIStyle inputAreaStyle = new GUIStyle(UnityEditor.EditorStyles.textField);
+        inputAreaStyle.fontSize = 18;
+        inputAreaStyle.fixedHeight = 24;
+
+        editingLevel = EditorGUILayout.IntField(editingLevel, inputAreaStyle);
+
+        GUILayout.EndVertical();
+
+
+        GUILayout.BeginVertical();
+        GUIStyle bigButtonStyle = new GUIStyle(GUI.skin.button);
+        bigButtonStyle.fontSize = 24;
+        bigButtonStyle.fontStyle = FontStyle.Bold;
+        bigButtonStyle.margin = new RectOffset(0, 0, 0, 0);
+
+        bigButtonStyle.stretchWidth = true;
+        bigButtonStyle.stretchHeight = true;
+
+        if (GUILayout.Button("Edit Level.", bigButtonStyle, GUILayout.MaxHeight(60), GUILayout.MaxWidth(160)))
+        {
+            StartEditLevel();
+        }
+        GUILayout.EndVertical();
+
+
+        GUILayout.Space(10);
+
+        GUILayout.EndHorizontal();
+        GUILayout.Space(10);
+    }
+
+    private void DrawItemFilter()
+    {
+
+        GUILayout.Space(10);
+        GUILayout.BeginHorizontal(GUILayout.Height(40));
+        GUILayout.Space(10);
+
+        EditorGUILayout.LabelField("Item Type:", GUILayout.Width(70));
+        itemTypeIndex = EditorGUILayout.Popup(itemTypeIndex,ItemTypesString, GUILayout.Width(125));
+        if (ItemTypes[itemTypeIndex] != NowItemType)
+        {
+        }
+
+        NowItemType= ItemTypes[itemTypeIndex];
+        GUILayout.Space(10);
+
+        EditorGUILayout.LabelField("Filter:", GUILayout.Width(40));
+        filterString = EditorGUILayout.TextField(filterString);
+
+        GUILayout.Space(10);
+        GUILayout.EndHorizontal();
+    }
+
+    private void DrawItems()
+    {
+        GUILayout.BeginVertical();
+        itemScrollVec = GUILayout.BeginScrollView(itemScrollVec, GUILayout.Height(300), GUILayout.Width(600));
+
+        ItemType itemType = ((ItemType[])Enum.GetValues(typeof(ItemType)))[itemTypeIndex];
+
+        int rowItemCount = 6;
+
+        int itemIndex = 0;
+        int rowIndex = 0;
+
+
+        List<ItemConfig> itemConfigs = ConfigSystem.GetItemConfigs(itemType);
+
+        foreach (ItemConfig itemConfig in itemConfigs)
+        {
+            if (itemIndex % rowItemCount == 0)
+            {
+                if (rowIndex == Mathf.FloorToInt((float)itemIndex / rowItemCount))
+                {
+                    if (rowIndex != 0)
+                    {
+                        GUILayout.Space(10);
+                        GUILayout.EndHorizontal();
+                    }
+                    GUILayout.BeginHorizontal();
+                    GUILayout.Space(10);
+                    rowIndex++;
+                }
+            }
+            GUI.backgroundColor = DefaultGUIBackgroundColor;
+            ItemEditorCell itemEditorCell = new ItemEditorCell(itemConfig);
+            bool selected =  itemEditorCell.DrawCell();
+            if (selected) {
+                usingItemEditorCell = itemEditorCell;
+            }
+            itemIndex++;
+        }
+
+        GUILayout.FlexibleSpace();
+        GUILayout.EndScrollView();
+        GUILayout.EndVertical();
+    }
+
+    private void DrawItemExtraConfigPanel()
+    {
+       }
+
+    private void DrawViewHelperPanel()
+    {
+        GUILayout.Space(10);
+        GUILayout.BeginHorizontal();
+
+        GUILayout.Space(10);
+
+
+        GUILayout.EndHorizontal();
+    }
+
+    private void DrawSaveButton()
+    {
+        GUIStyle bigButtonStyle = new GUIStyle(GUI.skin.button);
+        bigButtonStyle.fontSize = 24;
+        bigButtonStyle.fontStyle = FontStyle.Bold;
+        bigButtonStyle.margin = new RectOffset(0, 0, 0, 0);
+
+        bigButtonStyle.stretchWidth = true;
+        bigButtonStyle.stretchHeight = true;
+
+        GUILayout.Space(10);
+        GUILayout.BeginHorizontal();
+        GUILayout.Space(10);
+        GUILayout.FlexibleSpace();
+
+
+        if (GUILayout.Button("Save Level.", bigButtonStyle, GUILayout.MaxHeight(60), GUILayout.MaxWidth(160)))
+        {
+        }
+
+        GUILayout.Space(10);
+        GUILayout.EndHorizontal();
+        GUILayout.Space(10);
+    }
+
+    private void DrawTestButton()
+    {
+        GUIStyle bigButtonStyle = new GUIStyle(GUI.skin.button);
+        bigButtonStyle.fontSize = 24;
+        bigButtonStyle.fontStyle = FontStyle.Bold;
+        bigButtonStyle.margin = new RectOffset(0, 0, 0, 0);
+
+        bigButtonStyle.stretchWidth = true;
+        bigButtonStyle.stretchHeight = true;
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Space(10);
+        GUILayout.FlexibleSpace();
+
+
+        if (GUILayout.Button("Test Level", bigButtonStyle, GUILayout.MaxHeight(60), GUILayout.MaxWidth(160)))
+        {
+            TestLevel();
+        }
+
+        GUILayout.Space(10);
+        GUILayout.EndHorizontal();
+        GUILayout.Space(10);
+    }
+
+
+}
