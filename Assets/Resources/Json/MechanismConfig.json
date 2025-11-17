@@ -1,0 +1,240 @@
+﻿[
+  {
+    "ID": 10001.0,
+    "Name": "StartStar",
+    "ItemID": null,
+    "Type": "StartPos",
+    "IntData": "[]"
+  },
+  {
+    "ID": 10002.0,
+    "Name": "LockNet",
+    "ItemID": null,
+    "Type": "Lock",
+    "IntData": "[]"
+  },
+  {
+    "ID": 10003.0,
+    "Name": "BlackCloud",
+    "ItemID": null,
+    "Type": "Black",
+    "IntData": "[]"
+  },
+  {
+    "ID": 10004.0,
+    "Name": "Door",
+    "ItemID": null,
+    "Type": "Door",
+    "IntData": "[]"
+  },
+  {
+    "ID": 10005.0,
+    "Name": "HalfBlackCloud",
+    "ItemID": null,
+    "Type": "Black",
+    "IntData": "[]"
+  },
+  {
+    "ID": 10006.0,
+    "Name": "Jelly",
+    "ItemID": null,
+    "Type": "Jelly",
+    "IntData": "[40101,1,5,30203]"
+  },
+  {
+    "ID": 10007.0,
+    "Name": "BlueJelly",
+    "ItemID": null,
+    "Type": "Jelly",
+    "IntData": "[40201,1,10,30304]"
+  },
+  {
+    "ID": 10008.0,
+    "Name": "GrassStack",
+    "ItemID": null,
+    "Type": "Stack",
+    "IntData": "[40201,1,10,30304]"
+  },
+  {
+    "ID": 10009.0,
+    "Name": "DarkGrassStack",
+    "ItemID": null,
+    "Type": "Stack",
+    "IntData": "[40201,1,10,30304]"
+  },
+  {
+    "ID": 10009.0,
+    "Name": "LockStack",
+    "ItemID": null,
+    "Type": "Stack",
+    "IntData": "[40201,1,10,30304]"
+  },
+  {
+    "ID": 11001.0,
+    "Name": "ArrowJelly_Up",
+    "ItemID": null,
+    "Type": "Stack",
+    "IntData": "[1]"
+  },
+  {
+    "ID": 11002.0,
+    "Name": "ArrowJelly_Down",
+    "ItemID": null,
+    "Type": "Stack",
+    "IntData": "[2]"
+  },
+  {
+    "ID": 11003.0,
+    "Name": "ArrowJelly_Left",
+    "ItemID": null,
+    "Type": "Stack",
+    "IntData": "[3]"
+  },
+  {
+    "ID": 11004.0,
+    "Name": "ArrowJelly_Right",
+    "ItemID": null,
+    "Type": "Stack",
+    "IntData": "[4]"
+  },
+  {
+    "ID": 11005.0,
+    "Name": "ArrowJelly_All",
+    "ItemID": null,
+    "Type": "Stack",
+    "IntData": "[5]"
+  },
+  {
+    "ID": 11006.0,
+    "Name": "ArrowJelly_None",
+    "ItemID": null,
+    "Type": "Stack",
+    "IntData": "[6]"
+  },
+  {
+    "ID": 12001.0,
+    "Name": "SurfaceJelly_Normal",
+    "ItemID": null,
+    "Type": "Stack",
+    "IntData": "[7]"
+  },
+  {
+    "ID": 12002.0,
+    "Name": "SurfaceJelly_Broken",
+    "ItemID": null,
+    "Type": "Stack",
+    "IntData": "[8]"
+  },
+  {
+    "ID": 10010.0,
+    "Name": "Crystal",
+    "ItemID": null,
+    "Type": "Crystal",
+    "IntData": "[40201,1,10,30304]"
+  },
+  {
+    "ID": 20001.0,
+    "Name": "Cuteman",
+    "ItemID": null,
+    "Type": "Demand",
+    "IntData": "[]"
+  },
+  {
+    "ID": 20002.0,
+    "Name": "Fireman",
+    "ItemID": null,
+    "Type": "Demand",
+    "IntData": "[]"
+  },
+  {
+    "ID": 20003.0,
+    "Name": "Hornman",
+    "ItemID": null,
+    "Type": "Demand",
+    "IntData": "[]"
+  },
+  {
+    "ID": 20004.0,
+    "Name": "Horseman",
+    "ItemID": null,
+    "Type": "Demand",
+    "IntData": "[]"
+  },
+  {
+    "ID": 20005.0,
+    "Name": "Mushman",
+    "ItemID": null,
+    "Type": "Demand",
+    "IntData": "[]"
+  },
+  {
+    "ID": 30101.0,
+    "Name": "Tent_Lv1",
+    "ItemID": null,
+    "Type": "Building",
+    "IntData": "[]"
+  },
+  {
+    "ID": 30102.0,
+    "Name": "Tent_Lv2",
+    "ItemID": null,
+    "Type": "Building",
+    "IntData": "[]"
+  },
+  {
+    "ID": 30201.0,
+    "Name": "ChrisMart_Lv1",
+    "ItemID": null,
+    "Type": "Building",
+    "IntData": "[]"
+  },
+  {
+    "ID": 30202.0,
+    "Name": "ChrisMart_Lv2",
+    "ItemID": null,
+    "Type": "Building",
+    "IntData": "[]"
+  },
+  {
+    "ID": 90001.0,
+    "Name": "Enter",
+    "ItemID": null,
+    "Type": "Enter",
+    "IntData": "[]"
+  },
+  {
+    "ID": 40101.0,
+    "Name": "DarkNet",
+    "ItemID": null,
+    "Type": "Dark",
+    "IntData": "[3,9,27,54,108]"
+  },
+  {
+    "ID": 50001.0,
+    "Name": "FogStart",
+    "ItemID": null,
+    "Type": "FogStart",
+    "IntData": "[]"
+  },
+  {
+    "ID": 60001.0,
+    "Name": "EggMachine",
+    "ItemID": null,
+    "Type": "EggMachine",
+    "IntData": "[]"
+  },
+  {
+    "ID": 60002.0,
+    "Name": "EggChain",
+    "ItemID": null,
+    "Type": "EggChain",
+    "IntData": "[]"
+  },
+  {
+    "ID": 60003.0,
+    "Name": "EggMan",
+    "ItemID": null,
+    "Type": "EggMan",
+    "IntData": "[]"
+  }
+]
