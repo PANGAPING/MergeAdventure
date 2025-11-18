@@ -310,7 +310,6 @@ public class LevelEditor : EditorWindow
         // Check if the event type is a mouse move event
         if (currentEvent.type == EventType.MouseMove)
         {
-            Debug.Log("Exe!!!");
             // Get the mouse position in the Scene view
             Vector3 mousePosition = Event.current.mousePosition;
             Ray ray = HandleUtility.GUIPointToWorldRay(mousePosition);
@@ -346,8 +345,8 @@ public class LevelEditor : EditorWindow
         var mousePos = mousePosition;
 
         Vector2Int activeTilePos = _gridHelper.GetGridPosition(mousePos);
-        Debug.Log(activeTilePos);
         GameObject activeTileObj = _gridHelper.GetCellAtPosition(activeTilePos);
+        
         activeTileBase = activeTileObj != null ? activeTileObj.GetComponent<TileBase>() : null;
 
         if (activeTileBase == null) {
