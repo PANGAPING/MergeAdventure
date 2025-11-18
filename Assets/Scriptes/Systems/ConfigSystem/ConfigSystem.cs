@@ -134,9 +134,6 @@ public static class ConfigSystem
         string mapSettingPath = Path.Combine(FoldPath.MapSettingFolderPath, "MapSetting_" + level.ToString());
         MapSetting mapSetting = new MapSetting(level);
         mapSetting.Items = new ItemModel[0];
-        mapSetting.Trees = new TreeModel[0];
-        mapSetting.Generators = new GeneratorModel[0];
-        mapSetting.Mechanisms = new MechanismModel[0];
         mapSetting.StartPos = new int[2] { 0, 0 };
 
         if (!File.Exists(mapSettingPath))

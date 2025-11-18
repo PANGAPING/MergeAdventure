@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class TileBase : MonoBehaviour
 {
-    private List<Item> OccupiedItems = new List<Item>();
+    private List<TileItem> OccupiedItems = new List<TileItem>();
 
-    public void OccupyItem(Item item) { 
+    public void OccupyItem(TileItem item) { 
         OccupiedItems.Add(item);
     }
 
-    public void RemoveOccupyItem(Item item) { 
+    public void RemoveOccupyItem(TileItem item) { 
         OccupiedItems.Remove(item);
+    }
+
+    public bool ExistItemOfType(ItemType itemType) {
+        return OccupiedItems.Exists(x => x.GetItemType() == itemType);
     }
 }

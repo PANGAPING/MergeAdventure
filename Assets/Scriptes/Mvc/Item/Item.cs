@@ -4,4 +4,4 @@ using UnityEngine;
 
 public class Item : TileItem
 {
-   }
+}

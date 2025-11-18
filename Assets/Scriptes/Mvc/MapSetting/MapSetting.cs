@@ -11,11 +11,6 @@ public class MapSetting : FlyEggModel
 
     public ItemModel[] Items;
 
-    public TreeModel[] Trees;
-
-    public GeneratorModel[] Generators;
-
-    public MechanismModel[] Mechanisms;
 
     public MapSetting(int level) {
         Level = level; 

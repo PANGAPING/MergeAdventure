@@ -12,6 +12,7 @@ public class GridHelper
         this.gridLayout = gridLayout;
     }
 
+
     public Vector2Int GetGridPosition(Vector2 mouseScreenPosition)
     {
         RectTransform rectTransform = gridLayout.GetComponent<RectTransform>();
@@ -50,9 +51,6 @@ public class GridHelper
         return new Vector2Int(column, row);
     }
 
-
-
-
     public Vector2 GetCellWorldPosition(Vector2Int gridPosition)
     {
         Vector2 localPos = GetCellCenterPosition(gridPosition);
@@ -69,6 +67,10 @@ public class GridHelper
         return worldPosition/gridPositions.Length;
     }
 
+
+    public TileBase GetTileBase(Vector2Int gridPos) {
+        return GetCellAtPosition(gridPos).GetComponent<TileBase>(); 
+    }
  
     public GameObject GetCellAtPosition(Vector2Int gridPos)
     {
@@ -90,12 +92,10 @@ public class GridHelper
         // 边界检查
         if (gridPos.x < 0 || gridPos.x >= maxColumn)
         {
-            Debug.LogWarning($"列索引{gridPos.x}超出范围[0-{maxColumn - 1}]");
             return null;
         }
         if (gridPos.y < 0 || gridPos.y >= maxRow)
         {
-            Debug.LogWarning($"行索引{gridPos.y}超出范围[0-{maxRow - 1}]");
             return null;
         }
 
@@ -105,7 +105,6 @@ public class GridHelper
         // 二次安全校验
         if (index >= childCount)
         {
-            Debug.LogWarning($"计算索引{index}超出子物体数量{childCount}");
             return null;
         }
 

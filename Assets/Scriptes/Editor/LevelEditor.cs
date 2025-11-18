@@ -190,24 +190,6 @@ public class LevelEditor : EditorWindow
             ItemModel itemModel = MapSetting.Items[i];
             MountTileItem(itemModel);
         }
-
-        for (int i = 0; i < MapSetting.Trees.Length; i++)
-        {
-            ItemModel itemModel = MapSetting.Trees[i];
-            MountTileItem(itemModel);
-        }
-
-        for (int i = 0; i < MapSetting.Generators.Length; i++)
-        {
-            ItemModel itemModel = MapSetting.Generators[i];
-            MountTileItem(itemModel);
-        }
-
-        for (int i = 0; i < MapSetting.Mechanisms.Length; i++) {
-            ItemModel itemModel = MapSetting.Mechanisms[i];
-            MountTileItem(itemModel);
-        }
-
     }
 
 
@@ -238,6 +220,7 @@ public class LevelEditor : EditorWindow
         itemMap[itemConfig.Type][tilePos] = item;
         itemModelListMap[itemConfig.Type].Add(itemModel);
 
+
         if (tilePoses.Length > 0)
         {
             PutObjectOnTile(itemObject, tilePoses, 0);
@@ -246,6 +229,8 @@ public class LevelEditor : EditorWindow
         {
             PutObjectOnTile(itemObject, tilePos, 0);
         }
+        TileBase tileBase = _gridHelper.GetTileBase(tilePos);
+        tileBase.OccupyItem(item);
     }
 
 
@@ -323,7 +308,7 @@ public class LevelEditor : EditorWindow
         {
             if (currentEvent.button == 0)
             {
-                if (activeTileBase != null && usingItem != null)
+                if (activeTileBase != null && usingItem != null && !activeTileBase.ExistItemOfType(usingItem.Type)) 
                 {
                     NewItem(usingItem, activeTilePos);
                     SceneVisibilityManager.instance.DisableAllPicking();
@@ -331,6 +316,11 @@ public class LevelEditor : EditorWindow
             }
             else if (currentEvent.button == 1)
             {
+                if (activeTileBase != null && activeTileBase.ExistItemOfType(NowItemType)) {
+
+                    DeleteItem(activeTilePos, NowItemType);
+                }
+
             }
         }
     }
@@ -502,6 +492,8 @@ public class LevelEditor : EditorWindow
             }
             itemIndex++;
         }
+
+        GUI.backgroundColor = DefaultGUIBackgroundColor;
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
 
@@ -581,12 +573,25 @@ public class LevelEditor : EditorWindow
         MountTileItem(itemModel);
     }
 
+    private void DeleteItem(Vector2Int tilePos, ItemType itemType) {
+        TileItem tileItem = itemMap[itemType][tilePos];
+        itemMap[itemType].Remove(tilePos);
+        itemModelListMap[itemType].Remove(tileItem.Model);
+        GameObject.DestroyImmediate(tileItem.gameObject);
+        _gridHelper.GetTileBase(tilePos).RemoveOccupyItem(tileItem);
+    }
+
     private void SaveMap() {
         MapSetting.Level = editingLevel;
-
-        MapSetting.Items = itemModelListMap[ItemType.NORMAL].ToArray();
         MapSetting.StartPos = CommonTool.Vector2IntToArray(Vector2Int.zero);
 
+        List<ItemModel> itemModels = new List<ItemModel>();
+        foreach (ItemType itemType in ItemTypes)
+        {
+            itemModels.AddRange(itemModelListMap[itemType]);
+        }
+
+        MapSetting.Items = itemModels.ToArray();
         ConfigSystem.SaveMapSetting(editingLevel,MapSetting);
     }
 }

@@ -14,6 +14,11 @@ public class TileItem : FlyEggInstance
         Transform imgNode = transform.Find("Img");
         Image itemImg =imgNode.GetComponent<Image>();
         itemImg.sprite = ResourceHelper.GetItemSprite(itemModel.GetItemConfig());
+        itemImg.rectTransform.pivot = Vector2.one - ResourceHelper.ConvertSpritePivotToRectTransform(itemImg.sprite);
         itemImg.SetNativeSize();
+    }
+
+    public virtual ItemType GetItemType() { 
+        return Model.GetItemConfig().Type;
     }
 }

@@ -20,23 +20,31 @@ public static class ResourceHelper
     }
 
     public static Sprite GetItemSprite(ItemConfig itemConfig) {
-        return ConvertToSprite(GetItemTexture(itemConfig));
+        return Resources.Load<Sprite>(Path.Combine(FoldPath.SpriteFolderPath,itemConfig.SpritePath));
+
     }
 
-    public static Sprite ConvertToSprite(Texture2D texture,
-    SpriteMeshType meshType = SpriteMeshType.Tight)
+    public static Vector2 ConvertSpritePivotToRectTransform(Sprite sprite)
     {
-        if (texture == null) return null;
+        if (sprite == null)
+        {
+            Debug.LogError("Sprite不能为空");
+            return new Vector2(0.5f, 0.5f); // 默认中心点
+        }
 
-        // 使用可控制的参数创建
-        return Sprite.Create(
-            texture,
-            new Rect(0, 0, texture.width, texture.height),
-            new Vector2(0.5f, 0.5f), // 枢轴点
-            100,                    // Pixels Per Unit
-            0,                      // 额外细节级别
-            meshType,               // Tight 或 FullRect 网格
-            Vector4.zero            // 边框(九宫格用)
+        // 获取精灵纹理尺寸
+        int textureWidth = sprite.texture.width;
+        int textureHeight = sprite.texture.height;
+
+        // 获取精灵pivot像素坐标（左下角为原点）
+        Vector2 pixelPivot = sprite.pivot;
+
+        // 转换为归一化坐标（RectTransform的坐标系左下为(0,0)，右上为(1,1)）
+        Vector2 normalizedPivot = new Vector2(
+            x: pixelPivot.x / textureWidth,
+            y: 1.0f - (pixelPivot.y / textureHeight) // Y轴方向需要翻转
         );
+
+        return normalizedPivot;
     }
 }
