@@ -216,7 +216,7 @@ public class LevelEditor : EditorWindow
 
         ItemConfig itemConfig = ConfigSystem.GetItemConfig(itemModel.ItemConfigID);
 
-        GameObject itemPrefab = Resources.Load<GameObject>(Path.Combine(FoldPath.PrefabFolderPath, itemConfig.PrefabPath));
+        GameObject itemPrefab = ResourceHelper.GetItemPrefab(itemConfig);
 
         GameObject itemObject = GameObject.Instantiate(itemPrefab, NodeMap[itemConfig.Type]);
 
@@ -323,8 +323,9 @@ public class LevelEditor : EditorWindow
         {
             if (currentEvent.button == 0)
             {
-                if (activeTileBase != null)
+                if (activeTileBase != null && usingItem != null)
                 {
+                    NewItem(usingItem, activeTilePos);
                     SceneVisibilityManager.instance.DisableAllPicking();
                 }
             }
@@ -344,9 +345,9 @@ public class LevelEditor : EditorWindow
     {
         var mousePos = mousePosition;
 
-        Vector2Int activeTilePos = _gridHelper.GetGridPosition(mousePos);
+        activeTilePos = _gridHelper.GetGridPosition(mousePos);
         GameObject activeTileObj = _gridHelper.GetCellAtPosition(activeTilePos);
-        
+
         activeTileBase = activeTileObj != null ? activeTileObj.GetComponent<TileBase>() : null;
 
         if (activeTileBase == null) {
@@ -436,7 +437,7 @@ public class LevelEditor : EditorWindow
 
     private void ClearUsingItem() {
         usingItem = null;
-        if (usingItemObj != null) { 
+        if (usingItemObj != null) {
             DestroyImmediate(usingItemObj);
         }
     }
@@ -491,7 +492,7 @@ public class LevelEditor : EditorWindow
             GUI.backgroundColor = DefaultGUIBackgroundColor;
             ItemEditorCell itemEditorCell = new ItemEditorCell(itemConfig);
 
-            bool selected =  itemEditorCell.DrawCell(usingItem == itemConfig);
+            bool selected = itemEditorCell.DrawCell(usingItem == itemConfig);
             if (selected && usingItem != itemConfig)
             {
                 UsingItem(itemConfig);
@@ -510,7 +511,7 @@ public class LevelEditor : EditorWindow
 
     private void DrawItemExtraConfigPanel()
     {
-       }
+    }
 
     private void DrawViewHelperPanel()
     {
@@ -541,6 +542,7 @@ public class LevelEditor : EditorWindow
 
         if (GUILayout.Button("Save Level.", bigButtonStyle, GUILayout.MaxHeight(60), GUILayout.MaxWidth(160)))
         {
+            SaveMap();
         }
 
         GUILayout.Space(10);
@@ -573,5 +575,18 @@ public class LevelEditor : EditorWindow
         GUILayout.Space(10);
     }
 
+    private void NewItem(ItemConfig itemConfig, Vector2Int tilePos)
+    {
+        ItemModel itemModel = new ItemModel(itemConfig, CommonTool.Vector2IntToArray(tilePos));
+        MountTileItem(itemModel);
+    }
 
+    private void SaveMap() {
+        MapSetting.Level = editingLevel;
+
+        MapSetting.Items = itemModelListMap[ItemType.NORMAL].ToArray();
+        MapSetting.StartPos = CommonTool.Vector2IntToArray(Vector2Int.zero);
+
+        ConfigSystem.SaveMapSetting(editingLevel,MapSetting);
+    }
 }

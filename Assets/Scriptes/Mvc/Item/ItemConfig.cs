@@ -53,6 +53,7 @@ public enum ItemType
     STACK,
     [StringValue("ELFCLOUD")]
     ELFCLOUD
+
 }
 
 

@@ -115,26 +115,46 @@ public class GridHelper
     public Vector2 GetCellCenterPosition(Vector2Int gridPosition)
     {
         RectTransform rectTransform = gridLayout.GetComponent<RectTransform>();
-        RectOffset padding = gridLayout.padding;
+        Canvas canvas = rectTransform.GetComponentInParent<Canvas>();
 
-        // 正确获取左下角的起始位置（本地坐标系）
-        Vector2 startPos = new Vector2(
-            rectTransform.rect.xMin + padding.left,
-            rectTransform.rect.yMin + padding.bottom
-        );
-
+        // 基础参数
         Vector2 cellSize = gridLayout.cellSize;
         Vector2 spacing = gridLayout.spacing;
+        RectOffset padding = gridLayout.padding;
 
-        // 计算单元格中心位置（本地坐标系）
+        // 动态获取行列数
+        int totalColumns = gridLayout.constraintCount;
+        int totalRows = Mathf.CeilToInt(rectTransform.childCount / (float)totalColumns);
+
+        // 计算总内容区尺寸
+        float totalWidth = padding.left + padding.right +
+                           totalColumns * cellSize.x +
+                           Mathf.Max(0, totalColumns - 1) * spacing.x;
+
+        float totalHeight = padding.top + padding.bottom +
+                            totalRows * cellSize.y +
+                            Mathf.Max(0, totalRows - 1) * spacing.y;
+
+        // 对齐偏移计算（MiddleCenter模式）
+        Vector2 alignmentOffset = new Vector2(
+            (rectTransform.rect.width - totalWidth) * 0.5f,
+            (rectTransform.rect.height - totalHeight) * -0.5f // Unity Y轴向下为负
+        );
+
+        // 初始起点（考虑对齐偏移）
+        Vector2 startPos = new Vector2(
+            rectTransform.rect.xMin + padding.left + alignmentOffset.x,
+            rectTransform.rect.yMin + padding.bottom + alignmentOffset.y
+        );
+
+        // 单元格精确坐标
         float posX = startPos.x +
-                    gridPosition.x * (cellSize.x + spacing.x) +
-                    cellSize.x / 2;
+                     gridPosition.x * (cellSize.x + spacing.x) +
+                     cellSize.x / 2;
 
         float posY = startPos.y +
-                    gridPosition.y * (cellSize.y + spacing.y) +
-                    cellSize.y / 2;
-
+                     gridPosition.y * (cellSize.y + spacing.y) +
+                     cellSize.y / 2;
         return new Vector3(posX, posY, 0f);
     }
 

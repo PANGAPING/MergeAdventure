@@ -20,6 +20,13 @@ namespace FlyEggFrameWork.Tools
 
             return arr;
         }
+        public static int[] Vector2IntToArray(Vector2Int vector2Int)
+        {
+            int[] arr = new int[2];
+            arr[0] = vector2Int.x;
+            arr[1] = vector2Int.y;
+            return arr;
+        }
 
         public static int[,] Vector3IntArrayToArray2(Vector3Int[] vector3IntArray)
         {

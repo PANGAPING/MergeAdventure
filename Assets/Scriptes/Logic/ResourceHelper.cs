@@ -6,6 +6,15 @@ using UnityEngine;
 
 public static class ResourceHelper
 {
+    public static GameObject GetItemPrefab(ItemConfig itemConfig) {
+
+        GameObject itemPrefab = Resources.Load<GameObject>(Path.Combine(FoldPath.PrefabFolderPath, "TileItem/DefaultTileItem"));
+        if (itemConfig.PrefabPath!=null && itemConfig.PrefabPath.Length > 0) {
+            itemPrefab = Resources.Load<GameObject>(Path.Combine(FoldPath.PrefabFolderPath, itemConfig.PrefabPath));
+        }
+        return itemPrefab;
+    }
+
     public static Texture2D GetItemTexture(ItemConfig itemConfig) { 
         return Resources.Load<Texture2D>(Path.Combine(FoldPath.SpriteFolderPath,itemConfig.SpritePath));
     }
