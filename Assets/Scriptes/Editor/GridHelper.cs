@@ -40,14 +40,6 @@ public class GridHelper
         int column = Mathf.FloorToInt((localPoint.x - startX) / (cellSize.x + spacing.x));
         int row = Mathf.FloorToInt((-localPoint.y - startY) / (cellSize.y + spacing.y));
 
-        // ±ß½ç¼ì²â
-        if (column < 0 || row < 0 ||
-            localPoint.x > (startX + (cellSize.x + spacing.x) * gridLayout.constraintCount) ||
-            -localPoint.y > (startY + (cellSize.y + spacing.y) * (rectTransform.rect.height / cellSize.y)))
-        {
-            return new Vector2Int(-1, -1);
-        }
-
         return new Vector2Int(column, row);
     }
     public Vector2 GetCellWorldPosition(Vector2Int gridPosition)

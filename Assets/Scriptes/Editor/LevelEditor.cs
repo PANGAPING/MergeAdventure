@@ -35,10 +35,10 @@ public class LevelEditor : EditorWindow
     private MapSetting MapSetting;
 
     //item instances
-    private Dictionary<ItemType, Dictionary<Vector2Int,TileItem>> itemMap;
+    private Dictionary<ItemType, Dictionary<Vector2Int, TileItem>> itemMap;
 
     //item models
-    private Dictionary<ItemType,List<ItemModel>> itemModelListMap;
+    private Dictionary<ItemType, List<ItemModel>> itemModelListMap;
 
 
     [Header("Options")]
@@ -61,8 +61,6 @@ public class LevelEditor : EditorWindow
     private MechanismConfig usingMapSettingItem;
 
     private GameObject usingItemObj;
-
-    public ItemEditorCell usingItemEditorCell;
 
     private int itemIntConfigValue = 0;
 
@@ -130,20 +128,20 @@ public class LevelEditor : EditorWindow
         EditorSceneManager.OpenScene(Path.Combine(Application.dataPath, "Scenes", "LevelEditorScene.unity"));
         editing = true;
 
-        GameObject worldNodeObj = GameObject.Find("World");
+        GameObject worldNodeObj = GameObject.Find("Canvas");
+        WorldNode = worldNodeObj.transform;
         if (worldNodeObj != null)
         {
-            DestroyImmediate(worldNodeObj);
+            CommonTool.DeleteAllChildrenImmediate(WorldNode);
         }
-        worldNodeObj = new GameObject("World");
-        WorldNode = worldNodeObj.transform;
-        WorldNode.transform.position = Vector3.zero;
-        WorldNode.transform.rotation = Quaternion.identity;
-        CommonTool.DeleteAllChildrenImmediate(WorldNode);
+        else {
+            Debug.LogError("No Canvas in Level Editor Scene.");
+            return;
+        }
 
         GameObject boardNodeObj = GameObject.Find("Canvas/GameBoard");
         if (boardNodeObj != null) {
-            DestroyImmediate(boardNodeObj); 
+            DestroyImmediate(boardNodeObj);
         }
 
         GameObject boardPrefab = Resources.Load<GameObject>(Path.Combine(FoldPath.PrefabFolderPath, "GameBoard"));
@@ -154,12 +152,25 @@ public class LevelEditor : EditorWindow
 
         _gridHelper = new GridHelper(BoardLayoutGroup);
 
+        //Init tile Cursor.
+        string tileCursorPath = Path.Combine(FoldPath.PrefabFolderPath, "Tiles", "TileCursor", "TileCursor");
+        GameObject tileCursorPrefab = Resources.Load<GameObject>(tileCursorPath);
+        TileCursor = GameObject.Instantiate(tileCursorPrefab);
+        TileCursor.transform.SetParent(WorldNode);
+        TileCursor.transform.localPosition = Vector3.zero;
+        TileCursor.transform.localRotation = Quaternion.identity;
+        SceneVisibilityManager.instance.DisablePicking(TileCursor, true);
+
         SceneVisibilityManager.instance.DisableAllPicking();
         LoadMap();
     }
 
     private void LoadMap() {
         MapSetting = ConfigSystem.GetMapSetting(editingLevel);
+
+        NodeMap = new Dictionary<ItemType, Transform>();
+        itemMap = new Dictionary<ItemType, Dictionary<Vector2Int, TileItem>>();
+        itemModelListMap = new Dictionary<ItemType, List<ItemModel>>();
 
         foreach (ItemType itemType in ItemTypes)
         {
@@ -176,7 +187,7 @@ public class LevelEditor : EditorWindow
 
         for (int i = 0; i < MapSetting.Items.Length; i++)
         {
-            ItemModel itemModel =MapSetting.Items[i];
+            ItemModel itemModel = MapSetting.Items[i];
             MountTileItem(itemModel);
         }
 
@@ -193,7 +204,7 @@ public class LevelEditor : EditorWindow
         }
 
         for (int i = 0; i < MapSetting.Mechanisms.Length; i++) {
-            ItemModel itemModel = MapSetting.Mechanisms[i]; 
+            ItemModel itemModel = MapSetting.Mechanisms[i];
             MountTileItem(itemModel);
         }
 
@@ -217,7 +228,7 @@ public class LevelEditor : EditorWindow
 
         Vector2Int tilePos = CommonTool.ArrayToVector2Int(itemModel.TilePos);
         Vector2Int[] tilePoses = new Vector2Int[0];
-        
+
         if (itemModel.TilePoses != null)
         {
             tilePoses = CommonTool.Array2ToVector2IntArray(itemModel.TilePoses);
@@ -229,15 +240,15 @@ public class LevelEditor : EditorWindow
 
         if (tilePoses.Length > 0)
         {
-            PutObjectOnTile(itemObject, tilePoses,0);
+            PutObjectOnTile(itemObject, tilePoses, 0);
         }
         else
         {
-            PutObjectOnTile(itemObject, tilePos,0);
+            PutObjectOnTile(itemObject, tilePos, 0);
         }
     }
 
-  
+
     private void PutObjectOnTile(GameObject gameObject, Vector2Int tilePos, float zOffset = 0)
     {
         gameObject.transform.position = _gridHelper.GetCellWorldPosition(tilePos);
@@ -246,7 +257,7 @@ public class LevelEditor : EditorWindow
 
     private void PutObjectOnTile(GameObject gameObject, Vector2Int[] tilePoses, float zOffset = 0)
     {
-        gameObject.transform.position =_gridHelper.GetCellWorldPosition(tilePoses);
+        gameObject.transform.position = _gridHelper.GetCellWorldPosition(tilePoses);
         gameObject.transform.position += Vector3.forward * zOffset;
     }
 
@@ -299,6 +310,7 @@ public class LevelEditor : EditorWindow
         // Check if the event type is a mouse move event
         if (currentEvent.type == EventType.MouseMove)
         {
+            Debug.Log("Exe!!!");
             // Get the mouse position in the Scene view
             Vector3 mousePosition = Event.current.mousePosition;
             Ray ray = HandleUtility.GUIPointToWorldRay(mousePosition);
@@ -334,6 +346,7 @@ public class LevelEditor : EditorWindow
         var mousePos = mousePosition;
 
         Vector2Int activeTilePos = _gridHelper.GetGridPosition(mousePos);
+        Debug.Log(activeTilePos);
         GameObject activeTileObj = _gridHelper.GetCellAtPosition(activeTilePos);
         activeTileBase = activeTileObj != null ? activeTileObj.GetComponent<TileBase>() : null;
 
@@ -343,7 +356,7 @@ public class LevelEditor : EditorWindow
         }
 
         TileCursor.SetActive(true);
-        Vector2 tileCenterPosition =_gridHelper.GetCellWorldPosition(activeTilePos);
+        Vector2 tileCenterPosition = _gridHelper.GetCellWorldPosition(activeTilePos);
         TileCursor.transform.position = tileCenterPosition;
         TileCursor.transform.rotation = Quaternion.identity;
     }
@@ -406,12 +419,13 @@ public class LevelEditor : EditorWindow
         GUILayout.Space(10);
 
         EditorGUILayout.LabelField("Item Type:", GUILayout.Width(70));
-        itemTypeIndex = EditorGUILayout.Popup(itemTypeIndex,ItemTypesString, GUILayout.Width(125));
+        itemTypeIndex = EditorGUILayout.Popup(itemTypeIndex, ItemTypesString, GUILayout.Width(125));
         if (ItemTypes[itemTypeIndex] != NowItemType)
         {
+            ClearUsingItem();
         }
 
-        NowItemType= ItemTypes[itemTypeIndex];
+        NowItemType = ItemTypes[itemTypeIndex];
         GUILayout.Space(10);
 
         EditorGUILayout.LabelField("Filter:", GUILayout.Width(40));
@@ -419,6 +433,30 @@ public class LevelEditor : EditorWindow
 
         GUILayout.Space(10);
         GUILayout.EndHorizontal();
+    }
+
+    private void ClearUsingItem() {
+        usingItem = null;
+        if (usingItemObj != null) { 
+            DestroyImmediate(usingItemObj);
+        }
+    }
+
+    private void UsingItem(ItemConfig itemConfig) {
+        ClearUsingItem();
+        usingItem = itemConfig;
+
+        string tileCursorPath = Path.Combine(FoldPath.PrefabFolderPath, "Tiles", "TileCursor", "TileCursor");
+        GameObject tileCursorPrefab = Resources.Load<GameObject>(tileCursorPath);
+        usingItemObj = GameObject.Instantiate(tileCursorPrefab);
+        usingItemObj.transform.SetParent(WorldNode);
+        usingItemObj.transform.localPosition = Vector3.zero;
+        usingItemObj.transform.localRotation = Quaternion.identity;
+
+        Image itemImg = usingItemObj.GetComponent<Image>();
+        itemImg.sprite = ResourceHelper.GetItemSprite(itemConfig);
+        itemImg.SetNativeSize();
+        SceneVisibilityManager.instance.DisablePicking(usingItemObj, true);
     }
 
     private void DrawItems()
@@ -453,9 +491,14 @@ public class LevelEditor : EditorWindow
             }
             GUI.backgroundColor = DefaultGUIBackgroundColor;
             ItemEditorCell itemEditorCell = new ItemEditorCell(itemConfig);
-            bool selected =  itemEditorCell.DrawCell();
-            if (selected) {
-                usingItemEditorCell = itemEditorCell;
+
+            bool selected =  itemEditorCell.DrawCell(usingItem == itemConfig);
+            if (selected && usingItem != itemConfig)
+            {
+                UsingItem(itemConfig);
+            }
+            else if (selected && usingItem == itemConfig) {
+                ClearUsingItem();
             }
             itemIndex++;
         }

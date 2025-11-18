@@ -7,36 +7,26 @@ using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 
 [System.Serializable]
-public class ItemEditorCell : MonoBehaviour
+public class ItemEditorCell
 {
     public ItemConfig _itemConfig;
 
-    public bool select;
 
     public ItemEditorCell(ItemConfig itemConfig) { 
         _itemConfig = itemConfig;
     }
 
-    public void Select() {
-        select = true; 
-    }
 
-    public void DeSelect() {
-        select = false;
-    }
-
-    public bool DrawCell() { 
+    public bool DrawCell(bool select = false) { 
         ItemConfig itemConfig = _itemConfig;
         GUILayout.BeginVertical();
-        Texture itemIcon = Resources.Load<Texture>(Path.Combine(FoldPath.SpriteFolderPath,itemConfig.SpritePath));
-
-        bool clicked = GUILayout.Button(itemIcon, GUILayout.Width(60), GUILayout.Height(60));
+        Texture2D itemIcon = ResourceHelper.GetItemTexture(itemConfig);
         if (select)
         {
             GUI.backgroundColor = Color.green;
         }
 
-        GUI.backgroundColor = GUI.backgroundColor;
+        bool clicked = GUILayout.Button(itemIcon, GUILayout.Width(60), GUILayout.Height(60));
 
         EditorGUILayout.LabelField(itemConfig.Name, GUILayout.Width(60));
         GUILayout.EndVertical();

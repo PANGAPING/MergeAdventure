@@ -2493,6 +2493,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 718268049}
     m_Modifications:
+    - target: {fileID: 524990554612318074, guid: b7adef7123b030440b7eebd6223f2c09, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 524990555201721737, guid: b7adef7123b030440b7eebd6223f2c09, type: 3}
       propertyPath: m_Name
       value: GameBoard
@@ -2507,7 +2511,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 524990555201721738, guid: b7adef7123b030440b7eebd6223f2c09, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 524990555201721738, guid: b7adef7123b030440b7eebd6223f2c09, type: 3}
       propertyPath: m_AnchorMax.x
