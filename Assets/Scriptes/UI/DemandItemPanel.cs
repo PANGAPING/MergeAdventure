@@ -15,9 +15,6 @@ public class DemandItemPanel : MonoBehaviour
     {
         Image itemImg =_img.GetComponent<Image>();
         itemImg.sprite = ResourceHelper.GetItemSprite(ConfigSystem.GetItemConfig(itemId));
-        itemImg.rectTransform.pivot = Vector2.one - ResourceHelper.ConvertSpritePivotToRectTransform(itemImg.sprite);
-        itemImg.SetNativeSize();
-        
         _num.text = itemNum.ToString();
     }
 }

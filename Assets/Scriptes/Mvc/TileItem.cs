@@ -43,6 +43,11 @@ public class TileItem : FlyEggInstance
         return Model.GetItemConfig().Type;
     }
 
+    public virtual int GetLayer()
+    {
+        return Model.GetItemConfig().Layer;
+    }
+
     protected virtual void ShowInEditor() { 
          
     }
@@ -51,7 +56,13 @@ public class TileItem : FlyEggInstance
     
     }
 
-    protected virtual Transform GetUIPivotPoint() {
-        return transform.Find("Points/UiPivot");    
+    protected virtual Transform GetUIPivotPoint(bool bottom = false) {
+        if (bottom)
+        {
+            return transform.Find("Points/BottomUiPivot");    
+        }
+        else { 
+            return transform.Find("Points/UiPivot");    
+        }
     }
 }

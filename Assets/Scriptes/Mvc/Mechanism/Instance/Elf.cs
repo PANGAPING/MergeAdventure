@@ -1,3 +1,4 @@
+using FlyEggFrameWork.Tools;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,8 +10,17 @@ public class Elf : Mechanism
 {
     protected DemandsPanel _demandsPanel;
 
+    protected Dictionary<int, int> _demands;
+
     public int GetGroup() {
         return Model.IntData;
+    }
+
+    public override void MountModel(ItemModel itemModel)
+    {
+        base.MountModel(itemModel);
+
+        _demands = CommonTool.Array2ToDictionary(itemModel.IntArray2Data);
     }
 
     public Dictionary<int, int> GetDemandItems() { 
@@ -34,10 +44,23 @@ public class Elf : Mechanism
 
         if (_demandsPanel == null)
         {
-            GameObject demandItemsPanel = GameObject.Instantiate(ResourceHelper.GetUIPrefab("DemandsPanel"), transform);
+            GameObject demandItemsPanel = GameObject.Instantiate(ResourceHelper.GetUIPrefab("DemandsPanel"),GetUIPivotPoint(true));
             _demandsPanel = demandItemsPanel.GetComponent<DemandsPanel>();
         }
 
         _demandsPanel.Show(GetDemandItems());
+    }
+
+    public void AddDemand(int itemId, int count) {
+        if (_demands.ContainsKey(itemId))
+        {
+            _demands[itemId] += count;
+        }
+        else {
+            _demands.Add(itemId, count);    
+        }
+
+        Model.SetIntArray2Data(CommonTool.DictionaryToArray2(_demands));
+        ShowInEditor();
     }
 }

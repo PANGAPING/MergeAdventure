@@ -17,4 +17,12 @@ public class TileBase : MonoBehaviour
     public bool ExistItemOfType(ItemType itemType) {
         return OccupiedItems.Exists(x => x.GetItemType() == itemType);
     }
+
+    public bool ExistItemOfLayer(int layer) { 
+        return OccupiedItems.Exists(x => x.GetLayer() == layer);
+    }
+
+    public TileItem GetItemOfType(ItemType itemType) {
+        return OccupiedItems.Find(x => x.GetItemType() == itemType); 
+    }
 }

@@ -11,6 +11,32 @@ namespace FlyEggFrameWork.Tools
     public static class CommonTool
     {
 
+        public static int[,] DictionaryToArray2(Dictionary<int, int> dic) { 
+            int[,] array2 = new int[dic.Count, 2];
+
+            for (int i = 0; i < dic.Count; i++) {
+                array2[i,0] = dic.ElementAt(i).Key;
+                array2[i,1] = dic.ElementAt(i).Value;
+            }
+
+            return array2;
+        }
+
+        public static Dictionary<int, int> Array2ToDictionary(int[,] arr) {
+
+            Dictionary<int, int>  dic= new Dictionary<int, int>();
+            if (arr == null)
+            {
+                return dic;
+            }
+            for (int i = 0; i < arr.GetLength(0); i++)
+            {
+                dic.Add(arr[i, 0], arr[i, 1]);
+            }
+
+            return dic;
+        }
+
         public static int[] Vector3IntToArray(Vector3Int vector3Int)
         {
             int[] arr = new int[3];

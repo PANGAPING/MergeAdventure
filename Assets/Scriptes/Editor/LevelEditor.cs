@@ -308,10 +308,13 @@ public class LevelEditor : EditorWindow
         {
             if (currentEvent.button == 0)
             {
-                if (activeTileBase != null && usingItem != null && !activeTileBase.ExistItemOfType(usingItem.Type)) 
+                if (activeTileBase != null && usingItem != null && !activeTileBase.ExistItemOfType(usingItem.Type) && !activeTileBase.ExistItemOfLayer(usingItem.Layer))
                 {
                     NewItem(usingItem, activeTilePos);
                     SceneVisibilityManager.instance.DisableAllPicking();
+                }
+                else if (activeTileBase.ExistItemOfType(ItemType.ELF)) {
+                    AddDemandToElf(usingItem,activeTileBase.GetItemOfType(ItemType.ELF) as Elf);
                 }
             }
             else if (currentEvent.button == 1)
@@ -573,6 +576,9 @@ public class LevelEditor : EditorWindow
         MountTileItem(itemModel);
     }
 
+    private void AddDemandToElf(ItemConfig itemConfig, Elf elf) {
+        elf.AddDemand(itemConfig.ID, 1); 
+    }
     private void DeleteItem(Vector2Int tilePos, ItemType itemType) {
         TileItem tileItem = itemMap[itemType][tilePos];
         itemMap[itemType].Remove(tilePos);
