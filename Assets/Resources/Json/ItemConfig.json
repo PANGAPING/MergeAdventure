@@ -524,7 +524,7 @@
     "Name": "Elf",
     "ItemBaseSize": "[1,1]",
     "SpritePath": "Elf/Elf1",
-    "PrefabPath": null,
+    "PrefabPath": "TileItem/Elf",
     "NextLevelID": 0.0,
     "Type": "ELF",
     "Movable": 1.0,
