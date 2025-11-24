@@ -205,8 +205,6 @@ public class LevelEditor : EditorWindow
 
         GameObject itemObject = GameObject.Instantiate(itemPrefab, NodeMap[itemConfig.Type]);
 
-        SceneVisibilityManager.instance.DisablePicking(itemObject, true);
-
         TileItem item = itemObject.GetComponent<TileItem>();
 
         item.MountModel(itemModel);

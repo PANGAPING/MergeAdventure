@@ -20,6 +20,7 @@ public static class GameSettingSystem
 
     public static void InitSetting()
     {
+        return;
         DefaultGameSetting = Resources.Load<GameSetting>(Path.Combine(FoldPath.SettingAssetFolderPath, "PlayerSetting", "DefaultSetting"));
         PlayerGameSetting = Resources.Load<GameSetting>(Path.Combine(FoldPath.SettingAssetFolderPath, "PlayerSetting", "PlayerSetting"));
 
