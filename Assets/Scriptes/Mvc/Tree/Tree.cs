@@ -4,4 +4,4 @@ using UnityEngine;
 
 public class Tree : TileItem
 {
- }
+}

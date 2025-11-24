@@ -4,4 +4,8 @@ using UnityEngine;
 
 public class ElfCloud :Mechanism
 {
+    protected override void ShowInEditor()
+    {
+        base.ShowInEditor();
+    }
 }

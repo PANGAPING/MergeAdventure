@@ -3,10 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
 
 public class TileItem : FlyEggInstance
 {
     public ItemModel Model;
+
+    protected override void InitSelf()
+    {
+        base.InitSelf();
+    }
+
+    protected override void Init()
+    {
+        base.Init();
+    }
+
 
     public virtual void MountModel(ItemModel itemModel)
     {
@@ -16,9 +29,29 @@ public class TileItem : FlyEggInstance
         itemImg.sprite = ResourceHelper.GetItemSprite(itemModel.GetItemConfig());
         itemImg.rectTransform.pivot = Vector2.one - ResourceHelper.ConvertSpritePivotToRectTransform(itemImg.sprite);
         itemImg.SetNativeSize();
+
+        if (Application.isPlaying)
+        {
+            ShowInPlayMode();
+        }
+        else {
+            ShowInEditor();
+        }
     }
 
     public virtual ItemType GetItemType() { 
         return Model.GetItemConfig().Type;
+    }
+
+    protected virtual void ShowInEditor() { 
+         
+    }
+
+    protected virtual void ShowInPlayMode() { 
+    
+    }
+
+    protected virtual Transform GetUIPivotPoint() {
+        return transform.Find("Points/UiPivot");    
     }
 }

@@ -3,16 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public static class ResourceHelper
 {
     public static GameObject GetItemPrefab(ItemConfig itemConfig) {
 
         GameObject itemPrefab = Resources.Load<GameObject>(Path.Combine(FoldPath.PrefabFolderPath, "TileItem/DefaultTileItem"));
-        if (itemConfig.PrefabPath!=null && itemConfig.PrefabPath.Length > 0) {
+        if (itemConfig.PrefabPath != null && itemConfig.PrefabPath.Length > 0) {
             itemPrefab = Resources.Load<GameObject>(Path.Combine(FoldPath.PrefabFolderPath, itemConfig.PrefabPath));
         }
         return itemPrefab;
+    }
+
+    public static GameObject GetUIPrefab(string PanelName) { 
+        GameObject panelPrefab = Resources.Load<GameObject>(Path.Combine(FoldPath.PrefabFolderPath, "UI/"+PanelName));
+        return panelPrefab;
     }
 
     public static Texture2D GetItemTexture(ItemConfig itemConfig) { 
