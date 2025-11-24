@@ -52,8 +52,9 @@ public enum ItemType
     [StringValue("STACK")]
     STACK,
     [StringValue("ELFCLOUD")]
-    ELFCLOUD
-
+    ELFCLOUD,
+    [StringValue("MAPPAINTER")]
+    MAPPAINTER
 }
 
 

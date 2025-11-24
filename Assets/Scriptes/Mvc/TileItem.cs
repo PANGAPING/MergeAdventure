@@ -20,6 +20,15 @@ public class TileItem : FlyEggInstance
         base.Init();
     }
 
+    public int GetGroup() {
+        return Model.IntData;
+    }
+
+    public void SetGroup(int value) { 
+        Model.IntData = value;
+        ShowInEditor();
+    }
+
 
     public virtual void MountModel(ItemModel itemModel)
     {

@@ -12,9 +12,6 @@ public class Elf : Mechanism
 
     protected Dictionary<int, int> _demands;
 
-    public int GetGroup() {
-        return Model.IntData;
-    }
 
     public override void MountModel(ItemModel itemModel)
     {
@@ -62,5 +59,19 @@ public class Elf : Mechanism
 
         Model.SetIntArray2Data(CommonTool.DictionaryToArray2(_demands));
         ShowInEditor();
+    }
+
+
+    public void DeleteDemand(int itemId, int count) {
+        if (_demands.ContainsKey(itemId))
+        {
+            _demands[itemId] -= count;
+            if (_demands[itemId] <= 0) { 
+                _demands.Remove(itemId);
+            }
+        }
+        Model.SetIntArray2Data(CommonTool.DictionaryToArray2(_demands));
+        ShowInEditor();
+
     }
 }

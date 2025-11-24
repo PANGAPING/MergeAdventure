@@ -12,6 +12,18 @@ public class GridHelper
         this.gridLayout = gridLayout;
     }
 
+    public void PutObjectOnTile(GameObject gameObject, Vector2Int tilePos, float zOffset = 0)
+    {
+        gameObject.transform.position = GetCellWorldPosition(tilePos);
+        gameObject.transform.position += Vector3.forward * zOffset;
+    }
+
+    public void PutObjectOnTile(GameObject gameObject, Vector2Int[] tilePoses, float zOffset = 0)
+    {
+        gameObject.transform.position = GetCellWorldPosition(tilePoses);
+        gameObject.transform.position += Vector3.forward * zOffset;
+    }
+
 
     public Vector2Int GetGridPosition(Vector2 mouseScreenPosition)
     {

@@ -82,6 +82,9 @@ public class LevelEditor : EditorWindow
     [Space]
     protected GridHelper _gridHelper;
 
+    [Header("PainterValue")]
+    [Space]
+    protected int groupValue;
 
 
     [MenuItem("Level/LevelEditor")]
@@ -223,28 +226,16 @@ public class LevelEditor : EditorWindow
 
         if (tilePoses.Length > 0)
         {
-            PutObjectOnTile(itemObject, tilePoses, 0);
+          _gridHelper.PutObjectOnTile(itemObject, tilePoses, 0);
         }
         else
         {
-            PutObjectOnTile(itemObject, tilePos, 0);
+           _gridHelper.PutObjectOnTile(itemObject, tilePos, 0);
         }
         TileBase tileBase = _gridHelper.GetTileBase(tilePos);
         tileBase.OccupyItem(item);
     }
 
-
-    private void PutObjectOnTile(GameObject gameObject, Vector2Int tilePos, float zOffset = 0)
-    {
-        gameObject.transform.position = _gridHelper.GetCellWorldPosition(tilePos);
-        gameObject.transform.position += Vector3.forward * zOffset;
-    }
-
-    private void PutObjectOnTile(GameObject gameObject, Vector2Int[] tilePoses, float zOffset = 0)
-    {
-        gameObject.transform.position = _gridHelper.GetCellWorldPosition(tilePoses);
-        gameObject.transform.position += Vector3.forward * zOffset;
-    }
 
 
     private void TestLevel()
@@ -308,13 +299,34 @@ public class LevelEditor : EditorWindow
         {
             if (currentEvent.button == 0)
             {
-                if (activeTileBase != null && usingItem != null && !activeTileBase.ExistItemOfType(usingItem.Type) && !activeTileBase.ExistItemOfLayer(usingItem.Layer))
+                if (usingItem == null) {
+                    return;
+                }
+
+                if (usingItem.Type == ItemType.MAPPAINTER) {
+                    if (usingItem.Name == "GroupPainter")
+                    {
+                        if (activeTileBase == null)
+                        {
+                            return;
+                        }
+                        if (activeTileBase.ExistItemOfType(ItemType.ELF))
+                        {
+                            activeTileBase.GetItemOfType(ItemType.ELF).SetGroup(groupValue);
+                        }
+                        else if (activeTileBase.ExistItemOfType(ItemType.ELFCLOUD))
+                        {
+                            activeTileBase.GetItemOfType(ItemType.ELFCLOUD).SetGroup(groupValue);
+                        }
+                    }
+                }
+                else if (activeTileBase != null && usingItem != null && !activeTileBase.ExistItemOfType(usingItem.Type) && !activeTileBase.ExistItemOfLayer(usingItem.Layer))
                 {
                     NewItem(usingItem, activeTilePos);
                     SceneVisibilityManager.instance.DisableAllPicking();
                 }
                 else if (activeTileBase.ExistItemOfType(ItemType.ELF)) {
-                    AddDemandToElf(usingItem,activeTileBase.GetItemOfType(ItemType.ELF) as Elf);
+                    AddDemandToElf(usingItem, activeTileBase.GetItemOfType(ItemType.ELF) as Elf);
                 }
             }
             else if (currentEvent.button == 1)
@@ -322,6 +334,10 @@ public class LevelEditor : EditorWindow
                 if (activeTileBase != null && activeTileBase.ExistItemOfType(NowItemType)) {
 
                     DeleteItem(activeTilePos, NowItemType);
+                }
+                else if (activeTileBase.ExistItemOfType(ItemType.ELF))
+                {
+                    DeleteDemandToElf(usingItem,activeTileBase.GetItemOfType(ItemType.ELF) as Elf);
                 }
 
             }
@@ -496,8 +512,7 @@ public class LevelEditor : EditorWindow
             itemIndex++;
         }
 
-        GUI.backgroundColor = DefaultGUIBackgroundColor;
-        GUILayout.FlexibleSpace();
+        GUI.backgroundColor = DefaultGUIBackgroundColor; GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
 
         GUILayout.EndScrollView();
@@ -506,6 +521,19 @@ public class LevelEditor : EditorWindow
 
     private void DrawItemExtraConfigPanel()
     {
+        if (usingItem == null || usingItem.Type != ItemType.MAPPAINTER) {
+            return;
+        }
+
+        if (usingItem.Name == "GroupPainter")
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(10);
+            EditorGUILayout.LabelField("GroupConfig:", GUILayout.Width(90));
+            groupValue = EditorGUILayout.IntField(groupValue,GUILayout.Width(60));
+            GUILayout.Space(10);
+            GUILayout.EndHorizontal();
+        }
     }
 
     private void DrawViewHelperPanel()
@@ -579,6 +607,11 @@ public class LevelEditor : EditorWindow
     private void AddDemandToElf(ItemConfig itemConfig, Elf elf) {
         elf.AddDemand(itemConfig.ID, 1); 
     }
+
+    private void DeleteDemandToElf(ItemConfig itemConfig, Elf elf) {
+        elf.DeleteDemand(itemConfig.ID, 1); 
+    }
+
     private void DeleteItem(Vector2Int tilePos, ItemType itemType) {
         TileItem tileItem = itemMap[itemType][tilePos];
         itemMap[itemType].Remove(tilePos);
