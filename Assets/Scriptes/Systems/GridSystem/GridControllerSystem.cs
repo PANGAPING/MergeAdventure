@@ -71,6 +71,7 @@ public class GridControllerSystem : GameSystem
         TileCursor.transform.localRotation = Quaternion.identity;
 
         LoadMap();
+        RefreshMap();
     }
 
 
@@ -103,6 +104,12 @@ public class GridControllerSystem : GameSystem
             ItemModel itemModel = MapSetting.Items[i];
             MountTileItem(itemModel);
         }
+    }
+
+    private void RefreshMap() {
+
+        _gridHelper.RefreshTilesState(new Vector2Int(3, 0));
+        _gridHelper.RefreshTiles();
     }
 
     private void MountTileItem(ItemModel itemModel)

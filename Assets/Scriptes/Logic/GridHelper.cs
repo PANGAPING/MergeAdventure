@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,11 +8,55 @@ public class GridHelper
 {
     public GridLayoutGroup gridLayout;
 
+    public List<TileBase> _tileBases;
+
+    public int _sizeX;
+
+    public int _sizeY;
+
+    public Dictionary<Vector2Int, TileState> _tileStateMap;
+
     public GridHelper(GridLayoutGroup gridLayout)
     {
         this.gridLayout = gridLayout;
+        _tileBases = gridLayout.transform.GetComponentsInChildren<TileBase>().ToList(); ;
+
+        for (int i = 0; i < _sizeX; i++) {
+            for (int j = 0; j < _sizeY; i++) {
+                Vector2Int pos = new Vector2Int(i, j);
+                TileBase tileBase = GetTileBase(pos);
+                tileBase.Mount(pos);
+                _tileBases.Add(tileBase);
+            }
+        }
     }
 
+    public List<TileBase> GetTileBases() { 
+        return _tileBases;
+    }
+
+    public Vector2Int GetGridSize() { 
+        return new Vector2Int( _sizeX, _sizeY );
+    }
+
+
+    public void RefreshTilesState(Vector2Int startPos) {
+
+        
+
+
+
+
+        foreach (TileBase tileBase in _tileBases)
+        {
+            tileBase.SetState(_tileStateMap[tileBase.GetPos()]);
+        }
+    }
+    public void RefreshTiles() {
+        foreach (TileBase tileBase in _tileBases) {
+            tileBase.Refresh();
+        }
+    }
     public void PutObjectOnTile(GameObject gameObject, Vector2Int tilePos, float zOffset = 0)
     {
         gameObject.transform.position = GetCellWorldPosition(tilePos);
