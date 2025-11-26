@@ -20,6 +20,25 @@ public class TileBase : MonoBehaviour
 
     private static Color _hideColor = new Color(50f/255,50f/255,50f/255);
 
+    private void Awake()
+    {
+        InitSelf(); 
+    }
+
+    private void Start()
+    {
+        Init(); 
+    }
+
+    private void InitSelf() { 
+        
+    }
+
+    private void Init() { 
+    
+    
+    }
+
     public void Refresh() {
 
         if (state == TileState.WHITE)
@@ -34,6 +53,20 @@ public class TileBase : MonoBehaviour
             _tileImage.color = _hideColor;
         }
 
+        SortItemsLayer();
+    }
+
+    private void SortItemsLayer() {
+        OccupiedItems.Sort((x, y) => y.GetLayer().CompareTo(x.GetLayer()));
+        if (OccupiedItems.Count == 0) {
+            return;
+        }
+
+        OccupiedItems[0].Show();
+
+        for (int i = 1; i < OccupiedItems.Count; i++) {
+            OccupiedItems[i].Hide();
+        }
     }
 
     public void Mount(Vector2Int pos) { 

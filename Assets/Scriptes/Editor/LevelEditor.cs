@@ -155,6 +155,13 @@ public class LevelEditor : EditorWindow
 
         _gridHelper = new GridHelper(BoardLayoutGroup);
 
+        InitTileCursor();
+
+        SceneVisibilityManager.instance.DisableAllPicking();
+        LoadMap();
+    }
+
+    private void InitTileCursor() {
         //Init tile Cursor.
         string tileCursorPath = Path.Combine(FoldPath.PrefabFolderPath, "Tiles", "TileCursor", "TileCursor");
         GameObject tileCursorPrefab = Resources.Load<GameObject>(tileCursorPath);
@@ -163,9 +170,6 @@ public class LevelEditor : EditorWindow
         TileCursor.transform.localPosition = Vector3.zero;
         TileCursor.transform.localRotation = Quaternion.identity;
         SceneVisibilityManager.instance.DisablePicking(TileCursor, true);
-
-        SceneVisibilityManager.instance.DisableAllPicking();
-        LoadMap();
     }
 
     private void LoadMap() {

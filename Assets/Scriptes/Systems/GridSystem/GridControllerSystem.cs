@@ -7,6 +7,7 @@ using FlyEggFrameWork.GameGlobalConfig;
 using UnityEngine.UI;
 using System;
 using FlyEggFrameWork.Tools;
+using UnityEditor;
 
 public class GridControllerSystem : GameSystem
 {
@@ -14,7 +15,6 @@ public class GridControllerSystem : GameSystem
     [Space]
     protected Transform WorldNode;
 
-    private GameObject TileCursor;
 
     [Header("Helper")]
     [Space]
@@ -28,6 +28,8 @@ public class GridControllerSystem : GameSystem
     //item instances
     private Dictionary<ItemType, Dictionary<Vector2Int, TileItem>> itemMap;
 
+    private GameObject TileCursor;
+
     private Vector2Int activeTilePos;
 
     private TileBase activeTileBase;
@@ -35,6 +37,9 @@ public class GridControllerSystem : GameSystem
     private static string[] ItemTypesString = new string[] { };
 
     private static ItemType[] ItemTypes = new ItemType[] { };
+
+
+
 
     protected override void InitSelf()
     {
@@ -62,14 +67,7 @@ public class GridControllerSystem : GameSystem
         boardPrefab.name = "GameBoard";
         _gridHelper = new GridHelper(boardObj.GetComponent<GridLayoutGroup>());
 
-        //InitCursor
-        string tileCursorPath = Path.Combine(FoldPath.PrefabFolderPath, "Tiles", "TileCursor", "TileCursor");
-        GameObject tileCursorPrefab = Resources.Load<GameObject>(tileCursorPath);
-        TileCursor = GameObject.Instantiate(tileCursorPrefab);
-        TileCursor.transform.SetParent(WorldNode);
-        TileCursor.transform.localPosition = Vector3.zero;
-        TileCursor.transform.localRotation = Quaternion.identity;
-
+        InitTileCursor();
         LoadMap();
         RefreshMap();
     }
@@ -79,6 +77,47 @@ public class GridControllerSystem : GameSystem
     {
         base.Init();
     }
+
+
+    protected override void Update()
+    {
+        base.Update();
+
+        UpdateTileCursor(Input.mousePosition);
+    }
+
+    private void InitTileCursor()
+    {
+        //Init tile Cursor.
+        string tileCursorPath = Path.Combine(FoldPath.PrefabFolderPath, "Tiles", "TileCursor", "TileCursor");
+        GameObject tileCursorPrefab = Resources.Load<GameObject>(tileCursorPath);
+        TileCursor = GameObject.Instantiate(tileCursorPrefab);
+        TileCursor.transform.SetParent(WorldNode);
+        TileCursor.transform.localPosition = Vector3.zero;
+        TileCursor.transform.localRotation = Quaternion.identity;
+    }
+
+    private void UpdateTileCursor(Vector3 mousePosition)
+    {
+        var mousePos = mousePosition;
+
+        activeTilePos = _gridHelper.GetGridPosition(mousePos);
+        GameObject activeTileObj = _gridHelper.GetCellAtPosition(activeTilePos);
+
+        activeTileBase = activeTileObj != null ? activeTileObj.GetComponent<TileBase>() : null;
+
+        if (activeTileBase == null)
+        {
+            TileCursor.SetActive(false);
+            return;
+        }
+
+        TileCursor.SetActive(true);
+        Vector2 tileCenterPosition = _gridHelper.GetCellWorldPosition(activeTilePos);
+        TileCursor.transform.position = tileCenterPosition;
+        TileCursor.transform.rotation = Quaternion.identity;
+    }
+
 
     private void LoadMap() {
         MapSetting = ConfigSystem.GetMapSetting(MergeAdventureProgressController._instance.GetLevel());
