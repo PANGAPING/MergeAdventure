@@ -8,31 +8,36 @@ public class GridHelper
 {
     public GridLayoutGroup gridLayout;
 
-    public List<TileBase> _tileBases;
+    public int _sizeX = 7;
 
-    public int _sizeX;
-
-    public int _sizeY;
+    public int _sizeY = 10;
 
     public Dictionary<Vector2Int, TileState> _tileStateMap;
+    public Dictionary<Vector2Int, TileBase> _tileBaseMap;
 
     public GridHelper(GridLayoutGroup gridLayout)
     {
         this.gridLayout = gridLayout;
-        _tileBases = gridLayout.transform.GetComponentsInChildren<TileBase>().ToList(); ;
+        List<TileBase> tileBases = gridLayout.transform.GetComponentsInChildren<TileBase>().ToList(); ;
+        _tileStateMap = new Dictionary<Vector2Int, TileState>();
+        _tileBaseMap = new Dictionary<Vector2Int, TileBase>();
+
+        _sizeX = 7;
+        _sizeY = 10;
 
         for (int i = 0; i < _sizeX; i++) {
-            for (int j = 0; j < _sizeY; i++) {
+            for (int j = 0; j < _sizeY; j++) {
                 Vector2Int pos = new Vector2Int(i, j);
                 TileBase tileBase = GetTileBase(pos);
                 tileBase.Mount(pos);
-                _tileBases.Add(tileBase);
+                _tileBaseMap.Add(pos, tileBase);
+                _tileStateMap.Add(pos, TileState.WHITE);
             }
         }
     }
 
     public List<TileBase> GetTileBases() { 
-        return _tileBases;
+        return _tileBaseMap.Values.ToList();
     }
 
     public Vector2Int GetGridSize() { 
@@ -42,18 +47,31 @@ public class GridHelper
 
     public void RefreshTilesState(Vector2Int startPos) {
 
-        
+        List<Vector2Int> whitePoses = GetFloorConnectedPoses(startPos);
+
+        foreach (Vector2Int pos in _tileStateMap.Keys.ToArray()) {
+            if (IsCloudTilePos(pos))
+            {
+                _tileStateMap[pos] = TileState.HIDE;
+            }
+            else if (whitePoses.Contains(pos))
+            {
+                _tileStateMap[pos] = TileState.WHITE;
+            }
+            else {
+                _tileStateMap[pos] = TileState.GRAY;
+            }
+        }
 
 
 
-
-        foreach (TileBase tileBase in _tileBases)
+        foreach (TileBase tileBase in GetTileBases())
         {
             tileBase.SetState(_tileStateMap[tileBase.GetPos()]);
         }
     }
     public void RefreshTiles() {
-        foreach (TileBase tileBase in _tileBases) {
+        foreach (TileBase tileBase in GetTileBases()) {
             tileBase.Refresh();
         }
     }
@@ -212,6 +230,129 @@ public class GridHelper
                      gridPosition.y * (cellSize.y + spacing.y) +
                      cellSize.y / 2;
         return new Vector3(posX, posY, 0f);
+    }
+
+    protected List<Vector2Int> GetFloorConnectedPosesWithCloud(Vector2Int startPos, bool withEdge = false, List<Vector2Int> blockPos = null)
+    {
+        List<Vector2Int> connectedPoses = new List<Vector2Int>();
+        List<Vector2Int> searchedPos = new List<Vector2Int>();
+        List<Vector2Int> searchStack = new List<Vector2Int>();
+        searchStack.Add(startPos);
+        if (blockPos == null)
+        {
+            blockPos = new List<Vector2Int>();
+        }
+        while (searchStack.Count > 0)
+        {
+            List<Vector2Int> nextSearchStack = new List<Vector2Int>();
+            foreach (var pos in searchStack)
+            {
+                if (!IsValidTilePos(pos) || searchedPos.Contains(pos) || ((blockPos.Contains(pos) && pos != startPos)))
+                {
+                    continue;
+                }
+                searchedPos.Add(pos);
+                if (IsObstacleTilePos(pos))
+                {
+                    if (withEdge)
+                    {
+                        connectedPoses.Add(pos);
+                    }
+                    continue;
+                }
+                else
+                {
+                    if (!blockPos.Contains(pos))
+                    {
+                        connectedPoses.Add(pos);
+                    }
+                }
+
+                Vector2Int rightPos = pos + new Vector2Int(1, 0);
+                Vector2Int leftPos = pos + new Vector2Int(-1, 0);
+                Vector2Int upPos = pos + new Vector2Int(0, 1);
+                Vector2Int downPos = pos + new Vector2Int(0, -1);
+
+                nextSearchStack.Add(rightPos);
+                nextSearchStack.Add(leftPos);
+                nextSearchStack.Add(upPos);
+                nextSearchStack.Add(downPos);
+            }
+            searchStack = nextSearchStack.Distinct().ToList();
+        }
+        return connectedPoses;
+    }
+
+    protected List<Vector2Int> GetFloorConnectedPoses(Vector2Int startPos, bool withEdge = false, List<Vector2Int> blockPos = null)
+    {
+        List<Vector2Int> connectedPoses = new List<Vector2Int>();
+        List<Vector2Int> searchedPos = new List<Vector2Int>();
+        List<Vector2Int> searchStack = new List<Vector2Int>();
+        searchStack.Add(startPos);
+        if (blockPos == null)
+        {
+            blockPos = new List<Vector2Int>();
+        }
+        while (searchStack.Count > 0)
+        {
+            List<Vector2Int> nextSearchStack = new List<Vector2Int>();
+
+            foreach (var pos in searchStack)
+            {
+                if (!IsValidTilePos(pos) || searchedPos.Contains(pos) || ((blockPos.Contains(pos) && pos != startPos)) || IsCloudTilePos(pos))
+                {
+                    continue;
+                }
+                searchedPos.Add(pos);
+                if (IsObstacleTilePos(pos))
+                {
+                    if (withEdge && !IsCloudTilePos(pos))
+                    {
+                        connectedPoses.Add(pos);
+                    }
+                    continue;
+                }
+                else
+                {
+                    if (!blockPos.Contains(pos))
+                    {
+                        connectedPoses.Add(pos);
+                    }
+                }
+
+
+                Vector2Int rightPos = pos + new Vector2Int(1, 0);
+                Vector2Int leftPos = pos + new Vector2Int(-1, 0);
+                Vector2Int upPos = pos + new Vector2Int(0, 1);
+                Vector2Int downPos = pos + new Vector2Int(0, -1);
+
+                nextSearchStack.Add(rightPos);
+                nextSearchStack.Add(leftPos);
+                nextSearchStack.Add(upPos);
+                nextSearchStack.Add(downPos);
+            }
+            searchStack = nextSearchStack.Distinct().ToList();
+        }
+        return connectedPoses;
+    }
+
+    private bool IsValidTilePos(Vector2Int pos) {
+        if (pos.x < 0 || pos.x >= _sizeX) {
+            return false;   
+        }
+
+        if (pos.y < 0 || pos.y >= _sizeY) {
+            return false;
+        }
+        return true;
+    }
+
+    private bool IsObstacleTilePos(Vector2Int pos) {
+        return _tileBaseMap[pos].IsObstacleTile();
+    }
+
+    private bool IsCloudTilePos(Vector2Int pos) {
+        return _tileBaseMap[pos].IsCloudTile();
     }
 
 }
