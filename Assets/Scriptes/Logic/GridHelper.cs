@@ -212,10 +212,9 @@ public class GridHelper
         // 对齐偏移计算（MiddleCenter模式）
         Vector2 alignmentOffset = new Vector2(
             (rectTransform.rect.width - totalWidth) * 0.5f,
-            (rectTransform.rect.height - totalHeight) * -0.5f // Unity Y轴向下为负
+            (rectTransform.rect.height - totalHeight) * 0.5f // Unity Y轴向下为负
         );
 
-        // 初始起点（考虑对齐偏移）
         Vector2 startPos = new Vector2(
             rectTransform.rect.xMin + padding.left + alignmentOffset.x,
             rectTransform.rect.yMin + padding.bottom + alignmentOffset.y

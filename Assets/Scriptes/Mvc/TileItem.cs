@@ -43,8 +43,9 @@ public class TileItem : FlyEggInstance
         Transform imgNode = transform.Find("Img");
         Image itemImg =imgNode.GetComponent<Image>();
         itemImg.sprite = ResourceHelper.GetItemSprite(itemModel.GetItemConfig());
-        itemImg.rectTransform.pivot = Vector2.one - ResourceHelper.ConvertSpritePivotToRectTransform(itemImg.sprite);
+        itemImg.rectTransform.pivot = Vector2.one -   ResourceHelper.ConvertSpritePivotToRectTransform(itemImg.sprite);
         itemImg.SetNativeSize();
+        itemImg.rectTransform.localPosition = Vector3.zero;
 
         if (Application.isPlaying)
         {
