@@ -87,7 +87,7 @@ public class TileBase : MonoBehaviour
     }
 
     public TileItem GetLayerTopItem() {
-        if (OccupiedItems == null && OccupiedItems.Count == 0) {
+        if (OccupiedItems == null || OccupiedItems.Count == 0) {
             return null;
         }
         return OccupiedItems[0];
@@ -119,6 +119,11 @@ public class TileBase : MonoBehaviour
 
     public bool IsCloudTile() {
         return OccupiedItems.Exists(x => x.GetItemType() == ItemType.ELFCLOUD);
+    }
+
+    public bool IsDragable() {
+        TileItem tileItem = GetLayerTopItem();
+        return state == TileState.WHITE && tileItem != null && tileItem.IsMovable(); ;
     }
 }
 

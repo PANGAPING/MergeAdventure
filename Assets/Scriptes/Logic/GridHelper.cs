@@ -335,7 +335,7 @@ public class GridHelper
         return connectedPoses;
     }
 
-    private bool IsValidTilePos(Vector2Int pos) {
+    public bool IsValidTilePos(Vector2Int pos) {
         if (pos.x < 0 || pos.x >= _sizeX) {
             return false;   
         }
@@ -346,11 +346,11 @@ public class GridHelper
         return true;
     }
 
-    private bool IsObstacleTilePos(Vector2Int pos) {
+    public bool IsObstacleTilePos(Vector2Int pos) {
         return _tileBaseMap[pos].IsObstacleTile();
     }
 
-    private bool IsCloudTilePos(Vector2Int pos) {
+    public bool IsCloudTilePos(Vector2Int pos) {
         return _tileBaseMap[pos].IsCloudTile();
     }
 

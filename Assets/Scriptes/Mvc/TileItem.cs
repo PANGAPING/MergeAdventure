@@ -65,6 +65,10 @@ public class TileItem : FlyEggInstance
         return Model.GetItemConfig().Layer;
     }
 
+    public virtual bool IsMovable() {
+        return Model.GetItemConfig().Movable == 1; 
+    }
+
     protected virtual void ShowInEditor() { 
          
     }

@@ -44,6 +44,8 @@ public class GridControllerSystem : GameSystem
 
     private bool tapDowning = false;
 
+    private TileItem draggingItem = null;
+
 
 
     protected override void InitSelf()
@@ -129,6 +131,10 @@ public class GridControllerSystem : GameSystem
     }
 
     private void UpdateDraggingItem() {
+        if (!_gridHelper.IsValidTilePos(activeTilePos)) {
+            return;
+        }
+
         if (!dragging && tapDowning)
         {
             if (tapDownPos != activeTilePos && activeTileBase != null)
@@ -137,19 +143,9 @@ public class GridControllerSystem : GameSystem
             }
         }
         else if (dragging) {
-            var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            mousePosition.z = 10;
-
-            Vector3 justifyedPosition = GetTileCenterFromTilePos(GetTilePosFromWorldPosition(mousePosition, out TileBase tile));
-            justifyedPosition.z = 10;
-
-            Vector3 beforePosition = _draggingItem.transform.position;
-            beforePosition.z = 10;
-
-            _draggingItem.transform.position = Vector3.Lerp(beforePosition, justifyedPosition, Time.deltaTime * 10);
-            _draggingItem.transform.rotation = Quaternion.identity;
-
+            Vector3 justifyedPosition = _gridHelper.GetCellWorldPosition(activeTilePos);
+            Vector3 beforePosition = draggingItem.transform.position;
+            draggingItem.transform.position = Vector3.Lerp(beforePosition, justifyedPosition, Time.deltaTime * 10);
         }
     }
 
@@ -261,32 +257,13 @@ public class GridControllerSystem : GameSystem
 
     private void StartDragTileItem(TileBase tileBase) { 
          TileItem tileItem = tileBase.GetLayerTopItem();
-        if (tileItem == null)
+        if (tileItem == null && !activeTileBase.IsDragable())
         {
             return;
         }
-        
-        if (!IsDragableCell(mouseDownPos)) {
-            return;
-        }
-
-
-        if (!_dropItemMap.Keys.Contains(mouseDownPos))
-        {
-            return;
-        }
-
-
         dragging = true;
 
-        DropItem dropItem = _dropItemMap[mouseDownPos];
-
-        _draggingItem = dropItem;
-
-        _draggingItem.StartDrag();
-
-        _dropItemMap.Remove(mouseDownPos);
-          
+        draggingItem = tileItem;
     }
 
     private void EndDragItem() {
