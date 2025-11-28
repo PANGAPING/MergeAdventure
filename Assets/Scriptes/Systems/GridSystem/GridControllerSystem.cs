@@ -15,7 +15,6 @@ public class GridControllerSystem : GameSystem
     [Space]
     protected Transform WorldNode;
 
-
     [Header("Helper")]
     [Space]
     protected GridHelper _gridHelper;
@@ -38,6 +37,12 @@ public class GridControllerSystem : GameSystem
 
     private static ItemType[] ItemTypes = new ItemType[] { };
 
+    //Tap Section
+    private Vector2Int tapDownPos = new Vector2Int(0, 0);
+
+    private bool dragging = false;
+
+    private bool tapDowning = false;
 
 
 
@@ -76,6 +81,8 @@ public class GridControllerSystem : GameSystem
     protected override void Init()
     {
         base.Init();
+        GamepadSystem._instance._onClickDown += OnTapDown;
+        GamepadSystem._instance._onClickUp += OnTapUp;
     }
 
 
@@ -84,6 +91,9 @@ public class GridControllerSystem : GameSystem
         base.Update();
 
         UpdateTileCursor(Input.mousePosition);
+
+        UpdateDraggingItem();
+
     }
 
     private void InitTileCursor()
@@ -116,6 +126,31 @@ public class GridControllerSystem : GameSystem
         Vector2 tileCenterPosition = _gridHelper.GetCellWorldPosition(activeTilePos);
         TileCursor.transform.position = tileCenterPosition;
         TileCursor.transform.rotation = Quaternion.identity;
+    }
+
+    private void UpdateDraggingItem() {
+        if (!dragging && tapDowning)
+        {
+            if (tapDownPos != activeTilePos && activeTileBase != null)
+            {
+                StartDragTileItem(activeTileBase);
+            }
+        }
+        else if (dragging) {
+            var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            mousePosition.z = 10;
+
+            Vector3 justifyedPosition = GetTileCenterFromTilePos(GetTilePosFromWorldPosition(mousePosition, out TileBase tile));
+            justifyedPosition.z = 10;
+
+            Vector3 beforePosition = _draggingItem.transform.position;
+            beforePosition.z = 10;
+
+            _draggingItem.transform.position = Vector3.Lerp(beforePosition, justifyedPosition, Time.deltaTime * 10);
+            _draggingItem.transform.rotation = Quaternion.identity;
+
+        }
     }
 
 
@@ -177,16 +212,84 @@ public class GridControllerSystem : GameSystem
 
         if (tilePoses.Length > 0)
         {
-          _gridHelper.PutObjectOnTile(itemObject, tilePoses, 0);
+            _gridHelper.PutObjectOnTile(itemObject, tilePoses, 0);
         }
         else
         {
-           _gridHelper.PutObjectOnTile(itemObject, tilePos, 0);
+            _gridHelper.PutObjectOnTile(itemObject, tilePos, 0);
         }
         TileBase tileBase = _gridHelper.GetTileBase(tilePos);
         tileBase.OccupyItem(item);
     }
 
+    protected virtual void OnTapDown()
+    {
+        tapDownPos = activeTilePos;
+        dragging = false;
+        tapDowning = true;
+    }
+
+    protected virtual void OnTapUp()
+    {
+        Vector2Int tapUpPos = activeTilePos;
+
+        if (tapUpPos == tapDownPos && !dragging)
+        {
+            if (activeTileBase != null) { 
+                TapOnTile(activeTileBase);
+            }
+        }
+        else if (dragging) {
+            EndDragItem();
+        }
+
+        tapDowning = false;
+    }
 
 
+    private void TapOnTile(TileBase tileBase)
+    {
+        Debug.Log(activeTilePos);
+        TileItem tileItem = tileBase.GetLayerTopItem();
+        if (tileItem == null) {
+            return;
+        }
+
+
+
+    }
+
+    private void StartDragTileItem(TileBase tileBase) { 
+         TileItem tileItem = tileBase.GetLayerTopItem();
+        if (tileItem == null)
+        {
+            return;
+        }
+        
+        if (!IsDragableCell(mouseDownPos)) {
+            return;
+        }
+
+
+        if (!_dropItemMap.Keys.Contains(mouseDownPos))
+        {
+            return;
+        }
+
+
+        dragging = true;
+
+        DropItem dropItem = _dropItemMap[mouseDownPos];
+
+        _draggingItem = dropItem;
+
+        _draggingItem.StartDrag();
+
+        _dropItemMap.Remove(mouseDownPos);
+          
+    }
+
+    private void EndDragItem() {
+        dragging = false;
+    }
 }

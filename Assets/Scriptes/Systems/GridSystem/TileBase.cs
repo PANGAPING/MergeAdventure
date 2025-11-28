@@ -86,6 +86,13 @@ public class TileBase : MonoBehaviour
         this.state = state;
     }
 
+    public TileItem GetLayerTopItem() {
+        if (OccupiedItems == null && OccupiedItems.Count == 0) {
+            return null;
+        }
+        return OccupiedItems[0];
+    }
+
     public void OccupyItem(TileItem item) { 
         OccupiedItems.Add(item);
     }
