@@ -283,11 +283,36 @@ public class GridControllerSystem : GameSystem
     }
 
     private void EndDragItem() {
-        dragging = false;
-        TileBase dragToTileBase = _gridHelper.GetClosestEmptyWhiteTile(activeTilePos);
-        draggingItem.SetPos(dragToTileBase.GetPos());
+        if (!_gridHelper.IsValidTilePos(activeTilePos))
+        {
+            draggingItem.SetPos(draggingItem.GetPos());
+        }
+        else if (activeTileBase.GetLayerTopItem() == null)
+        {
+            draggingItem.SetPos(activeTilePos);
+        }
+        else if (activeTileBase.GetLayerTopItem() != null) {
+            TileItem targetTileItem = activeTileBase.GetLayerTopItem();
+
+            if (targetTileItem.IsMovable()){
+                draggingItem.SetPos(activeTilePos);
+
+                UnMountItemMap(targetTileItem);
+                TileBase closetEmptyTile = _gridHelper.GetClosestEmptyWhiteTile(activeTilePos);
+                targetTileItem.SetPos(closetEmptyTile.GetPos());
+                MountItemMap(targetTileItem);
+
+                targetTileItem.MoveAnimation(_gridHelper.GetCellWorldPosition(closetEmptyTile.GetPos()));
+            }
+            else { 
+                draggingItem.SetPos(draggingItem.GetPos());
+            }
+        }
+
         MountItemMap(draggingItem);
-        _gridHelper.PutObjectOnTile(draggingItem.gameObject, dragToTileBase.GetPos());
+        _gridHelper.PutObjectOnTile(draggingItem.gameObject, draggingItem.GetPos());
+        
+        dragging = false;
         draggingItem = null;
     }
 }

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using FlyEggFrameWork;
 using FlyEggFrameWork.Tools;
 using System.Collections;
@@ -10,6 +11,8 @@ using Image = UnityEngine.UI.Image;
 public class TileItem : FlyEggInstance
 {
     public ItemModel Model;
+
+    protected bool inAnimation = false;
 
     protected override void InitSelf()
     {
@@ -76,6 +79,17 @@ public class TileItem : FlyEggInstance
 
     public virtual bool IsMovable() {
         return Model.GetItemConfig().Movable == 1; 
+    }
+
+    public virtual void MoveAnimation(Vector3 targetPostion, float speed = 1000f)
+    {
+        inAnimation = true;
+
+        float span = (targetPostion - transform.position).magnitude/speed;
+        transform.DOPath(new Vector3[] { transform.position, targetPostion }, span, PathType.Linear).onComplete += () =>
+         {
+             inAnimation = false;
+         };
     }
 
     protected virtual void ShowInEditor() { 
