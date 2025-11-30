@@ -8,7 +8,7 @@ public class TileBase : MonoBehaviour
 {
     private List<TileItem> OccupiedItems = new List<TileItem>();
 
-    private TileState state = TileState.WHITE;
+    public TileState state = TileState.WHITE;
 
     private Vector2Int pos = Vector2Int.zero;
 
@@ -97,8 +97,14 @@ public class TileBase : MonoBehaviour
         OccupiedItems.Add(item);
     }
 
-    public void RemoveOccupyItem(TileItem item) { 
-        OccupiedItems.Remove(item);
+    public void RemoveOccupyItem(TileItem item) {
+        if (OccupiedItems.Contains(item)) { 
+            OccupiedItems.Remove(item);
+        }
+    }
+
+    public bool IsEmpty() {
+        return OccupiedItems == null || OccupiedItems.Count == 0;
     }
 
     public bool ExistItemOfType(ItemType itemType) {

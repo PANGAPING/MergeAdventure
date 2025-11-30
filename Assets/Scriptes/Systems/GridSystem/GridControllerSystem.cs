@@ -46,8 +46,6 @@ public class GridControllerSystem : GameSystem
 
     private TileItem draggingItem = null;
 
-
-
     protected override void InitSelf()
     {
         base.InitSelf();
@@ -93,9 +91,7 @@ public class GridControllerSystem : GameSystem
         base.Update();
 
         UpdateTileCursor(Input.mousePosition);
-
         UpdateDraggingItem();
-
     }
 
     private void InitTileCursor()
@@ -137,9 +133,12 @@ public class GridControllerSystem : GameSystem
 
         if (!dragging && tapDowning)
         {
-            if (tapDownPos != activeTilePos && activeTileBase != null)
+            if (tapDownPos != activeTilePos && _gridHelper.IsValidTilePos(tapDownPos))
             {
-                StartDragTileItem(activeTileBase);
+                TileBase dragTile = _gridHelper.GetTileBase(tapDownPos);
+                if (dragTile != null) { 
+                    StartDragTileItem(dragTile);
+                }
             }
         }
         else if (dragging) {
@@ -203,8 +202,7 @@ public class GridControllerSystem : GameSystem
             tilePoses = CommonTool.Array2ToVector2IntArray(itemModel.TilePoses);
         }
 
-
-        itemMap[itemConfig.Type][tilePos] = item;
+        MountItemMap(item);
 
         if (tilePoses.Length > 0)
         {
@@ -214,9 +212,27 @@ public class GridControllerSystem : GameSystem
         {
             _gridHelper.PutObjectOnTile(itemObject, tilePos, 0);
         }
-        TileBase tileBase = _gridHelper.GetTileBase(tilePos);
+    }
+
+    private void MountItemMap(TileItem item) { 
+        ItemType itemType = item.GetItemType();
+        Vector2Int itemPos = item.GetPos();
+        itemMap[itemType][itemPos] = item;
+        TileBase tileBase = _gridHelper.GetTileBase(itemPos);
         tileBase.OccupyItem(item);
     }
+
+    private void UnMountItemMap(TileItem item) {
+        ItemType itemType = item.GetItemType();
+        Vector2Int itemPos = item.GetPos();
+        if (itemMap[itemType].ContainsKey(itemPos)) {
+            itemMap[itemType].Remove(itemPos);
+        }
+        TileBase tileBase = _gridHelper.GetTileBase(itemPos);
+        tileBase.RemoveOccupyItem(item);
+    }
+
+
 
     protected virtual void OnTapDown()
     {
@@ -262,11 +278,16 @@ public class GridControllerSystem : GameSystem
             return;
         }
         dragging = true;
-
         draggingItem = tileItem;
+        UnMountItemMap(tileItem);
     }
 
     private void EndDragItem() {
         dragging = false;
+        TileBase dragToTileBase = _gridHelper.GetClosestEmptyWhiteTile(activeTilePos);
+        draggingItem.SetPos(dragToTileBase.GetPos());
+        MountItemMap(draggingItem);
+        _gridHelper.PutObjectOnTile(draggingItem.gameObject, dragToTileBase.GetPos());
+        draggingItem = null;
     }
 }

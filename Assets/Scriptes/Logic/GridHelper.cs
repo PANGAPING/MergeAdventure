@@ -335,6 +335,26 @@ public class GridHelper
         return connectedPoses;
     }
 
+    public TileBase GetClosestEmptyWhiteTile(Vector2Int targetPos) {
+        List<TileBase> validTileBases = _tileBaseMap.Values.ToList().FindAll(x => x.GetState() == TileState.WHITE && x.IsEmpty());
+
+        if (validTileBases.Count == 0) {
+            return null;
+        }
+
+        TileBase resultTile = null;
+        int closestLength = -1;
+        foreach (TileBase tileBase in validTileBases) {
+            int length = (int)(tileBase.GetPos() - targetPos).magnitude;
+            if (closestLength < 0 || length < closestLength) {
+                closestLength = length;
+                resultTile = tileBase; 
+            }
+        }
+
+        return resultTile;
+    }
+
     public bool IsValidTilePos(Vector2Int pos) {
         if (pos.x < 0 || pos.x >= _sizeX) {
             return false;   

@@ -1,4 +1,5 @@
 using FlyEggFrameWork;
+using FlyEggFrameWork.Tools;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -58,6 +59,14 @@ public class TileItem : FlyEggInstance
 
     public virtual ItemType GetItemType() { 
         return Model.GetItemConfig().Type;
+    }
+
+    public virtual Vector2Int GetPos() {
+        return CommonTool.ArrayToVector2Int(Model.TilePos);
+    }
+
+    public virtual void SetPos(Vector2Int pos) {
+        this.Model.TilePos = CommonTool.Vector2IntToArray(pos);
     }
 
     public virtual int GetLayer()
