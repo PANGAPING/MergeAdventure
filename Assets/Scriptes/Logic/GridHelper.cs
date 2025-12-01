@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -358,6 +359,55 @@ public class GridHelper
         return resultTile;
     }
 
+    public List<TileBase> GetEmptyPoses(Vector2Int startPos, int count) {
+        return GetFloorMatchedTiles(startPos, (TileBase x) => { return IsWhiteTilePos(startPos) && IsEmptyTilePos(startPos); });
+    }
+
+    public List<TileBase> GetFloorMatchedTiles(Vector2Int startPos, Predicate<TileBase> match,int count) {
+        List<TileBase> tileBases = new List<TileBase>();
+
+        List<Vector2Int> searchedPos = new List<Vector2Int>();
+        List<Vector2Int> searchStack = new List<Vector2Int>();
+        searchStack.Add(startPos);
+
+        while (searchStack.Count > 0 && tileBases.Count < count)
+        {
+            List<Vector2Int> nextSearchStack = new List<Vector2Int>();
+
+            foreach (var pos in searchStack)
+            {
+                if (searchedPos.Contains(pos) || !IsValidTilePos(pos))
+                {
+                    continue;
+                }
+                searchedPos.Add(pos);
+
+                TileBase tileBase = GetTileBase(pos);
+
+                if (match(tileBase))
+                {
+                    tileBases.Add(tileBase);
+                    if (tileBases.Count >= count) {
+                        break;
+                    }
+                }
+
+                Vector2Int rightPos = pos + new Vector2Int(1, 0);
+                Vector2Int leftPos = pos + new Vector2Int(-1, 0);
+                Vector2Int upPos = pos + new Vector2Int(0, 1);
+                Vector2Int downPos = pos + new Vector2Int(0, -1);
+
+                nextSearchStack.Add(rightPos);
+                nextSearchStack.Add(leftPos);
+                nextSearchStack.Add(upPos);
+                nextSearchStack.Add(downPos);
+            }
+            searchStack = nextSearchStack.Distinct().ToList();
+        }
+
+        return tileBases;
+    }
+
     public bool IsValidTilePos(Vector2Int pos) {
         if (pos.x < 0 || pos.x >= _sizeX) {
             return false;
@@ -369,8 +419,16 @@ public class GridHelper
         return true;
     }
 
+    public TileState GetTileState(Vector2Int pos) {
+        return _tileStateMap[pos];
+    }
+
     public bool IsWhiteTilePos(Vector2Int pos) {
         return IsValidTilePos(pos) && _tileStateMap[pos] == TileState.WHITE;
+    }
+
+    public bool IsEmptyTilePos(Vector2Int pos) {
+        return _tileBaseMap[pos].IsEmpty();
     }
 
     public bool IsObstacleTilePos(Vector2Int pos) {

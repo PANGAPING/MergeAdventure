@@ -81,7 +81,7 @@ public class TileItem : FlyEggInstance
         return Model.GetItemConfig().Movable == 1; 
     }
 
-    public virtual void MoveAnimation(Vector3 targetPostion, float speed = 1000f)
+    public virtual void MoveAnimation(Vector3 targetPostion, AnimationEndActionType animationEndActionType = AnimationEndActionType.NONE, float speed = 1000f)
     {
         inAnimation = true;
 
@@ -89,7 +89,18 @@ public class TileItem : FlyEggInstance
         transform.DOPath(new Vector3[] { transform.position, targetPostion }, span, PathType.Linear).onComplete += () =>
          {
              inAnimation = false;
+             AnimationEndAction(animationEndActionType);
          };
+    }
+
+    public virtual void AnimationEndAction(AnimationEndActionType animationEndActionType) {
+        if (animationEndActionType == AnimationEndActionType.NONE) { 
+        
+        }
+        else if(animationEndActionType == AnimationEndActionType.DESTORY)
+        {
+            GameObject.Destroy(gameObject);
+        }
     }
 
     protected virtual void ShowInEditor() { 
@@ -109,4 +120,10 @@ public class TileItem : FlyEggInstance
             return transform.Find("Points/UiPivot");    
         }
     }
+
+}
+
+public enum AnimationEndActionType { 
+    NONE,
+    DESTORY
 }

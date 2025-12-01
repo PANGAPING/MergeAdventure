@@ -263,6 +263,9 @@ public class GridControllerSystem : GameSystem
     private void TapOnTile(TileBase tileBase)
     {
         Debug.Log(activeTilePos);
+        if (_gridHelper.IsValidTilePos(activeTilePos)) {
+            Debug.Log(_gridHelper.GetTileState(activeTilePos));
+        }
         TileItem tileItem = tileBase.GetLayerTopItem();
         if (tileItem == null) {
             return;
@@ -342,16 +345,24 @@ public class GridControllerSystem : GameSystem
         return true;
     }
 
-    private void Merge(TileItem tileItem1, TileItem tileItem2) {
+    private void Merge(TileItem tileItem1, TileItem tileItem2,Vector2Int mergePos) {
+
+        int mergeToId = tileItem1.Model.GetItemConfig().NextLevelID;
+
         UnMountItemMap(tileItem1);
         UnMountItemMap(tileItem2);
+
+        tileItem1.MoveAnimation(_gridHelper.GetCellWorldPosition(mergePos), AnimationEndActionType.DESTORY);
+        tileItem2.MoveAnimation(_gridHelper.GetCellWorldPosition(mergePos), AnimationEndActionType.DESTORY);
+
+        Drop(new Dictionary<int, int> { { mergeToId, 1 } }, mergePos);
     }
 
     private void Drop(Dictionary<int, int> items, Vector2Int dropFromPos) { 
         
     }
 
-    private void NewItem(int itemId, Vector2Int pos) { 
+    private void DropItem(int itemId,Vector2Int fromPos, Vector2Int toPos) { 
           
     }
 }
