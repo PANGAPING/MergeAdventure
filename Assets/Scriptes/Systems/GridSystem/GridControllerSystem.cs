@@ -358,8 +358,19 @@ public class GridControllerSystem : GameSystem
         Drop(new Dictionary<int, int> { { mergeToId, 1 } }, mergePos);
     }
 
-    private void Drop(Dictionary<int, int> items, Vector2Int dropFromPos) { 
-        
+    private void Drop(Dictionary<int, int> items, Vector2Int dropFromPos) {
+        List<int> dropItemIdList = new List<int>();
+        foreach (var itemId in items.Keys) {
+            for (int i = 0; i < items[itemId]; i++) {
+                dropItemIdList.Add(itemId); 
+            }
+        }
+
+        List<TileBase> availBases =  _gridHelper.GetEmptyPoses(dropFromPos, dropItemIdList.Count);
+
+        for (int dropIndex = 0; dropIndex < dropItemIdList.Count; dropIndex++) {
+            DropItem(dropItemIdList[dropIndex], dropFromPos, availBases[dropIndex].GetPos());
+        }
     }
 
     private void DropItem(int itemId,Vector2Int fromPos, Vector2Int toPos) { 
