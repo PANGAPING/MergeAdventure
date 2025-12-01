@@ -335,7 +335,7 @@ public class GridHelper
         return connectedPoses;
     }
 
-    public TileBase GetClosestEmptyWhiteTile(Vector2Int targetPos) {
+    public TileBase GetClosestEmptyWhiteTile(Vector2Int targetPos,bool includeTarget = false) {
         List<TileBase> validTileBases = _tileBaseMap.Values.ToList().FindAll(x => x.GetState() == TileState.WHITE && x.IsEmpty());
 
         if (validTileBases.Count == 0) {
@@ -343,9 +343,12 @@ public class GridHelper
         }
 
         TileBase resultTile = null;
-        int closestLength = -1;
+        float closestLength = -1;
         foreach (TileBase tileBase in validTileBases) {
-            int length = (int)(tileBase.GetPos() - targetPos).magnitude;
+            if (!includeTarget && targetPos == tileBase.GetPos()) {
+                continue;
+            }
+            float length = (tileBase.GetPos() - targetPos).magnitude;
             if (closestLength < 0 || length < closestLength) {
                 closestLength = length;
                 resultTile = tileBase; 

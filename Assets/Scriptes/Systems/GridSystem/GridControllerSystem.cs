@@ -298,7 +298,7 @@ public class GridControllerSystem : GameSystem
                 draggingItem.SetPos(activeTilePos);
 
                 UnMountItemMap(targetTileItem);
-                TileBase closetEmptyTile = _gridHelper.GetClosestEmptyWhiteTile(activeTilePos);
+                TileBase closetEmptyTile = _gridHelper.GetClosestEmptyWhiteTile(activeTilePos,false);
                 targetTileItem.SetPos(closetEmptyTile.GetPos());
                 MountItemMap(targetTileItem);
 
@@ -310,8 +310,8 @@ public class GridControllerSystem : GameSystem
         }
 
         MountItemMap(draggingItem);
-        _gridHelper.PutObjectOnTile(draggingItem.gameObject, draggingItem.GetPos());
-        
+        draggingItem.MoveAnimation(_gridHelper.GetCellWorldPosition(draggingItem.GetPos()));
+
         dragging = false;
         draggingItem = null;
     }
