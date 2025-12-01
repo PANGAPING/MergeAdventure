@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using System;
 using FlyEggFrameWork.Tools;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 
 public class GridControllerSystem : GameSystem
 {
@@ -273,7 +274,7 @@ public class GridControllerSystem : GameSystem
 
     private void StartDragTileItem(TileBase tileBase) { 
          TileItem tileItem = tileBase.GetLayerTopItem();
-        if (tileItem == null && !activeTileBase.IsDragable())
+        if (!activeTileBase.IsDragable())
         {
             return;
         }
@@ -285,26 +286,37 @@ public class GridControllerSystem : GameSystem
     private void EndDragItem() {
         if (!_gridHelper.IsValidTilePos(activeTilePos))
         {
-            draggingItem.SetPos(draggingItem.GetPos());
+            TileBase closetEmptyTile = _gridHelper.GetClosestEmptyWhiteTile(activeTilePos, false);
+            draggingItem.SetPos(closetEmptyTile.GetPos());
+        }
+        else if (!_gridHelper.IsWhiteTilePos(activeTilePos)) {
+            TileBase closetEmptyTile = _gridHelper.GetClosestEmptyWhiteTile(activeTilePos, false);
+            draggingItem.SetPos(closetEmptyTile.GetPos());
         }
         else if (activeTileBase.GetLayerTopItem() == null)
         {
             draggingItem.SetPos(activeTilePos);
         }
-        else if (activeTileBase.GetLayerTopItem() != null) {
+        else if (activeTileBase.GetLayerTopItem() != null)
+        {
             TileItem targetTileItem = activeTileBase.GetLayerTopItem();
 
-            if (targetTileItem.IsMovable()){
+            if (CheckMergable(draggingItem, targetTileItem)) {
+                Merge(draggingItem, targetTileItem);
+            }
+            else if (targetTileItem.IsMovable())
+            {
                 draggingItem.SetPos(activeTilePos);
 
                 UnMountItemMap(targetTileItem);
-                TileBase closetEmptyTile = _gridHelper.GetClosestEmptyWhiteTile(activeTilePos,false);
+                TileBase closetEmptyTile = _gridHelper.GetClosestEmptyWhiteTile(activeTilePos, false);
                 targetTileItem.SetPos(closetEmptyTile.GetPos());
                 MountItemMap(targetTileItem);
 
                 targetTileItem.MoveAnimation(_gridHelper.GetCellWorldPosition(closetEmptyTile.GetPos()));
             }
-            else { 
+            else
+            {
                 draggingItem.SetPos(draggingItem.GetPos());
             }
         }
@@ -314,5 +326,32 @@ public class GridControllerSystem : GameSystem
 
         dragging = false;
         draggingItem = null;
+    }
+
+    private bool CheckMergable(TileItem tileItem1, TileItem tileItem2) {
+        
+        ItemConfig itemConfig1 = tileItem1.Model.GetItemConfig();
+        ItemConfig itemConfig2 = tileItem2.Model.GetItemConfig();
+        if (!(itemConfig1.NextLevelID > 0) || !(itemConfig2.NextLevelID > 0)) {
+            return false; 
+        }
+        if (itemConfig1.ID != itemConfig2.ID) { 
+            return false;
+        }
+
+        return true;
+    }
+
+    private void Merge(TileItem tileItem1, TileItem tileItem2) {
+        UnMountItemMap(tileItem1);
+        UnMountItemMap(tileItem2);
+    }
+
+    private void Drop(Dictionary<int, int> items, Vector2Int dropFromPos) { 
+        
+    }
+
+    private void NewItem(int itemId, Vector2Int pos) { 
+          
     }
 }

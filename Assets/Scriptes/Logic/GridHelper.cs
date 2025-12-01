@@ -36,12 +36,12 @@ public class GridHelper
         }
     }
 
-    public List<TileBase> GetTileBases() { 
+    public List<TileBase> GetTileBases() {
         return _tileBaseMap.Values.ToList();
     }
 
-    public Vector2Int GetGridSize() { 
-        return new Vector2Int( _sizeX, _sizeY );
+    public Vector2Int GetGridSize() {
+        return new Vector2Int(_sizeX, _sizeY);
     }
 
 
@@ -139,14 +139,14 @@ public class GridHelper
         foreach (Vector2Int gridPosition in gridPositions) {
             worldPosition += GetCellWorldPosition(gridPosition);
         }
-        return worldPosition/gridPositions.Length;
+        return worldPosition / gridPositions.Length;
     }
 
 
     public TileBase GetTileBase(Vector2Int gridPos) {
-        return GetCellAtPosition(gridPos).GetComponent<TileBase>(); 
+        return GetCellAtPosition(gridPos).GetComponent<TileBase>();
     }
- 
+
     public GameObject GetCellAtPosition(Vector2Int gridPos)
     {
         // 获取布局参数
@@ -335,7 +335,7 @@ public class GridHelper
         return connectedPoses;
     }
 
-    public TileBase GetClosestEmptyWhiteTile(Vector2Int targetPos,bool includeTarget = false) {
+    public TileBase GetClosestEmptyWhiteTile(Vector2Int targetPos, bool includeTarget = false) {
         List<TileBase> validTileBases = _tileBaseMap.Values.ToList().FindAll(x => x.GetState() == TileState.WHITE && x.IsEmpty());
 
         if (validTileBases.Count == 0) {
@@ -351,7 +351,7 @@ public class GridHelper
             float length = (tileBase.GetPos() - targetPos).magnitude;
             if (closestLength < 0 || length < closestLength) {
                 closestLength = length;
-                resultTile = tileBase; 
+                resultTile = tileBase;
             }
         }
 
@@ -360,13 +360,17 @@ public class GridHelper
 
     public bool IsValidTilePos(Vector2Int pos) {
         if (pos.x < 0 || pos.x >= _sizeX) {
-            return false;   
+            return false;
         }
 
         if (pos.y < 0 || pos.y >= _sizeY) {
             return false;
         }
         return true;
+    }
+
+    public bool IsWhiteTilePos(Vector2Int pos) {
+        return IsValidTilePos(pos) && _tileStateMap[pos] == TileState.WHITE;
     }
 
     public bool IsObstacleTilePos(Vector2Int pos) {
