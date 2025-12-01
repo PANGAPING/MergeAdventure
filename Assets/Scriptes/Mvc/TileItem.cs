@@ -92,6 +92,17 @@ public class TileItem : FlyEggInstance
              AnimationEndAction(animationEndActionType);
          };
     }
+    public virtual void AppearAnimation(AnimationEndActionType animationEndActionType = AnimationEndActionType.NONE)
+    {
+        inAnimation = true;
+        transform.localScale = Vector3.zero;
+        transform.DOScale(Vector3.one, 0.3f).onComplete += () =>
+         {
+             inAnimation = false;
+             AnimationEndAction(animationEndActionType);
+         };
+    }
+
 
     public virtual void AnimationEndAction(AnimationEndActionType animationEndActionType) {
         if (animationEndActionType == AnimationEndActionType.NONE) { 

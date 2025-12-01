@@ -384,5 +384,6 @@ public class GridControllerSystem : GameSystem
         TileItem item = MountTileItem(itemModel);
         item.transform.position = _gridHelper.GetCellWorldPosition(fromPos);
         item.MoveAnimation(_gridHelper.GetCellWorldPosition(toPos));
+        item.AppearAnimation();
     }
 }
