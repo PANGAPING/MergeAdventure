@@ -182,7 +182,7 @@ public class GridControllerSystem : GameSystem
         _gridHelper.RefreshTiles();
     }
 
-    private void MountTileItem(ItemModel itemModel)
+    private TileItem MountTileItem(ItemModel itemModel)
     {
 
         ItemConfig itemConfig = ConfigSystem.GetItemConfig(itemModel.ItemConfigID);
@@ -213,6 +213,8 @@ public class GridControllerSystem : GameSystem
         {
             _gridHelper.PutObjectOnTile(itemObject, tilePos, 0);
         }
+
+        return item;
     }
 
     private void MountItemMap(TileItem item) { 
@@ -277,7 +279,7 @@ public class GridControllerSystem : GameSystem
 
     private void StartDragTileItem(TileBase tileBase) { 
          TileItem tileItem = tileBase.GetLayerTopItem();
-        if (!activeTileBase.IsDragable())
+        if (!tileBase.IsDragable())
         {
             return;
         }
@@ -305,7 +307,10 @@ public class GridControllerSystem : GameSystem
             TileItem targetTileItem = activeTileBase.GetLayerTopItem();
 
             if (CheckMergable(draggingItem, targetTileItem)) {
-                Merge(draggingItem, targetTileItem);
+                Merge(draggingItem, targetTileItem,activeTilePos);
+                dragging = false;
+                draggingItem = null;
+                return;
             }
             else if (targetTileItem.IsMovable())
             {
@@ -373,7 +378,11 @@ public class GridControllerSystem : GameSystem
         }
     }
 
-    private void DropItem(int itemId,Vector2Int fromPos, Vector2Int toPos) { 
-          
+    private void DropItem(int itemId,Vector2Int fromPos, Vector2Int toPos) {
+        ItemConfig itemConfig = ConfigSystem.GetItemConfig(itemId);
+        ItemModel itemModel = new ItemModel(itemConfig, CommonTool.Vector2IntToArray(fromPos));
+        TileItem item = MountTileItem(itemModel);
+        item.transform.position = _gridHelper.GetCellWorldPosition(fromPos);
+        item.MoveAnimation(_gridHelper.GetCellWorldPosition(toPos));
     }
 }

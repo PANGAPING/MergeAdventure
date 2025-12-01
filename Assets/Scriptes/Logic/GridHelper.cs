@@ -360,7 +360,7 @@ public class GridHelper
     }
 
     public List<TileBase> GetEmptyPoses(Vector2Int startPos, int count) {
-        return GetFloorMatchedTiles(startPos, (TileBase x) => { return IsWhiteTilePos(startPos) && IsEmptyTilePos(startPos); });
+        return GetFloorMatchedTiles(startPos, (TileBase x) => { return IsWhiteTilePos(startPos) && IsEmptyTilePos(startPos); },count);
     }
 
     public List<TileBase> GetFloorMatchedTiles(Vector2Int startPos, Predicate<TileBase> match,int count) {
