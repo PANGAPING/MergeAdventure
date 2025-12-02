@@ -30,9 +30,12 @@ public class GridControllerSystem : GameSystem
 
     private GameObject TileCursor;
 
-    private Vector2Int activeTilePos;
+    private Vector2Int highlightTilePos;
+
+    private TileBase highlightTileBase;
 
     private TileBase activeTileBase;
+
 
     private static string[] ItemTypesString = new string[] { };
 
@@ -110,31 +113,31 @@ public class GridControllerSystem : GameSystem
     {
         var mousePos = mousePosition;
 
-        activeTilePos = _gridHelper.GetGridPosition(mousePos);
-        GameObject activeTileObj = _gridHelper.GetCellAtPosition(activeTilePos);
+        highlightTilePos = _gridHelper.GetGridPosition(mousePos);
+        GameObject activeTileObj = _gridHelper.GetCellAtPosition(highlightTilePos);
 
-        activeTileBase = activeTileObj != null ? activeTileObj.GetComponent<TileBase>() : null;
+        highlightTileBase = activeTileObj != null ? activeTileObj.GetComponent<TileBase>() : null;
 
-        if (activeTileBase == null)
+        if (highlightTileBase == null)
         {
             TileCursor.SetActive(false);
             return;
         }
 
         TileCursor.SetActive(true);
-        Vector2 tileCenterPosition = _gridHelper.GetCellWorldPosition(activeTilePos);
+        Vector2 tileCenterPosition = _gridHelper.GetCellWorldPosition(highlightTilePos);
         TileCursor.transform.position = tileCenterPosition;
         TileCursor.transform.rotation = Quaternion.identity;
     }
 
     private void UpdateDraggingItem() {
-        if (!_gridHelper.IsValidTilePos(activeTilePos)) {
+        if (!_gridHelper.IsValidTilePos(highlightTilePos)) {
             return;
         }
 
         if (!dragging && tapDowning)
         {
-            if (tapDownPos != activeTilePos && _gridHelper.IsValidTilePos(tapDownPos))
+            if (tapDownPos != highlightTilePos && _gridHelper.IsValidTilePos(tapDownPos))
             {
                 TileBase dragTile = _gridHelper.GetTileBase(tapDownPos);
                 if (dragTile != null) { 
@@ -143,7 +146,7 @@ public class GridControllerSystem : GameSystem
             }
         }
         else if (dragging) {
-            Vector3 justifyedPosition = _gridHelper.GetCellWorldPosition(activeTilePos);
+            Vector3 justifyedPosition = _gridHelper.GetCellWorldPosition(highlightTilePos);
             Vector3 beforePosition = draggingItem.transform.position;
             draggingItem.transform.position = Vector3.Lerp(beforePosition, justifyedPosition, Time.deltaTime * 10);
         }
@@ -239,19 +242,19 @@ public class GridControllerSystem : GameSystem
 
     protected virtual void OnTapDown()
     {
-        tapDownPos = activeTilePos;
+        tapDownPos = highlightTilePos;
         dragging = false;
         tapDowning = true;
     }
 
     protected virtual void OnTapUp()
     {
-        Vector2Int tapUpPos = activeTilePos;
+        Vector2Int tapUpPos = highlightTilePos;
 
         if (tapUpPos == tapDownPos && !dragging)
         {
-            if (activeTileBase != null) { 
-                TapOnTile(activeTileBase);
+            if (highlightTileBase != null) { 
+                TapOnTile(highlightTileBase);
             }
         }
         else if (dragging) {
@@ -264,16 +267,18 @@ public class GridControllerSystem : GameSystem
 
     private void TapOnTile(TileBase tileBase)
     {
-        Debug.Log(activeTilePos);
-        if (_gridHelper.IsValidTilePos(activeTilePos)) {
-            Debug.Log(_gridHelper.GetTileState(activeTilePos));
+        Debug.Log(highlightTilePos);
+        if (_gridHelper.IsValidTilePos(highlightTilePos)) {
+            Debug.Log(_gridHelper.GetTileState(highlightTilePos));
         }
         TileItem tileItem = tileBase.GetLayerTopItem();
         if (tileItem == null) {
             return;
         }
 
+        //TapItem(tileItem);
 
+        activeTileBase = tileBase;
 
     }
 
@@ -289,35 +294,35 @@ public class GridControllerSystem : GameSystem
     }
 
     private void EndDragItem() {
-        if (!_gridHelper.IsValidTilePos(activeTilePos))
+        if (!_gridHelper.IsValidTilePos(highlightTilePos))
         {
-            TileBase closetEmptyTile = _gridHelper.GetClosestEmptyWhiteTile(activeTilePos, false);
+            TileBase closetEmptyTile = _gridHelper.GetClosestEmptyWhiteTile(highlightTilePos, false);
             draggingItem.SetPos(closetEmptyTile.GetPos());
         }
-        else if (!_gridHelper.IsWhiteTilePos(activeTilePos)) {
-            TileBase closetEmptyTile = _gridHelper.GetClosestEmptyWhiteTile(activeTilePos, false);
+        else if (!_gridHelper.IsWhiteTilePos(highlightTilePos)) {
+            TileBase closetEmptyTile = _gridHelper.GetClosestEmptyWhiteTile(highlightTilePos, false);
             draggingItem.SetPos(closetEmptyTile.GetPos());
         }
-        else if (activeTileBase.GetLayerTopItem() == null)
+        else if (highlightTileBase.GetLayerTopItem() == null)
         {
-            draggingItem.SetPos(activeTilePos);
+            draggingItem.SetPos(highlightTilePos);
         }
-        else if (activeTileBase.GetLayerTopItem() != null)
+        else if (highlightTileBase.GetLayerTopItem() != null)
         {
-            TileItem targetTileItem = activeTileBase.GetLayerTopItem();
+            TileItem targetTileItem = highlightTileBase.GetLayerTopItem();
 
             if (CheckMergable(draggingItem, targetTileItem)) {
-                Merge(draggingItem, targetTileItem,activeTilePos);
+                Merge(draggingItem, targetTileItem,highlightTilePos);
                 dragging = false;
                 draggingItem = null;
                 return;
             }
             else if (targetTileItem.IsMovable())
             {
-                draggingItem.SetPos(activeTilePos);
+                draggingItem.SetPos(highlightTilePos);
 
                 UnMountItemMap(targetTileItem);
-                TileBase closetEmptyTile = _gridHelper.GetClosestEmptyWhiteTile(activeTilePos, false);
+                TileBase closetEmptyTile = _gridHelper.GetClosestEmptyWhiteTile(highlightTilePos, false);
                 targetTileItem.SetPos(closetEmptyTile.GetPos());
                 MountItemMap(targetTileItem);
 
