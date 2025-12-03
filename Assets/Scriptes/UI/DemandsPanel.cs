@@ -18,7 +18,7 @@ public class DemandsPanel : TileItemPanel
     {
         base.MountTileItem(tileItem, callback);
         Elf elf = (Elf)tileItem;
-        Init(elf.GetDemandItems());
+       
         button.gameObject.SetActive(false);
     }
     public void Init(Dictionary<int,int> demands) {

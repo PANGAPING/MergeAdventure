@@ -41,9 +41,9 @@ public class Elf : Mechanism
         if (_demandsPanel == null)
         {
             _demandsPanel = GridUISystem._instance.NewElfTips(this);
+            _demandsPanel.Init(GetDemandItems());
         }
 
-        _demandsPanel.Init(GetDemandItems());
     }
 
     protected override void ShowInEditor()

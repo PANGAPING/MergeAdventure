@@ -48,7 +48,7 @@ public class GridHelper
 
     public void RefreshTilesState(Vector2Int startPos) {
 
-        List<Vector2Int> whitePoses = GetFloorConnectedPoses(startPos,true);
+        List<Vector2Int> whitePoses = GetFloorConnectedPoses(startPos, true);
 
         foreach (Vector2Int pos in _tileStateMap.Keys.ToArray()) {
             if (IsCloudTilePos(pos))
@@ -71,6 +71,21 @@ public class GridHelper
             tileBase.SetState(_tileStateMap[tileBase.GetPos()]);
         }
     }
+
+    public List<TileItem> GetElfClouds(int group)
+    {
+        List<TileItem> tileItems = new List<TileItem>();
+
+        foreach (TileBase tileBase in GetTileBases()) {
+            TileItem tileItem = tileBase.GetLayerTopItem();
+            if (tileItem != null && tileItem.GetItemType() == ItemType.ELFCLOUD && tileItem.GetGroup() == group) {
+                tileItems.Add(tileItem); 
+            } 
+        }
+
+        return tileItems;
+    }
+
     public void RefreshTiles()
     {
         foreach (TileBase tileBase in GetTileBases())

@@ -352,7 +352,7 @@ public class GridControllerSystem : GameSystem
     }
 
     private void TryOpenStack(TileItem tileItem) {
-        DestroySpecialTileItem(tileItem);
+        DestroySpecialTileItems(new List<TileItem> { tileItem });
     }
 
     private void TryCutTree(TileItem tileItem) {
@@ -364,7 +364,7 @@ public class GridControllerSystem : GameSystem
 
         bool die = tree.GetCut(1);
         if (die) {
-            DestroySpecialTileItem(tileItem);
+            DestroySpecialTileItems(new List<TileItem> { tileItem });
         }
         else
         {
@@ -382,7 +382,23 @@ public class GridControllerSystem : GameSystem
             tileItem.MoveAnimation(_gridHelper.GetCellWorldPosition(tileItem.GetPos()), AnimationEndActionType.DESTORY);
         }
 
+        int group = elf.GetGroup();
+
+        List<TileItem> tileItemsToDestroy = new List<TileItem>();
+        tileItemsToDestroy.Add(elf);
+
+        List<TileItem> elfClouds = _gridHelper.GetElfClouds(group);
+        tileItemsToDestroy.AddRange(elfClouds);
+
+        DestroySpecialTileItems(tileItemsToDestroy);
         GroundItemChangeEvent();
+    }
+
+    private void DestroySpecialTileItems(List<TileItem> tileItems) {
+        foreach (TileItem tileItem in tileItems) {
+            DestroySpecialTileItem(tileItem);
+        }
+        RefreshMap();
     }
 
     private void DestroySpecialTileItem(TileItem tileItem) { 
@@ -390,7 +406,6 @@ public class GridControllerSystem : GameSystem
         tileItem.Die();
         TileBase tileBase = _gridHelper.GetTileBase(tileItem.GetPos());
         tileBase.SetDirty();
-        RefreshMap();
     }
 
     private void TapGenerator(TileItem tileItem) {
