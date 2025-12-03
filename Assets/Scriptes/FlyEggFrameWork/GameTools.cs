@@ -111,47 +111,7 @@ namespace FlyEggFrameWork.Tools
             return vector3Int;
         }
 
-        public static Dictionary<int, int> GetDropResult(
-    int[] itemIds,
-    float[] weights,
-    int totalDropCount)
-        {
-            Dictionary<int, int> result = new Dictionary<int, int>();
-
-            // 初始化所有的计数
-            foreach (int id in itemIds)
-            {
-                result[id] = 0;
-            }
-
-            // 权重总和
-            float totalWeight = 0f;
-            foreach (var w in weights)
-            {
-                totalWeight += w;
-            }
-
-            // 多次掉落
-            for (int i = 0; i < totalDropCount; i++)
-            {
-                float rand = Random.value * totalWeight;
-                float current = 0f;
-
-                // 根据权重挑选物品
-                for (int j = 0; j < itemIds.Length; j++)
-                {
-                    current += weights[j];
-                    if (rand <= current)
-                    {
-                        result[itemIds[j]]++;
-                        break;
-                    }
-                }
-            }
-
-            return result;
-        }
-
+       
         public static Vector3 GetRandomPositionInBox(Transform boxObj)
         {
 

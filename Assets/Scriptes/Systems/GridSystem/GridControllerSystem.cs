@@ -351,6 +351,11 @@ public class GridControllerSystem : GameSystem
 
     private void TryCutTree(TileItem tileItem) {
         Tree tree = (Tree)tileItem;
+
+        Dictionary<int,int> items =  GetCutDropItemMap(tree );
+
+        Drop(items, tileItem.GetPos());
+
         bool die = tree.GetCut(1);
         if (die) {
             DestroySpecialTileItem(tileItem);
@@ -372,7 +377,7 @@ public class GridControllerSystem : GameSystem
     private void TapGenerator(TileItem tileItem) {
         Generator generator = (Generator)tileItem;
         GeneratorConfig generatorConfig = ConfigSystem.GetGeneratorConfig(tileItem.Model.GetItemConfig().ID);
-        Dictionary<int,int> dropMap = CommonTool.GetDropResult(generatorConfig.DropItemIds,generatorConfig.DropItemRatios,1);
+        Dictionary<int,int> dropMap = DropAlgorithmHelper.GetDropResult(generatorConfig.DropItemIds,generatorConfig.DropItemRatios,1);
         Drop(dropMap, tileItem.GetPos());
     }
 
@@ -484,5 +489,20 @@ public class GridControllerSystem : GameSystem
         item.transform.position = _gridHelper.GetCellWorldPosition(fromPos);
         item.MoveAnimation(_gridHelper.GetCellWorldPosition(toPos));
         item.AppearAnimation();
+    }
+
+    private Dictionary<int,int> GetCutDropItemMap(Tree tree) {
+        TreeConfig treeConfig = ConfigSystem.GetTreeConfig(tree.Model.GetItemConfig().ID);
+        int cutCount = tree.GetMaxBloodCount() - tree.GetNowBloodCount() + 1;
+
+        int[] energyCost= treeConfig.EnergyCost;
+        int energyCostAll = DropAlgorithmHelper.Sum(energyCost);
+        float[] ratioFromCutIndex = new float[energyCost.Length];
+        for (int i = 0; i < energyCost.Length; i++) {
+            ratioFromCutIndex[i] = (float)energyCost[i] / (float)energyCostAll;
+        }
+
+        return DropAlgorithmHelper.GetDropResultOnce(treeConfig.DropItemCount, treeConfig.DropItemIds, treeConfig.DropItemRatios, ratioFromCutIndex, cutCount - 1);
+
     }
 }
