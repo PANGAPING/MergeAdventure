@@ -60,7 +60,7 @@ public class GridUISystem : GameSystem
         tipsObj.transform.position = tileItem.GetUIPivotPoint().position;
         DemandsPanel tileItemPanel = tipsObj.GetComponent<DemandsPanel>();
         demandPanels.Add(tileItemPanel);
-        tileItemPanel.MountTileItem(tileItem ,() => { GridControllerSystem._instance.TryFeedElf(tileItem); });
+        tileItemPanel.MountTileItem(tileItem ,() => { GridControllerSystem._instance.TryFeedElf((Elf)tileItem); });
 
 
         UpdateDemandsPanels();

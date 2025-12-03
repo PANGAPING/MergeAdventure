@@ -372,6 +372,19 @@ public class GridControllerSystem : GameSystem
         }
     }
 
+    public void TryFeedElf(Elf elf) { 
+        Dictionary<int,int> needItem = elf.GetDemandItems();
+
+        List<TileItem> tileItems = _gridHelper.GetDemandItems(needItem, elf.GetPos());
+
+        foreach (TileItem tileItem in tileItems) { 
+            UnMountItemMap(tileItem);
+            tileItem.MoveAnimation(_gridHelper.GetCellWorldPosition(tileItem.GetPos()), AnimationEndActionType.DESTORY);
+        }
+
+        GroundItemChangeEvent();
+    }
+
     private void DestroySpecialTileItem(TileItem tileItem) { 
         UnMountItemMap(tileItem);
         tileItem.Die();
@@ -500,7 +513,19 @@ public class GridControllerSystem : GameSystem
         return _groundWhiteItemNumMap;
     }
 
-    public bool CheckCanFeedElf()
+    public bool CheckCanFeedElf(Elf elf) {
+        Dictionary<int, int> needItemMap = elf.GetDemandItems();
+
+        bool satisfy = true;
+        foreach (int itemId in needItemMap.Keys) {
+            if (!_groundWhiteItemNumMap.ContainsKey(itemId) || _groundWhiteItemNumMap[itemId] < needItemMap[itemId]) {
+                satisfy = false;
+                break;
+            } 
+        }
+
+        return satisfy;
+    }
 
     private void UpdateWhiteGroundItemNumMap() { 
         _groundWhiteItemNumMap = new Dictionary<int, int>();

@@ -203,6 +203,9 @@ public class TileItem : FlyEggInstance
         }
     }
 
+    public int GetItemId() {
+        return Model.GetItemConfig().ID;
+    }
 }
 
 public enum AnimationEndActionType { 

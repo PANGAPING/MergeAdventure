@@ -22,6 +22,18 @@ namespace FlyEggFrameWork.Tools
             return array2;
         }
 
+
+        public static Dictionary<TKey, TValue> DeepCopySimple<TKey, TValue>(
+    Dictionary<TKey, TValue> source)
+        {
+            var newDict = new Dictionary<TKey, TValue>();
+            foreach (var kv in source)
+            {
+                newDict[kv.Key] = kv.Value; // TValue 是 struct / string / 基础类型，可以直接复制
+            }
+            return newDict;
+        }
+
         public static Dictionary<int, int> Array2ToDictionary(int[,] arr) {
 
             Dictionary<int, int>  dic= new Dictionary<int, int>();

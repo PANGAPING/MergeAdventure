@@ -338,6 +338,27 @@ public class GridHelper
         return connectedPoses;
     }
 
+    public List<TileItem> GetDemandItems(Dictionary<int, int> needItem, Vector2Int startPos) {
+        List<TileItem> tileItems = new List<TileItem>();
+        List<TileBase> whiteTiles = GetFloorMatchedTiles(startPos, (TileBase tileBase) => { return tileBase.GetState() == TileState.WHITE && tileBase.GetLayerTopItem() != null; }, _sizeX * _sizeY);
+
+        Dictionary<int, int> searchedItemMap = new Dictionary<int, int>();
+        foreach (var itemId in needItem.Keys) {
+            searchedItemMap[itemId] = 0;
+        }
+
+        foreach (TileBase tileBase in whiteTiles) { 
+            int itemId = tileBase.GetLayerTopItem().GetItemId();
+            if (needItem.ContainsKey(itemId) && needItem[itemId] > searchedItemMap[itemId]) {
+                tileItems.Add(tileBase.GetLayerTopItem());
+                searchedItemMap[itemId] += 1; 
+            }
+        }
+
+        return tileItems;
+    }
+
+
     public TileBase GetClosestEmptyWhiteTile(Vector2Int targetPos, bool includeTarget = false) {
         List<TileBase> validTileBases = _tileBaseMap.Values.ToList().FindAll(x => x.GetState() == TileState.WHITE && x.IsEmpty());
 

@@ -48,8 +48,6 @@ public class DemandsPanel : TileItemPanel
         else {
             button.gameObject.SetActive(false); 
         }
-
-
     }
 
 }
