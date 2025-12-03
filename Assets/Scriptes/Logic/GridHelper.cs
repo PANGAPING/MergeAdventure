@@ -71,11 +71,11 @@ public class GridHelper
             tileBase.SetState(_tileStateMap[tileBase.GetPos()]);
         }
     }
-    public void RefreshTiles(bool init = false)
+    public void RefreshTiles()
     {
         foreach (TileBase tileBase in GetTileBases())
         {
-            tileBase.Refresh(init);
+            tileBase.Refresh();
         }
     }
     public void PutObjectOnTile(GameObject gameObject, Vector2Int tilePos, float zOffset = 0)

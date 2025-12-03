@@ -22,6 +22,8 @@ public class TileBase : MonoBehaviour
 
     private static Color _hideColor = new Color(50f/255,50f/255,50f/255);
 
+    private bool dirty = false;
+
     private void Awake()
     {
         InitSelf(); 
@@ -41,13 +43,14 @@ public class TileBase : MonoBehaviour
     
     }
 
-    public void Refresh(bool init = false) {
+    public void Refresh() {
         SortItemsLayer();
         TileItem nowTopItem = GetLayerTopItem();
-        if (!init) {
+        if (dirty) {
             if (nowTopItem != null && nowTopItem != topTileItem) { 
                 nowTopItem.AppearAnimation();
             }
+            dirty = false;
         }
 
         if (state == TileState.WHITE)
@@ -70,6 +73,9 @@ public class TileBase : MonoBehaviour
         topTileItem = nowTopItem;
     }
 
+    public void SetDirty() { 
+        dirty = true;
+    }
 
     private void SortItemsLayer() {
         OccupiedItems.Sort((x, y) => y.GetLayer().CompareTo(x.GetLayer()));

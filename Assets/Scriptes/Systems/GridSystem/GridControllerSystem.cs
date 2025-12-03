@@ -82,7 +82,7 @@ public class GridControllerSystem : GameSystem
 
         InitTileCursor();
         LoadMap();
-        RefreshMap(true);
+        RefreshMap();
     }
 
 
@@ -186,9 +186,9 @@ public class GridControllerSystem : GameSystem
         }
     }
 
-    private void RefreshMap(bool init = false) {
+    private void RefreshMap() {
         _gridHelper.RefreshTilesState(new Vector2Int(3, 0));
-        _gridHelper.RefreshTiles(init);
+        _gridHelper.RefreshTiles();
     }
 
     private TileItem MountTileItem(ItemModel itemModel)
@@ -285,6 +285,11 @@ public class GridControllerSystem : GameSystem
         if (_gridHelper.IsValidTilePos(highlightTilePos)) {
             Debug.Log(_gridHelper.GetTileState(highlightTilePos));
         }
+
+        if (!_gridHelper.IsWhiteTilePos(tileBase.GetPos())) {
+            return;
+        }
+
         TileItem tileItem = tileBase.GetLayerTopItem();
         if (tileItem == null) {
             return;
@@ -296,14 +301,17 @@ public class GridControllerSystem : GameSystem
 
     private void TapItem(TileItem tileItem) {
         tileItem.BounceAnimation();
-
         ItemType itemType = tileItem.GetItemType();
 
         if (tileItem.IsActive())
         {
             tileItem.DeActive();
-            if (itemType == ItemType.STACK) { 
-                GridUISystem._instance.CloseButtonTips(tileItem); 
+            if (itemType == ItemType.STACK)
+            {
+                GridUISystem._instance.CloseButtonTips(tileItem);
+            }
+            else if (itemType == ItemType.TREE) {
+                GridUISystem._instance.CloseButtonTips(tileItem);
             }
              
         }
@@ -311,6 +319,9 @@ public class GridControllerSystem : GameSystem
             tileItem.Active();
             if (itemType == ItemType.STACK) { 
                 GridUISystem._instance.OpenButtonTips(tileItem,TryOpenStack); 
+            }
+            else if (itemType == ItemType.TREE) {
+                GridUISystem._instance.OpenButtonTips(tileItem,TryCutTree);
             }
         }
 
@@ -320,12 +331,18 @@ public class GridControllerSystem : GameSystem
     }
 
     private void TryOpenStack(TileItem tileItem) {
-        DestroyTileItem(tileItem);
+        DestroySpecialTileItem(tileItem);
     }
 
-    private void DestroyTileItem(TileItem tileItem) { 
+    private void TryCutTree(TileItem tileItem) { 
+    
+    }
+
+    private void DestroySpecialTileItem(TileItem tileItem) { 
         UnMountItemMap(tileItem);
         tileItem.Die();
+        TileBase tileBase = _gridHelper.GetTileBase(tileItem.GetPos());
+        tileBase.SetDirty();
         RefreshMap();
     }
 

@@ -3,7 +3,7 @@
     "ID": 1200101.0,
     "Name": "Shu1_Lv1",
     "ItemID": 1200101.0,
-    "DropItemCount": 8.0,
+    "DropItemCount": 6.0,
     "DropItemIds": "[1100101]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 2.0
@@ -12,7 +12,7 @@
     "ID": 1200102.0,
     "Name": "Shu1_Lv2",
     "ItemID": 1200102.0,
-    "DropItemCount": 16.0,
+    "DropItemCount": 10.0,
     "DropItemIds": "[1100101]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 4.0
@@ -21,7 +21,7 @@
     "ID": 1200103.0,
     "Name": "Shu1_Lv3",
     "ItemID": 1200103.0,
-    "DropItemCount": 24.0,
+    "DropItemCount": 16.0,
     "DropItemIds": "[1100101]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 6.0
