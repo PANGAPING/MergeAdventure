@@ -39,6 +39,8 @@ namespace FlyEggFrameWork.UI
             InitSelf();
         }
 
+       
+
         public virtual void InitSelf()
         {
             _canvasGroup = GetComponent<CanvasGroup>();
@@ -54,6 +56,10 @@ namespace FlyEggFrameWork.UI
         public virtual void Init()
         {
             _animator = GetComponent<Animator>();
+        }
+        public virtual void UpdateView()
+        {
+
         }
 
         public virtual void Mount()

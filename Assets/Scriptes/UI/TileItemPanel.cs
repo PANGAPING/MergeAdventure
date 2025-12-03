@@ -7,14 +7,20 @@ using UnityEngine.UI;
 
 public class TileItemPanel : GameUIPanel
 {
-    private TileItem TileItem { get; set; }
+    protected TileItem _tileItem { get; set; }
     public GameUIButton button = null;
     public override void InitSelf()
     {
         base.InitSelf();
     }
-    public virtual void MountTileItem(TileItem tileItem,Action callback) {
-        TileItem = tileItem;
+
+    public override void UpdateView()
+    {
+        base.UpdateView();
+    }
+
+    public virtual void MountTileItem(TileItem tileItem,Action callback = null) {
+        _tileItem = tileItem;
         if (button != null) {
             if (callback != null) {
                 button._onClick += () => { callback.Invoke();  };
@@ -22,6 +28,6 @@ public class TileItemPanel : GameUIPanel
         }
     }
     public TileItem GetTileItem() {
-        return TileItem; 
+        return _tileItem; 
     }
 }

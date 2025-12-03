@@ -305,24 +305,11 @@ public class GridControllerSystem : GameSystem
 
         if (tileItem.IsActive())
         {
-            tileItem.DeActive();
-            if (itemType == ItemType.STACK)
-            {
-                GridUISystem._instance.CloseButtonTips(tileItem);
-            }
-            else if (itemType == ItemType.TREE) {
-                GridUISystem._instance.CloseButtonTips(tileItem);
-            }
-             
+            DeActiveItem(tileItem); 
         }
         else {
-            tileItem.Active();
-            if (itemType == ItemType.STACK) { 
-                GridUISystem._instance.OpenButtonTips(tileItem,TryOpenStack); 
-            }
-            else if (itemType == ItemType.TREE) {
-                GridUISystem._instance.OpenButtonTips(tileItem,TryCutTree);
-            }
+            ActiveItem(tileItem);
+
         }
 
         if (itemType== ItemType.GENERATOR) {
@@ -330,12 +317,48 @@ public class GridControllerSystem : GameSystem
         }
     }
 
+    private void ActiveItem(TileItem tileItem)
+    {
+        tileItem.Active();
+        ItemType itemType = tileItem.GetItemType();
+        if (itemType == ItemType.STACK)
+        {
+            GridUISystem._instance.OpenButtonTips(tileItem, TryOpenStack);
+        }
+        else if (itemType == ItemType.TREE)
+        {
+            GridUISystem._instance.OpenButtonTips(tileItem, TryCutTree);
+        }
+    }
+
+    private void DeActiveItem(TileItem tileItem)
+    {
+        tileItem.DeActive();
+        ItemType itemType = tileItem.GetItemType();
+        if (itemType == ItemType.STACK)
+        {
+            GridUISystem._instance.CloseButtonTips(tileItem);
+        }
+        else if (itemType == ItemType.TREE)
+        {
+            GridUISystem._instance.CloseButtonTips(tileItem);
+        }
+    }
+
     private void TryOpenStack(TileItem tileItem) {
         DestroySpecialTileItem(tileItem);
     }
 
-    private void TryCutTree(TileItem tileItem) { 
-    
+    private void TryCutTree(TileItem tileItem) {
+        Tree tree = (Tree)tileItem;
+        bool die = tree.GetCut(1);
+        if (die) {
+            DestroySpecialTileItem(tileItem);
+        }
+        else
+        {
+            DeActiveItem(tileItem);
+        }
     }
 
     private void DestroySpecialTileItem(TileItem tileItem) { 

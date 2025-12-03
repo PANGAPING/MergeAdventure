@@ -6,7 +6,8 @@
     "DropItemCount": 6.0,
     "DropItemIds": "[1100101]",
     "DropItemRatios": "[1]",
-    "MaxHealthCount": 2.0
+    "MaxHealthCount": 2.0,
+    "EnergyCost": "[5,15]"
   },
   {
     "ID": 1200102.0,
@@ -15,7 +16,8 @@
     "DropItemCount": 10.0,
     "DropItemIds": "[1100101]",
     "DropItemRatios": "[1]",
-    "MaxHealthCount": 4.0
+    "MaxHealthCount": 4.0,
+    "EnergyCost": "[5,5,10,20]"
   },
   {
     "ID": 1200103.0,
@@ -24,6 +26,7 @@
     "DropItemCount": 16.0,
     "DropItemIds": "[1100101]",
     "DropItemRatios": "[1]",
-    "MaxHealthCount": 6.0
+    "MaxHealthCount": 6.0,
+    "EnergyCost": "[5,10,10,15,15,25]"
   }
 ]

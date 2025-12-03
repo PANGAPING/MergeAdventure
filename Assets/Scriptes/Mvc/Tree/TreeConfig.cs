@@ -25,5 +25,8 @@ public class TreeConfig : FlyEggConfig
 
     [JsonConverter(typeof(IntegerJsonConverter))]
     public int MaxHealthCount;
+
+    [JsonConverter(typeof(IntegerArrayJsonConverter))]
+    public int[] EnergyCost;
 }
 

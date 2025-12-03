@@ -26,7 +26,7 @@ public class GridUISystem :  GameSystem
         GameObject tipsObj = GameObject.Instantiate(ResourceHelper.GetUIPrefab("ButtonTips"),WorldNode);
         tipsObj.transform.position = tileItem.GetUIPivotPoint().position;
         TileItemPanel tileItemPanel = tipsObj.GetComponent<TileItemPanel>();
-        tileItemPanel.MountTileItem(tileItem, () => { callback?.Invoke(tileItem);CloseButtonTips(tileItem); });
+        tileItemPanel.MountTileItem(tileItem, () => { callback?.Invoke(tileItem);CloseButtonTips(tileItem);});
 
         tileItemPanels.Add(tileItemPanel);
     }
@@ -37,6 +37,15 @@ public class GridUISystem :  GameSystem
             tileItemPanel.CloseAnimation();
             tileItemPanels.Remove(tileItemPanel);
         }
+    }
+
+    public TileItemPanel NewBloodSlider(TileItem tileItem) {
+        GameObject tipsObj = GameObject.Instantiate(ResourceHelper.GetUIPrefab("BloodSlider"), WorldNode);
+        tipsObj.transform.position = tileItem.GetUIPivotPoint(true).position;
+        BloodSliderPanel tileItemPanel = tipsObj.GetComponent<BloodSliderPanel>();
+        tileItemPanel.MountTileItem(tileItem);
+
+        return tileItemPanel;
     }
 
 }

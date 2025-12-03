@@ -1,6 +1,7 @@
 using DG.Tweening;
 using FlyEggFrameWork;
 using FlyEggFrameWork.Tools;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -24,6 +25,10 @@ public class TileItem : FlyEggInstance
     private static Color _grayColor = new Color(113f / 255, 113f / 255, 113f / 255);
 
     private Image _itemImage;
+
+    public delegate void EventHandler();
+
+    public EventHandler  _onDie;
 
     protected override void InitSelf()
     {
@@ -61,6 +66,8 @@ public class TileItem : FlyEggInstance
             _itemImage = transform.Find("Img").GetComponent<Image>();
         }
         _itemImage.color = _whiteColor;
+        
+        
 
     }
     public virtual void SetGrayColor() {
@@ -83,6 +90,9 @@ public class TileItem : FlyEggInstance
 
     public virtual void Die() { 
         BounceAnimation(AnimationEndActionType.DESTORY, 0.1f);
+        if (_onDie != null) {
+            _onDie.Invoke();
+        }
     }
 
     public virtual void MountModel(ItemModel itemModel)
