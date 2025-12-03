@@ -276,10 +276,35 @@ public class GridControllerSystem : GameSystem
             return;
         }
 
-        //TapItem(tileItem);
+        TapItem(tileItem);
 
         activeTileBase = tileBase;
+    }
 
+    private void TapItem(TileItem tileItem) {
+        tileItem.BounceAnimation();
+
+        ItemType itemType = tileItem.GetItemType();
+
+        if (tileItem.IsActive())
+        {
+            tileItem.DeActive();
+             
+        }
+        else {
+            tileItem.Active();
+        }
+
+        if (itemType== ItemType.GENERATOR) {
+            TapGenerator(tileItem);     
+        }
+    }
+
+    private void TapGenerator(TileItem tileItem) {
+        Generator generator = (Generator)tileItem;
+        GeneratorConfig generatorConfig = ConfigSystem.GetGeneratorConfig(tileItem.Model.GetItemConfig().ID);
+        Dictionary<int,int> dropMap = CommonTool.GetDropResult(generatorConfig.DropItemIds,generatorConfig.DropItemRatios,1);
+        Drop(dropMap, tileItem.GetPos());
     }
 
     private void StartDragTileItem(TileBase tileBase) { 
@@ -372,7 +397,7 @@ public class GridControllerSystem : GameSystem
         List<int> dropItemIdList = new List<int>();
         foreach (var itemId in items.Keys) {
             for (int i = 0; i < items[itemId]; i++) {
-                dropItemIdList.Add(itemId); 
+                dropItemIdList.Add(itemId);
             }
         }
 
@@ -385,7 +410,7 @@ public class GridControllerSystem : GameSystem
 
     private void DropItem(int itemId,Vector2Int fromPos, Vector2Int toPos) {
         ItemConfig itemConfig = ConfigSystem.GetItemConfig(itemId);
-        ItemModel itemModel = new ItemModel(itemConfig, CommonTool.Vector2IntToArray(fromPos));
+        ItemModel itemModel = new ItemModel(itemConfig, CommonTool.Vector2IntToArray(toPos));
         TileItem item = MountTileItem(itemModel);
         item.transform.position = _gridHelper.GetCellWorldPosition(fromPos);
         item.MoveAnimation(_gridHelper.GetCellWorldPosition(toPos));

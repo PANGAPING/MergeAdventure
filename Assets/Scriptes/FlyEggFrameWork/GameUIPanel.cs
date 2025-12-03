@@ -32,8 +32,6 @@ namespace FlyEggFrameWork.UI
 
         public bool _isPathPanel = false;
 
-        protected Tree _tree;
-
         protected CanvasGroup _canvasGroup;
 
         public virtual void Awake()

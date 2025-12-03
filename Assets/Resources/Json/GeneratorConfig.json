@@ -3,7 +3,7 @@
     "ID": 2000101.0,
     "Name": "DrinkMachine_Lv1",
     "ItemID": 2000101.0,
-    "DropItemIds": "[10201]",
+    "DropItemIds": "[1100301]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 6.0
   },
@@ -11,7 +11,7 @@
     "ID": 2000102.0,
     "Name": "DrinkMachine_Lv2",
     "ItemID": 2000102.0,
-    "DropItemIds": "[10101]",
+    "DropItemIds": "[1100301]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 4.0
   },
@@ -19,7 +19,7 @@
     "ID": 2000103.0,
     "Name": "DrinkMachine_Lv3",
     "ItemID": 2000103.0,
-    "DropItemIds": "[20101]",
+    "DropItemIds": "[1100301]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 5.0
   },
@@ -27,7 +27,7 @@
     "ID": 2000104.0,
     "Name": "DrinkMachine_Lv4",
     "ItemID": 2000104.0,
-    "DropItemIds": "[20105]",
+    "DropItemIds": "[1100301]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 1.0
   },
@@ -35,7 +35,7 @@
     "ID": 2000105.0,
     "Name": "DrinkMachine_Lv5",
     "ItemID": 2000105.0,
-    "DropItemIds": "[10301]",
+    "DropItemIds": "[1100301]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 2.0
   },
@@ -43,7 +43,7 @@
     "ID": 2000106.0,
     "Name": "DrinkMachine_Lv6",
     "ItemID": 2000106.0,
-    "DropItemIds": "[40101]",
+    "DropItemIds": "[1100301]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 4.0
   },
@@ -51,7 +51,7 @@
     "ID": 2000107.0,
     "Name": "DrinkMachine_Lv7",
     "ItemID": 2000107.0,
-    "DropItemIds": "[40201]",
+    "DropItemIds": "[1100301]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 4.0
   },
@@ -59,7 +59,7 @@
     "ID": 2000201.0,
     "Name": "LemonTree_Lv1",
     "ItemID": 2000201.0,
-    "DropItemIds": "[30201]",
+    "DropItemIds": "[1100201]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 3.0
   },
@@ -67,7 +67,7 @@
     "ID": 2000202.0,
     "Name": "LemonTree_Lv2",
     "ItemID": 2000202.0,
-    "DropItemIds": "[30301]",
+    "DropItemIds": "[1100201]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 7.0
   },
@@ -75,7 +75,7 @@
     "ID": 2000203.0,
     "Name": "LemonTree_Lv3",
     "ItemID": 2000203.0,
-    "DropItemIds": "[50101]",
+    "DropItemIds": "[1100201]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 6.0
   },
@@ -83,32 +83,32 @@
     "ID": 2000204.0,
     "Name": "LemonTree_Lv4",
     "ItemID": 2000204.0,
-    "DropItemIds": "[40101,20101]",
-    "DropItemRatios": "[0.75,0.25]",
+    "DropItemIds": "[1100201]",
+    "DropItemRatios": "[1]",
     "MaxHealthCount": 1.0
   },
   {
     "ID": 2000205.0,
     "Name": "LemonTree_Lv5",
     "ItemID": 2000205.0,
-    "DropItemIds": "[40101,20101]",
-    "DropItemRatios": "[0.75,0.25]",
+    "DropItemIds": "[1100201]",
+    "DropItemRatios": "[1]",
     "MaxHealthCount": 1.0
   },
   {
     "ID": 2000206.0,
     "Name": "LemonTree_Lv6",
     "ItemID": 2000206.0,
-    "DropItemIds": "[40101,20101]",
-    "DropItemRatios": "[0.75,0.25]",
+    "DropItemIds": "[1100201]",
+    "DropItemRatios": "[1]",
     "MaxHealthCount": 1.0
   },
   {
     "ID": 2000207.0,
     "Name": "LemonTree_Lv7",
     "ItemID": 2000207.0,
-    "DropItemIds": "[40101,20101]",
-    "DropItemRatios": "[0.75,0.25]",
+    "DropItemIds": "[1100201]",
+    "DropItemRatios": "[1]",
     "MaxHealthCount": 1.0
   }
 ]

@@ -14,6 +14,10 @@ public class TileItem : FlyEggInstance
 
     protected bool inAnimation = false;
 
+    protected bool active = false;
+
+    private Vector3 originalScale;
+
     protected override void InitSelf()
     {
         base.InitSelf();
@@ -22,6 +26,7 @@ public class TileItem : FlyEggInstance
     protected override void Init()
     {
         base.Init();
+        originalScale = Vector3.one;
     }
 
     public virtual void Show() {
@@ -30,6 +35,17 @@ public class TileItem : FlyEggInstance
 
     public virtual void Hide() { 
         gameObject.SetActive(false); 
+    }
+    public virtual bool IsActive() {
+        return active;
+    }
+
+    public virtual void Active() { 
+        active = true;
+    }
+
+    public virtual void DeActive() {
+        active = false;
     }
     public int GetGroup() {
         return Model.IntData;
@@ -101,6 +117,24 @@ public class TileItem : FlyEggInstance
              inAnimation = false;
              AnimationEndAction(animationEndActionType);
          };
+    }
+
+    public virtual void BounceAnimation(AnimationEndActionType animationEndActionType = AnimationEndActionType.NONE) {
+        inAnimation = true;
+
+        float scaleDown = 0.8f;      // 缩小比例
+        float duration = 0.5f;      // 弹动时间
+        float overshoot = 1.2f;
+        // 重置 scale（避免短时间内多次调用累积）
+        transform.localScale = originalScale;
+
+        Sequence seq = DOTween.Sequence();
+        seq.Append(transform.DOScale(originalScale * scaleDown, duration * 0.4f))
+           .Append(transform.DOScale(originalScale * overshoot, duration * 0.3f))
+           .Append(transform.DOScale(originalScale, duration * 0.3f))
+           .SetEase(Ease.OutBack).onComplete += () => { 
+            inAnimation = false; AnimationEndAction(animationEndActionType);
+           };
     }
 
 

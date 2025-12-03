@@ -19,6 +19,9 @@ public static class ConfigSystem
     public static void LoadConfigs()
     {
         InitItemConfig();
+        InitTreeConfig();
+        InitGeneratorConfig();
+        InitMechanismConfig();
     }
 
     private static void InitItemConfig()
