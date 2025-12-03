@@ -12,6 +12,9 @@ using UnityEditor.Experimental.GraphView;
 
 public class GridControllerSystem : GameSystem
 {
+
+    public static GridControllerSystem _instance;
+
     [Header("Node")]
     [Space]
     protected Transform WorldNode;
@@ -52,6 +55,7 @@ public class GridControllerSystem : GameSystem
 
     protected override void InitSelf()
     {
+        _instance = this;
         base.InitSelf();
         ConfigSystem.LoadConfigs();
 
@@ -78,7 +82,7 @@ public class GridControllerSystem : GameSystem
 
         InitTileCursor();
         LoadMap();
-        RefreshMap();
+        RefreshMap(true);
     }
 
 
@@ -93,6 +97,9 @@ public class GridControllerSystem : GameSystem
     protected override void Update()
     {
         base.Update();
+        if (GamepadSystem._instance.mouseIsOverUI) {
+            return;
+        }
 
         UpdateTileCursor(Input.mousePosition);
         UpdateDraggingItem();
@@ -179,10 +186,9 @@ public class GridControllerSystem : GameSystem
         }
     }
 
-    private void RefreshMap() {
-
+    private void RefreshMap(bool init = false) {
         _gridHelper.RefreshTilesState(new Vector2Int(3, 0));
-        _gridHelper.RefreshTiles();
+        _gridHelper.RefreshTiles(init);
     }
 
     private TileItem MountTileItem(ItemModel itemModel)
@@ -242,6 +248,10 @@ public class GridControllerSystem : GameSystem
 
     protected virtual void OnTapDown()
     {
+        if (GamepadSystem._instance.mouseIsOverUI) {
+            return;
+        }
+
         tapDownPos = highlightTilePos;
         dragging = false;
         tapDowning = true;
@@ -249,6 +259,10 @@ public class GridControllerSystem : GameSystem
 
     protected virtual void OnTapUp()
     {
+        if (GamepadSystem._instance.mouseIsOverUI) {
+            return;
+        }
+
         Vector2Int tapUpPos = highlightTilePos;
 
         if (tapUpPos == tapDownPos && !dragging)
@@ -277,7 +291,6 @@ public class GridControllerSystem : GameSystem
         }
 
         TapItem(tileItem);
-
         activeTileBase = tileBase;
     }
 
@@ -289,15 +302,31 @@ public class GridControllerSystem : GameSystem
         if (tileItem.IsActive())
         {
             tileItem.DeActive();
+            if (itemType == ItemType.STACK) { 
+                GridUISystem._instance.CloseButtonTips(tileItem); 
+            }
              
         }
         else {
             tileItem.Active();
+            if (itemType == ItemType.STACK) { 
+                GridUISystem._instance.OpenButtonTips(tileItem,TryOpenStack); 
+            }
         }
 
         if (itemType== ItemType.GENERATOR) {
             TapGenerator(tileItem);     
         }
+    }
+
+    private void TryOpenStack(TileItem tileItem) {
+        DestroyTileItem(tileItem);
+    }
+
+    private void DestroyTileItem(TileItem tileItem) { 
+        UnMountItemMap(tileItem);
+        tileItem.Die();
+        RefreshMap();
     }
 
     private void TapGenerator(TileItem tileItem) {

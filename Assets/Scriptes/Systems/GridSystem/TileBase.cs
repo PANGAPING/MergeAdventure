@@ -12,6 +12,8 @@ public class TileBase : MonoBehaviour
 
     private Vector2Int pos = Vector2Int.zero;
 
+    private TileItem topTileItem;
+
     private Image _tileImage;
 
     private static Color _whiteColor = new Color(142f/255,184f/255,241f/255);
@@ -39,26 +41,33 @@ public class TileBase : MonoBehaviour
     
     }
 
-    public void Refresh() {
+    public void Refresh(bool init = false) {
         SortItemsLayer();
-        TileItem topItem = GetLayerTopItem();
+        TileItem nowTopItem = GetLayerTopItem();
+        if (!init) {
+            if (nowTopItem != null && nowTopItem != topTileItem) { 
+                nowTopItem.AppearAnimation();
+            }
+        }
 
         if (state == TileState.WHITE)
         {
             _tileImage.color = _whiteColor;
-            if (topItem != null)
+            if (nowTopItem != null)
             {
-                topItem.SetWhiteColor();
+                nowTopItem.SetWhiteColor();
             }
         }
         else if (state == TileState.GRAY)
         {
             _tileImage.color = _grayColor;
-                topItem.SetGrayColor();
+                nowTopItem.SetGrayColor();
         }
         else if (state == TileState.HIDE) {
             _tileImage.color = _hideColor;
         }
+
+        topTileItem = nowTopItem;
     }
 
 

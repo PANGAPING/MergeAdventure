@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5456120898265191640}
   - component: {fileID: 4014162121282800330}
   m_Layer: 5
-  m_Name: DemandItemPanel
+  m_Name: ElfTipsItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -128,7 +128,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -34.5}
   m_SizeDelta: {x: 40.6204, y: 11.1458}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2365219051656273709
@@ -186,8 +186,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 26
+  m_fontSizeBase: 26
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -263,8 +263,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 44.0625, y: 35.9751}
+  m_AnchoredPosition: {x: 0, y: 8.3}
+  m_SizeDelta: {x: 76.1033, y: 62.135}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4538010123911948187
 CanvasRenderer:

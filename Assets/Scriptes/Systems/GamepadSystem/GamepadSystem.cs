@@ -20,6 +20,8 @@ public class GamepadSystem : GameSystem
 
     protected bool lastMousePressing = false;
 
+    public bool mouseIsOverUI = false;
+
 
     protected Vector2 lastMousePosition;
 
@@ -49,6 +51,9 @@ public class GamepadSystem : GameSystem
     protected override void Update()
     {
         base.Update();
+
+         mouseIsOverUI = EventSystem.current.IsPointerOverGameObject();
+
         Vector2 mousePosition = activeMouse.position.ReadValue();
         mousePositionDelta = (mousePosition - lastMousePosition) / Time.deltaTime;
         lastMousePosition = mousePosition;

@@ -3,6 +3,7 @@ using FlyEggFrameWork;
 using FlyEggFrameWork.Tools;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -18,9 +19,9 @@ public class TileItem : FlyEggInstance
 
     private Vector3 originalScale;
 
-    private static Color _whiteColor = new Color(255f/255,255f/255,255f/255);
+    private static Color _whiteColor = new Color(255f / 255, 255f / 255, 255f / 255);
 
-    private static Color _grayColor = new Color(113f/255,113f/255,113f/255);
+    private static Color _grayColor = new Color(113f / 255, 113f / 255, 113f / 255);
 
     private Image _itemImage;
 
@@ -37,17 +38,17 @@ public class TileItem : FlyEggInstance
     }
 
     public virtual void Show() {
-        gameObject.SetActive(true); 
+        gameObject.SetActive(true);
     }
 
-    public virtual void Hide() { 
-        gameObject.SetActive(false); 
+    public virtual void Hide() {
+        gameObject.SetActive(false);
     }
     public virtual bool IsActive() {
         return active;
     }
 
-    public virtual void Active() { 
+    public virtual void Active() {
         active = true;
     }
 
@@ -56,11 +57,11 @@ public class TileItem : FlyEggInstance
     }
 
     public virtual void SetWhiteColor() {
-        if (_itemImage == null) { 
+        if (_itemImage == null) {
             _itemImage = transform.Find("Img").GetComponent<Image>();
         }
         _itemImage.color = _whiteColor;
-    
+
     }
     public virtual void SetGrayColor() {
         if (_itemImage == null)
@@ -74,11 +75,15 @@ public class TileItem : FlyEggInstance
         return Model.IntData;
     }
 
-    public void SetGroup(int value) { 
+    public void SetGroup(int value) {
         Model.IntData = value;
         ShowInEditor();
     }
 
+
+    public virtual void Die() { 
+        BounceAnimation(AnimationEndActionType.DESTORY, 0.1f);
+    }
 
     public virtual void MountModel(ItemModel itemModel)
     {
@@ -142,11 +147,10 @@ public class TileItem : FlyEggInstance
          };
     }
 
-    public virtual void BounceAnimation(AnimationEndActionType animationEndActionType = AnimationEndActionType.NONE) {
+    public virtual void BounceAnimation(AnimationEndActionType animationEndActionType = AnimationEndActionType.NONE,float duration = 0.6f) {
         inAnimation = true;
 
         float scaleDown = 0.8f;      // 缩小比例
-        float duration = 0.5f;      // 弹动时间
         float overshoot = 1.2f;
         // 重置 scale（避免短时间内多次调用累积）
         transform.localScale = originalScale;
@@ -179,7 +183,7 @@ public class TileItem : FlyEggInstance
     
     }
 
-    protected virtual Transform GetUIPivotPoint(bool bottom = false) {
+    public virtual Transform GetUIPivotPoint(bool bottom = false) {
         if (bottom)
         {
             return transform.Find("Points/BottomUiPivot");    
