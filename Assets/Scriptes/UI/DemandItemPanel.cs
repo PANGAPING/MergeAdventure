@@ -11,10 +11,23 @@ public class DemandItemPanel : MonoBehaviour
 
     [SerializeField]
     protected TextMeshProUGUI _num;
-    public virtual void Show(int itemId,int itemNum)
+
+    protected int needId;
+    protected int needNum;
+    public virtual void Init(int itemId,int itemNum)
     {
         Image itemImg =_img.GetComponent<Image>();
         itemImg.sprite = ResourceHelper.GetItemSprite(ConfigSystem.GetItemConfig(itemId));
         _num.text = itemNum.ToString();
+        needId = itemId;
+        needNum = itemNum;
+    }
+
+    public int GetNeedItemId() { 
+        return needId;
+    }
+
+    public virtual void UpdateView(int have) {
+        _num.text = have.ToString() + "/" + needNum.ToString();
     }
 }

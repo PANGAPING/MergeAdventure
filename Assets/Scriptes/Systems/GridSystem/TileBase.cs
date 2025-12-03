@@ -64,6 +64,7 @@ public class TileBase : MonoBehaviour
         else if (state == TileState.GRAY)
         {
             _tileImage.color = _grayColor;
+            if (nowTopItem != null)
                 nowTopItem.SetGrayColor();
         }
         else if (state == TileState.HIDE) {

@@ -53,6 +53,11 @@ public class GridControllerSystem : GameSystem
 
     private TileItem draggingItem = null;
 
+    public EventHandler  _onGroundItemChange;
+
+    private Dictionary<int, int> _groundWhiteItemNumMap = new Dictionary<int, int>();
+
+
     protected override void InitSelf()
     {
         _instance = this;
@@ -189,6 +194,7 @@ public class GridControllerSystem : GameSystem
     private void RefreshMap() {
         _gridHelper.RefreshTilesState(new Vector2Int(3, 0));
         _gridHelper.RefreshTiles();
+        UpdateWhiteGroundItemNumMap();
     }
 
     private TileItem MountTileItem(ItemModel itemModel)
@@ -479,6 +485,40 @@ public class GridControllerSystem : GameSystem
 
         for (int dropIndex = 0; dropIndex < dropItemIdList.Count; dropIndex++) {
             DropItem(dropItemIdList[dropIndex], dropFromPos, availBases[dropIndex].GetPos());
+        }
+
+        GroundItemChangeEvent();
+    }
+
+    private void GroundItemChangeEvent() {
+        UpdateWhiteGroundItemNumMap();
+        if (_onGroundItemChange != null) {
+            _onGroundItemChange.Invoke();
+        }
+    }
+    public Dictionary<int, int> GetWhiteGroundItemNumMap() {
+        return _groundWhiteItemNumMap;
+    }
+
+    public bool CheckCanFeedElf()
+
+    private void UpdateWhiteGroundItemNumMap() { 
+        _groundWhiteItemNumMap = new Dictionary<int, int>();
+
+        foreach (TileBase tileBase in _gridHelper.GetTileBases()) {
+            if (tileBase.GetState() == TileState.WHITE) {
+                TileItem tileItem = tileBase.GetLayerTopItem();
+                if (tileItem != null) {
+                    int itemId = tileItem.Model.GetItemConfig().ID;
+                    if (_groundWhiteItemNumMap.ContainsKey(itemId))
+                    {
+                        _groundWhiteItemNumMap[itemId] += 1;
+                    }
+                    else { 
+                        _groundWhiteItemNumMap[itemId] = 1;
+                    }
+                }
+            }
         }
     }
 

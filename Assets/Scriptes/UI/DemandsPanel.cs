@@ -1,26 +1,55 @@
 using FlyEggFrameWork.Tools;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
-public class DemandsPanel : MonoBehaviour
+public class DemandsPanel : TileItemPanel
 {
-    public List<DemandItemPanel> demandItemPanels = new List<DemandItemPanel>();
-    public void Show(Dictionary<int,int> demands) {
-        foreach (var panel in demandItemPanels) { 
-            GameObject.DestroyImmediate(panel.gameObject);
-        }
+    [SerializeField]
+    protected GameObject _demandItemPrefab;
 
+    public List<DemandItemPanel> demandItemPanels = new List<DemandItemPanel>();
+
+    protected Dictionary<int,int> demandMap = new Dictionary<int,int>();
+
+    public override void MountTileItem(TileItem tileItem, Action callback = null)
+    {
+        base.MountTileItem(tileItem, callback);
+        Elf elf = (Elf)tileItem;
+        Init(elf.GetDemandItems());
+        button.gameObject.SetActive(false);
+    }
+    public void Init(Dictionary<int,int> demands) {
         demandItemPanels = new List<DemandItemPanel>();
 
-        GameObject itemPanelPrefab = ResourceHelper.GetUIPrefab("DemandItemPanel");
+        GameObject itemPanelPrefab = _demandItemPrefab;
 
         foreach (var itemId in demands.Keys) {
-            GameObject itemPanelObj = GameObject.Instantiate(itemPanelPrefab,transform); 
+            GameObject itemPanelObj = GameObject.Instantiate(itemPanelPrefab,transform.Find("items")); 
             DemandItemPanel itemPanel = itemPanelObj.GetComponent<DemandItemPanel>();
-            itemPanel.Show(itemId, demands[itemId]);
+            itemPanel.Init(itemId, demands[itemId]);
             demandItemPanels.Add(itemPanel);
         }
     }
+
+    public void UpdateView(Dictionary<int,int> have)
+    {
+        foreach (DemandItemPanel demandItemPanel in demandItemPanels) {
+            int needItemId = demandItemPanel.GetNeedItemId();
+            int haveNum = have.ContainsKey(needItemId) ? have[needItemId] : 0;
+            demandItemPanel.UpdateView(haveNum); 
+        }
+        if (GridControllerSystem._instance.CheckCanFeedElf((Elf)_tileItem))
+        {
+            button.gameObject.SetActive(true); 
+        }
+        else {
+            button.gameObject.SetActive(false); 
+        }
+
+
+    }
+
 }

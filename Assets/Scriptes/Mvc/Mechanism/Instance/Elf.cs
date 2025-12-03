@@ -34,6 +34,18 @@ public class Elf : Mechanism
         return demands;
     }
 
+    public override void SetWhiteColor()
+    {
+        base.SetWhiteColor();
+
+        if (_demandsPanel == null)
+        {
+            _demandsPanel = GridUISystem._instance.NewElfTips(this);
+        }
+
+        _demandsPanel.Init(GetDemandItems());
+    }
+
     protected override void ShowInEditor()
     {
         base.ShowInEditor();
@@ -46,7 +58,7 @@ public class Elf : Mechanism
             _demandsPanel = demandItemsPanel.GetComponent<DemandsPanel>();
         }
 
-        _demandsPanel.Show(GetDemandItems());
+        _demandsPanel.Init(GetDemandItems());
     }
 
     public void AddDemand(int itemId, int count) {

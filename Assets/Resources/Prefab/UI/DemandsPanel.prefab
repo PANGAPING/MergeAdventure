@@ -131,4 +131,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e55e649b7b0efec4a8f77c6e23a4cbe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  panelState: 0
+  _isPathPanel: 0
+  button: {fileID: 0}
+  _demandItemPrefab: {fileID: 4260681893507202565, guid: ad5646d2840337f42913e4d7265f72f0, type: 3}
   demandItemPanels: []
