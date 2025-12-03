@@ -48,7 +48,7 @@ public class GridHelper
 
     public void RefreshTilesState(Vector2Int startPos) {
 
-        List<Vector2Int> whitePoses = GetFloorConnectedPoses(startPos);
+        List<Vector2Int> whitePoses = GetFloorConnectedPoses(startPos,true);
 
         foreach (Vector2Int pos in _tileStateMap.Keys.ToArray()) {
             if (IsCloudTilePos(pos))

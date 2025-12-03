@@ -38,6 +38,7 @@ public class Elf : Mechanism
     {
         base.ShowInEditor();
         transform.Find("GroupPanel").GetComponent<TextMeshProUGUI>().text = GetGroup().ToString();
+        transform.Find("GroupPanel").gameObject.SetActive(true);
 
         if (_demandsPanel == null)
         {

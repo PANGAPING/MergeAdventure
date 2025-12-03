@@ -13,6 +13,7 @@ public class ElfCloud :Mechanism
     {
         base.ShowInEditor();
 
+        transform.Find("GroupPanel").gameObject.SetActive(true);
         transform.Find("GroupPanel").GetComponent<TextMeshProUGUI>().text = GetGroup().ToString();
     }
 }

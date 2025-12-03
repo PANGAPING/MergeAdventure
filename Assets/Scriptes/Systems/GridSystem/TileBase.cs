@@ -16,7 +16,7 @@ public class TileBase : MonoBehaviour
 
     private static Color _whiteColor = new Color(142f/255,184f/255,241f/255);
 
-    private static Color _grayColor = new Color(113f/255,113f/255,113f/255);
+    private static Color _grayColor = new Color(113f/255,113f/255,160f/255);
 
     private static Color _hideColor = new Color(50f/255,50f/255,50f/255);
 
@@ -40,21 +40,27 @@ public class TileBase : MonoBehaviour
     }
 
     public void Refresh() {
+        SortItemsLayer();
+        TileItem topItem = GetLayerTopItem();
 
         if (state == TileState.WHITE)
         {
             _tileImage.color = _whiteColor;
+            if (topItem != null)
+            {
+                topItem.SetWhiteColor();
+            }
         }
         else if (state == TileState.GRAY)
         {
             _tileImage.color = _grayColor;
+                topItem.SetGrayColor();
         }
         else if (state == TileState.HIDE) {
             _tileImage.color = _hideColor;
         }
-
-        SortItemsLayer();
     }
+
 
     private void SortItemsLayer() {
         OccupiedItems.Sort((x, y) => y.GetLayer().CompareTo(x.GetLayer()));

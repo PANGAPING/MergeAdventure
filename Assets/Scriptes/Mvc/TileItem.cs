@@ -18,9 +18,16 @@ public class TileItem : FlyEggInstance
 
     private Vector3 originalScale;
 
+    private static Color _whiteColor = new Color(255f/255,255f/255,255f/255);
+
+    private static Color _grayColor = new Color(113f/255,113f/255,113f/255);
+
+    private Image _itemImage;
+
     protected override void InitSelf()
     {
         base.InitSelf();
+        _itemImage = transform.Find("Img").GetComponent<Image>();
     }
 
     protected override void Init()
@@ -47,6 +54,22 @@ public class TileItem : FlyEggInstance
     public virtual void DeActive() {
         active = false;
     }
+
+    public virtual void SetWhiteColor() {
+        if (_itemImage == null) { 
+            _itemImage = transform.Find("Img").GetComponent<Image>();
+        }
+        _itemImage.color = _whiteColor;
+    
+    }
+    public virtual void SetGrayColor() {
+        if (_itemImage == null)
+        {
+            _itemImage = transform.Find("Img").GetComponent<Image>();
+        }
+        _itemImage.color = _grayColor;
+    }
+
     public int GetGroup() {
         return Model.IntData;
     }
