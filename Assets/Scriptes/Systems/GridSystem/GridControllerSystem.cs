@@ -372,6 +372,11 @@ public class GridControllerSystem : GameSystem
             DeActiveItem(tileItem);
         }
     }
+    public void TryFeedWonderSketch(TileItem tileItem, WonderSketch wonderSketch) {
+        UnMountItemMap(tileItem);
+        tileItem.MoveAnimation(_gridHelper.GetCellWorldPosition(wonderSketch.GetPos()), AnimationEndActionType.DESTORY);
+        DestroySpecialTileItem(wonderSketch);
+    }
 
     public void TryFeedElf(Elf elf) { 
         Dictionary<int,int> needItem = elf.GetDemandItems();
@@ -450,6 +455,9 @@ public class GridControllerSystem : GameSystem
                 dragging = false;
                 draggingItem = null;
                 return;
+            }
+            if (targetTileItem.GetItemType() == ItemType.WONDERSKETCH && CheckCanFeedWonderSketch(draggingItem, (WonderSketch)targetTileItem)) {
+                TryFeedWonderSketch(draggingItem, (WonderSketch)targetTileItem); 
             }
             else if (targetTileItem.IsMovable())
             {
@@ -540,6 +548,15 @@ public class GridControllerSystem : GameSystem
             } 
         }
 
+        return satisfy;
+    }
+
+    public bool CheckCanFeedWonderSketch(TileItem tileItem, WonderSketch wonderSketch) {
+        Dictionary<int, int> needItemMap = wonderSketch.GetDemandItems();
+        bool satisfy = true;
+        if (!needItemMap.ContainsKey(tileItem.GetItemId())) {
+            satisfy = false; 
+        }
         return satisfy;
     }
 
