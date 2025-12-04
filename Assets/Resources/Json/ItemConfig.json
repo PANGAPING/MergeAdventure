@@ -514,7 +514,7 @@
     "PrefabPath": null,
     "NextLevelID": 0.0,
     "Type": "FOG",
-    "Movable": 1.0,
+    "Movable": 0.0,
     "Obstacle": 0.0,
     "Layer": 4.0,
     "IntData": "[]"
@@ -527,7 +527,7 @@
     "PrefabPath": "TileItem/Elf",
     "NextLevelID": 0.0,
     "Type": "ELF",
-    "Movable": 1.0,
+    "Movable": 0.0,
     "Obstacle": 0.0,
     "Layer": 1.0,
     "IntData": "[]"
@@ -540,7 +540,7 @@
     "PrefabPath": null,
     "NextLevelID": 0.0,
     "Type": "CHAIN",
-    "Movable": 1.0,
+    "Movable": 0.0,
     "Obstacle": 0.0,
     "Layer": 2.0,
     "IntData": "[]"
@@ -553,7 +553,7 @@
     "PrefabPath": null,
     "NextLevelID": 0.0,
     "Type": "STACK",
-    "Movable": 1.0,
+    "Movable": 0.0,
     "Obstacle": 1.0,
     "Layer": 3.0,
     "IntData": "[]"
@@ -566,7 +566,7 @@
     "PrefabPath": "TileItem/ElfCloud",
     "NextLevelID": 0.0,
     "Type": "ELFCLOUD",
-    "Movable": 1.0,
+    "Movable": 0.0,
     "Obstacle": 1.0,
     "Layer": 5.0,
     "IntData": "[]"
@@ -579,9 +579,22 @@
     "PrefabPath": "TileItem/ElfCloud",
     "NextLevelID": 0.0,
     "Type": "ELFCLOUD",
-    "Movable": 1.0,
+    "Movable": 0.0,
     "Obstacle": 1.0,
     "Layer": 5.0,
+    "IntData": "[]"
+  },
+  {
+    "ID": 3000601.0,
+    "Name": "WonderSketch",
+    "ItemBaseSize": "[1,1]",
+    "SpritePath": "WonderSketch/WonderSketch",
+    "PrefabPath": "TileItem/WonderSketch",
+    "NextLevelID": 0.0,
+    "Type": "WONDERSKETCH",
+    "Movable": 0.0,
+    "Obstacle": 0.0,
+    "Layer": 1.0,
     "IntData": "[]"
   },
   {

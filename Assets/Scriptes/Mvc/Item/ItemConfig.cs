@@ -54,7 +54,9 @@ public enum ItemType
     [StringValue("ELFCLOUD")]
     ELFCLOUD,
     [StringValue("MAPPAINTER")]
-    MAPPAINTER
+    MAPPAINTER,
+    [StringValue("WONDERSKETCH")]
+    WONDERSKETCH
 }
 
 
