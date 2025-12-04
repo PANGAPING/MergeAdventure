@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100.7219, y: 78.3393}
+  m_SizeDelta: {x: 151.1624, y: 117.5709}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8357684085399831991
 CanvasRenderer:
@@ -122,7 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2580519645038984922}
   - component: {fileID: 2580519645038984920}
-  - component: {fileID: 6827675150874330079}
+  - component: {fileID: 2754560647438056968}
   m_Layer: 5
   m_Name: WonderSketch
   m_TagString: Untagged
@@ -161,7 +161,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2580519645038984925}
   m_CullTransparentMesh: 1
---- !u!114 &6827675150874330079
+--- !u!114 &2754560647438056968
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2580519645038984925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f37391e5aa507b14385c107b7c55d296, type: 3}
+  m_Script: {fileID: 11500000, guid: 384c16911cab5c54297959ba27994e61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2711040502389499572
@@ -209,7 +209,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 123.63636, y: 150.90909}
+  m_SizeDelta: {x: 274, y: 243}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6834470828385344683
 CanvasRenderer:
@@ -239,7 +239,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 974281260f7d14f4a973553be8c5381c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4fcbe0fe6248d1a43848791b19879e77, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

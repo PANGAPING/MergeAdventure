@@ -24,6 +24,8 @@ public class DemandsPanel : TileItemPanel
     public void Init(Dictionary<int,int> demands) {
         demandItemPanels = new List<DemandItemPanel>();
 
+        CommonTool.DeleteAllChildrenImmediate(transform.Find("items"));
+
         GameObject itemPanelPrefab = _demandItemPrefab;
 
         foreach (var itemId in demands.Keys) {

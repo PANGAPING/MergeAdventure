@@ -305,7 +305,8 @@ public class LevelEditor : EditorWindow
                     return;
                 }
 
-                if (usingItem.Type == ItemType.MAPPAINTER) {
+                if (usingItem.Type == ItemType.MAPPAINTER)
+                {
                     if (usingItem.Name == "GroupPainter")
                     {
                         if (activeTileBase == null)
@@ -327,8 +328,12 @@ public class LevelEditor : EditorWindow
                     NewItem(usingItem, activeTilePos);
                     SceneVisibilityManager.instance.DisableAllPicking();
                 }
-                else if (activeTileBase.ExistItemOfType(ItemType.ELF)) {
+                else if (activeTileBase.ExistItemOfType(ItemType.ELF))
+                {
                     AddDemandToElf(usingItem, activeTileBase.GetItemOfType(ItemType.ELF) as Elf);
+                }
+                else if (activeTileBase.ExistItemOfType(ItemType.WONDERSKETCH)) { 
+                    AddDemandToWonderSketch(usingItem, activeTileBase.GetItemOfType(ItemType.WONDERSKETCH) as WonderSketch);
                 }
             }
             else if (currentEvent.button == 1)
@@ -605,10 +610,14 @@ public class LevelEditor : EditorWindow
         ItemModel itemModel = new ItemModel(itemConfig, CommonTool.Vector2IntToArray(tilePos));
         MountTileItem(itemModel);
     }
+    private void AddDemandToWonderSketch(ItemConfig itemConfig, WonderSketch wonderSketch) { 
+        wonderSketch.SetDemand(itemConfig.ID);
+    }
 
     private void AddDemandToElf(ItemConfig itemConfig, Elf elf) {
         elf.AddDemand(itemConfig.ID, 1); 
     }
+
 
     private void DeleteDemandToElf(ItemConfig itemConfig, Elf elf) {
         elf.DeleteDemand(itemConfig.ID, 1); 

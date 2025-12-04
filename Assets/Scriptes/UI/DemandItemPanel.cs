@@ -17,7 +17,11 @@ public class DemandItemPanel : MonoBehaviour
     public virtual void Init(int itemId,int itemNum)
     {
         Image itemImg =_img.GetComponent<Image>();
-        itemImg.sprite = ResourceHelper.GetItemSprite(ConfigSystem.GetItemConfig(itemId));
+
+        ItemConfig config = ConfigSystem.GetItemConfig(itemId);
+        if (config != null) {
+            itemImg.sprite = ResourceHelper.GetItemSprite(config);
+        }
         _num.text = itemNum.ToString();
         needId = itemId;
         needNum = itemNum;

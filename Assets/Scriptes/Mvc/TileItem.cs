@@ -24,7 +24,7 @@ public class TileItem : FlyEggInstance
 
     private static Color _grayColor = new Color(113f / 255, 113f / 255, 113f / 255);
 
-    private Image _itemImage;
+    protected Image _itemImage;
 
     public delegate void EventHandler();
 
@@ -61,6 +61,9 @@ public class TileItem : FlyEggInstance
         active = false;
     }
 
+    protected virtual void UpdateView() { 
+    
+    }
     public virtual void SetWhiteColor() {
         if (_itemImage == null) {
             _itemImage = transform.Find("Img").GetComponent<Image>();
