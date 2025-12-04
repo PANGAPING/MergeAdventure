@@ -598,6 +598,19 @@
     "IntData": "[]"
   },
   {
+    "ID": 3000701.0,
+    "Name": "DiedTile",
+    "ItemBaseSize": "[1,1]",
+    "SpritePath": "DiedTile/DiedTile",
+    "PrefabPath": "TileItem/DiedTile",
+    "NextLevelID": 0.0,
+    "Type": "DIEDTILE",
+    "Movable": 0.0,
+    "Obstacle": 0.0,
+    "Layer": 1.0,
+    "IntData": "[]"
+  },
+  {
     "ID": 9000001.0,
     "Name": "GroupPainter",
     "ItemBaseSize": "[1,1]",

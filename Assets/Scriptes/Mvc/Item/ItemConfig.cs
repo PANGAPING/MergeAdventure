@@ -56,7 +56,9 @@ public enum ItemType
     [StringValue("MAPPAINTER")]
     MAPPAINTER,
     [StringValue("WONDERSKETCH")]
-    WONDERSKETCH
+    WONDERSKETCH,
+    [StringValue("DIEDTILE")]
+    DIEDTILE
 }
 
 
