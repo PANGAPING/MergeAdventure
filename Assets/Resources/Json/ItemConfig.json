@@ -592,7 +592,7 @@
     "PrefabPath": "TileItem/WonderSketch",
     "NextLevelID": 0.0,
     "Type": "WONDERSKETCH",
-    "Movable": 0.0,
+    "Movable": 1.0,
     "Obstacle": 0.0,
     "Layer": 1.0,
     "IntData": "[]"
