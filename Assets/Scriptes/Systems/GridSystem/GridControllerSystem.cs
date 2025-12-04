@@ -82,6 +82,9 @@ public class GridControllerSystem : GameSystem
 
         GameObject boardPrefab = Resources.Load<GameObject>(Path.Combine(FoldPath.PrefabFolderPath, "GameBoard"));
         GameObject boardObj = GameObject.Instantiate(boardPrefab, WorldNode);
+
+        boardObj.transform.SetSiblingIndex(4);
+        
         boardPrefab.name = "GameBoard";
         _gridHelper = new GridHelper(boardObj.GetComponent<GridLayoutGroup>());
 
