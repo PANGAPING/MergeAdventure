@@ -322,8 +322,12 @@ public class GridControllerSystem : GameSystem
         {
             TapGenerator(tileItem);
         }
-        else if (itemType == ItemType.CHEST) {
+        else if (itemType == ItemType.CHEST)
+        {
             TapChest(tileItem);
+        }
+        else if (itemType == ItemType.ASSET) {
+            TapAsset(tileItem);
         }
     }
 
@@ -435,6 +439,12 @@ public class GridControllerSystem : GameSystem
             UnMountItemMap(tileItem);
             tileItem.Die();
         }
+    }
+
+    private void TapAsset(TileItem tileItem)
+    {
+        UnMountItemMap(tileItem);
+        tileItem.Die();
     }
 
     private void StartDragTileItem(TileBase tileBase) { 
