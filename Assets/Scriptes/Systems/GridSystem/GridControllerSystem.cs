@@ -375,7 +375,7 @@ public class GridControllerSystem : GameSystem
     public void TryFeedWonderSketch(TileItem tileItem, WonderSketch wonderSketch) {
         UnMountItemMap(tileItem);
         tileItem.MoveAnimation(_gridHelper.GetCellWorldPosition(wonderSketch.GetPos()), AnimationEndActionType.DESTORY);
-        DestroySpecialTileItem(wonderSketch);
+        wonderSketch.GetCompleted();
     }
 
     public void TryFeedElf(Elf elf) { 
@@ -554,6 +554,9 @@ public class GridControllerSystem : GameSystem
     public bool CheckCanFeedWonderSketch(TileItem tileItem, WonderSketch wonderSketch) {
         Dictionary<int, int> needItemMap = wonderSketch.GetDemandItems();
         bool satisfy = true;
+        if (wonderSketch.IsCompleted()) {
+            satisfy = false;
+        }
         if (!needItemMap.ContainsKey(tileItem.GetItemId())) {
             satisfy = false; 
         }

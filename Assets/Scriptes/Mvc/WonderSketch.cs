@@ -10,6 +10,8 @@ public class WonderSketch : TileItem
 
     protected Dictionary<int, int> _demands = new Dictionary<int, int>();
 
+    protected bool completed = false;
+
     public override void MountModel(ItemModel itemModel)
     {
         _demands = new Dictionary<int, int>() { {itemModel.IntData, 1 } };
@@ -39,6 +41,19 @@ public class WonderSketch : TileItem
     public Dictionary<int, int> GetDemandItems() { 
         return _demands;
 
+    }
+
+    public bool IsCompleted() {
+        return completed;
+    }
+
+    public void GetCompleted() { 
+        Transform imgNode = transform.Find("Img");
+        Image itemImg = imgNode.GetComponent<Image>();
+        itemImg.material = null;
+
+        transform.Find("Crystal").gameObject.SetActive(false);
+        BounceAnimation();
     }
 
     protected override void ShowInEditor()

@@ -20,6 +20,7 @@ public class DemandsPanel : TileItemPanel
         Elf elf = (Elf)tileItem;
        
         button.gameObject.SetActive(false);
+        Init(elf.GetDemandItems());
     }
     public void Init(Dictionary<int,int> demands) {
         demandItemPanels = new List<DemandItemPanel>();
