@@ -110,7 +110,7 @@ public static class ConfigSystem
     {
         ChestConfigs = new Dictionary<int, ChestConfig>();
 
-        ChestConfig[] chestConfigs = LoadJsonConfigArray<ChestConfig>(ConfigPath.GeneratorConfig);
+        ChestConfig[] chestConfigs = LoadJsonConfigArray<ChestConfig>(ConfigPath.ChestConfig);
 
         for (int i = 0; i < chestConfigs.Length; i++)
         {
