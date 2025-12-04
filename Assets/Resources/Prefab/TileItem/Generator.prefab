@@ -338,6 +338,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1092810674707112361, guid: 8836dbf30c085844f80514603e71f0b2, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1092810674707112363, guid: 8836dbf30c085844f80514603e71f0b2, type: 3}
       propertyPath: m_Name
       value: EnergySymbol

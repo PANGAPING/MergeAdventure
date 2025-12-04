@@ -85,9 +85,6 @@ public class GridControllerSystem : GameSystem
         boardPrefab.name = "GameBoard";
         _gridHelper = new GridHelper(boardObj.GetComponent<GridLayoutGroup>());
 
-        InitTileCursor();
-        LoadMap();
-        RefreshMap();
     }
 
 
@@ -96,6 +93,10 @@ public class GridControllerSystem : GameSystem
         base.Init();
         GamepadSystem._instance._onClickDown += OnTapDown;
         GamepadSystem._instance._onClickUp += OnTapUp;
+
+        InitTileCursor();
+        LoadMap();
+        RefreshMap();
     }
 
 
