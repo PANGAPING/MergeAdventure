@@ -432,6 +432,7 @@ public class GridControllerSystem : GameSystem
         Chest chest = (Chest)tileItem;
         ChestConfig  chestConfig= ConfigSystem.GetChestConfig(tileItem.Model.GetItemConfig().ID);
         Dictionary<int,int> dropMap = DropAlgorithmHelper.GetDropResult(chestConfig.DropItemIds,chestConfig.DropItemRatios,1);
+        Drop(dropMap, tileItem.GetPos());
 
         chest.GetTaped();
         int remainCount = chest.GetRemainCount();
