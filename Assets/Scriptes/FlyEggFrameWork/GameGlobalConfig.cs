@@ -64,6 +64,8 @@ namespace FlyEggFrameWork.GameGlobalConfig
 
         public static string GeneratorConfig = Path.Combine(FoldPath.DefaultJsonConfigFolder, "GeneratorConfig");
 
+        public static string ChestConfig = Path.Combine(FoldPath.DefaultJsonConfigFolder, "ChestConfig");
+
         public static string LocalizationExcelFile = Path.Combine(FoldPath.LocalizationFolderPath, "Localization.xlsx");
 
     }

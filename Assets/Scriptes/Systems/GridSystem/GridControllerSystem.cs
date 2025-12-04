@@ -316,11 +316,14 @@ public class GridControllerSystem : GameSystem
         }
         else {
             ActiveItem(tileItem);
-
         }
 
-        if (itemType== ItemType.GENERATOR) {
-            TapGenerator(tileItem);     
+        if (itemType == ItemType.GENERATOR)
+        {
+            TapGenerator(tileItem);
+        }
+        else if (itemType == ItemType.CHEST) {
+            TapChest(tileItem);
         }
     }
 
@@ -419,6 +422,19 @@ public class GridControllerSystem : GameSystem
         GeneratorConfig generatorConfig = ConfigSystem.GetGeneratorConfig(tileItem.Model.GetItemConfig().ID);
         Dictionary<int,int> dropMap = DropAlgorithmHelper.GetDropResult(generatorConfig.DropItemIds,generatorConfig.DropItemRatios,1);
         Drop(dropMap, tileItem.GetPos());
+    }
+
+    private void TapChest(TileItem tileItem) {
+        Chest chest = (Chest)tileItem;
+        ChestConfig  chestConfig= ConfigSystem.GetChestConfig(tileItem.Model.GetItemConfig().ID);
+        Dictionary<int,int> dropMap = DropAlgorithmHelper.GetDropResult(chestConfig.DropItemIds,chestConfig.DropItemRatios,1);
+
+        chest.GetTaped();
+        int remainCount = chest.GetRemainCount();
+        if (remainCount <= 0) { 
+            UnMountItemMap(tileItem);
+            tileItem.Die();
+        }
     }
 
     private void StartDragTileItem(TileBase tileBase) { 

@@ -13,6 +13,7 @@ public static class ConfigSystem
     public static Dictionary<int, ItemConfig> ItemConfigs { get; set; }
     public static Dictionary<int,TreeConfig> TreeConfigs { get; set; }
     public static Dictionary<int,GeneratorConfig> GeneratorConfigs { get; set; }
+    public static Dictionary<int,ChestConfig> ChestConfigs { get; set; }
     public static Dictionary<int,MechanismConfig> MechanismConfigs { get; set; }
 
 
@@ -22,6 +23,7 @@ public static class ConfigSystem
         InitTreeConfig();
         InitGeneratorConfig();
         InitMechanismConfig();
+        InitChestConfig();
     }
 
     private static void InitItemConfig()
@@ -80,6 +82,18 @@ public static class ConfigSystem
             return null;
         }
     }
+    public static ChestConfig GetChestConfig(int itemID)
+    {
+        try
+        {
+            return ChestConfigs[itemID];
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("There is no chest id:" + itemID.ToString());
+            return null;
+        }
+    }
     private static void InitGeneratorConfig()
     {
         GeneratorConfigs = new Dictionary<int, GeneratorConfig>();
@@ -90,6 +104,18 @@ public static class ConfigSystem
         {
             GeneratorConfig itemConfig = itemConfigs[i];
             GeneratorConfigs[itemConfig.ID] = itemConfig;
+        }
+    }
+    private static void InitChestConfig()
+    {
+        ChestConfigs = new Dictionary<int, ChestConfig>();
+
+        ChestConfig[] chestConfigs = LoadJsonConfigArray<ChestConfig>(ConfigPath.GeneratorConfig);
+
+        for (int i = 0; i < chestConfigs.Length; i++)
+        {
+            ChestConfig chestConfig = chestConfigs[i];
+            ChestConfigs[chestConfig.ID] = chestConfig;
         }
     }
 
