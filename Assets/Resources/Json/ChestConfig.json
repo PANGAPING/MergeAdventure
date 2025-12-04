@@ -1,0 +1,18 @@
+﻿[
+  {
+    "ID": 3000801.0,
+    "Name": "GreenGeneratorChest",
+    "ItemID": 3000801.0,
+    "DropItemIds": "[2000101,2000201,4000201]",
+    "DropItemRatios": "[0.5,0.5,0.5]",
+    "ItemCount": 8.0
+  },
+  {
+    "ID": 3000802.0,
+    "Name": "EnergyChest",
+    "ItemID": 3000802.0,
+    "DropItemIds": "[4000101,4000102,4000103,4000104]",
+    "DropItemRatios": "[0.4,0.3,0.2,0.1]",
+    "ItemCount": 5.0
+  }
+]
