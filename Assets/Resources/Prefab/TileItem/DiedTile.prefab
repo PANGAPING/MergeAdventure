@@ -46,7 +46,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2580519645038984922}
   - component: {fileID: 2580519645038984920}
-  - component: {fileID: 6827675150874330079}
+  - component: {fileID: 2797195947882633192}
   m_Layer: 5
   m_Name: DiedTile
   m_TagString: Untagged
@@ -84,7 +84,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2580519645038984925}
   m_CullTransparentMesh: 1
---- !u!114 &6827675150874330079
+--- !u!114 &2797195947882633192
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2580519645038984925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f37391e5aa507b14385c107b7c55d296, type: 3}
+  m_Script: {fileID: 11500000, guid: 81f1e1d09f621034aa669cb732e72481, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2711040502389499572

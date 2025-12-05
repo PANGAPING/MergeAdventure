@@ -749,7 +749,7 @@
     "NextLevelID": 0.0,
     "Type": "DIEDTILE",
     "Movable": 0.0,
-    "Obstacle": 0.0,
+    "Obstacle": 1.0,
     "Layer": 1.0,
     "IntData": "[]"
   },
