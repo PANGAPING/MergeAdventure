@@ -4,8 +4,8 @@
     "Name": "Shu1_Lv1",
     "ItemID": 1200101.0,
     "DropItemCount": 4.0,
-    "DropItemIds": "[1100101]",
-    "DropItemRatios": "[1]",
+    "DropItemIds": "[1100101,1100401]",
+    "DropItemRatios": "[0.5,0.5]",
     "MaxHealthCount": 2.0,
     "EnergyCost": "[5,15]"
   },
@@ -14,8 +14,8 @@
     "Name": "Shu1_Lv2",
     "ItemID": 1200102.0,
     "DropItemCount": 8.0,
-    "DropItemIds": "[1100101]",
-    "DropItemRatios": "[1]",
+    "DropItemIds": "[1100101,1100401]",
+    "DropItemRatios": "[0.5,0.5]",
     "MaxHealthCount": 3.0,
     "EnergyCost": "[5,10,20]"
   },
@@ -24,8 +24,8 @@
     "Name": "Shu1_Lv3",
     "ItemID": 1200103.0,
     "DropItemCount": 12.0,
-    "DropItemIds": "[1100101]",
-    "DropItemRatios": "[1]",
+    "DropItemIds": "[1100101,1100401]",
+    "DropItemRatios": "[0.5,0.5]",
     "MaxHealthCount": 4.0,
     "EnergyCost": "[10,15,15,25]"
   }
