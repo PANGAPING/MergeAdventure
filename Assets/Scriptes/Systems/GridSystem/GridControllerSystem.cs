@@ -9,6 +9,7 @@ using System;
 using FlyEggFrameWork.Tools;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using System.Linq;
 
 public class GridControllerSystem : GameSystem
 {
@@ -57,6 +58,9 @@ public class GridControllerSystem : GameSystem
 
     private Dictionary<int, int> _groundWhiteItemNumMap = new Dictionary<int, int>();
 
+    public List<ShelterTileBase> _shelterTiles = new List<ShelterTileBase>();
+
+    public List<int> _shelterTileItemIds = new List<int>() {2000105,-1,-1,-1,-1,-1 };
 
     protected override void InitSelf()
     {
@@ -79,6 +83,8 @@ public class GridControllerSystem : GameSystem
         {
             DestroyImmediate(boardNodeObj);
         }
+
+        InitShelterTiles();
 
         GameObject boardPrefab = Resources.Load<GameObject>(Path.Combine(FoldPath.PrefabFolderPath, "GameBoard"));
         GameObject boardObj = GameObject.Instantiate(boardPrefab, WorldNode);
@@ -114,6 +120,13 @@ public class GridControllerSystem : GameSystem
         UpdateDraggingItem();
     }
 
+    private void InitShelterTiles() {
+        _shelterTiles = WorldNode.Find("BottomUIPanel/Content/GeneratorShelter/Content").GetComponentsInChildren<ShelterTileBase>().ToList();
+
+        foreach (ShelterTileBase shelterTileBase in _shelterTiles) { 
+                
+        }
+    }
     private void InitTileCursor()
     {
         //Init tile Cursor.
@@ -199,9 +212,27 @@ public class GridControllerSystem : GameSystem
         _gridHelper.RefreshTilesState(new Vector2Int(1, 1));
         _gridHelper.RefreshTiles();
         UpdateWhiteGroundItemNumMap();
+        RefreshShelterTiles();
     }
 
-    private TileItem MountTileItem(ItemModel itemModel)
+    private void RefreshShelterTiles() {
+        for (int i = 0; i < _shelterTiles.Count; i++) {
+            ItemConfig itemConfig = ConfigSystem.GetItemConfig(_shelterTileItemIds[i]);
+            if (itemConfig != null) {
+                TileItem generatorItem = MountTileItem(new ItemModel(itemConfig.ID, CommonTool.Vector2IntToArray(new Vector2Int(3,0))),false);
+                _shelterTiles[i].OccupyItem(generatorItem);
+                _shelterTiles[i]._onClick += () =>
+                {
+                    TapGenerator(generatorItem);
+                };
+            }
+            _shelterTiles[i].Refresh();
+        }
+    }
+
+
+
+    private TileItem MountTileItem(ItemModel itemModel,bool inboard = true)
     {
 
         ItemConfig itemConfig = ConfigSystem.GetItemConfig(itemModel.ItemConfigID);
@@ -222,15 +253,21 @@ public class GridControllerSystem : GameSystem
             tilePoses = CommonTool.Array2ToVector2IntArray(itemModel.TilePoses);
         }
 
-        MountItemMap(item);
+        if (inboard)
+        {
+            MountItemMap(item);
 
-        if (tilePoses.Length > 0)
-        {
-            _gridHelper.PutObjectOnTile(itemObject, tilePoses, 0);
+            if (tilePoses.Length > 0)
+            {
+                _gridHelper.PutObjectOnTile(itemObject, tilePoses, 0);
+            }
+            else
+            {
+                _gridHelper.PutObjectOnTile(itemObject, tilePos, 0);
+            }
         }
-        else
-        {
-            _gridHelper.PutObjectOnTile(itemObject, tilePos, 0);
+        else { 
+        
         }
 
         return item;

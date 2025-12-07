@@ -6,44 +6,44 @@ using UnityEngine.UI;
 
 public class TileBase : MonoBehaviour
 {
-    private List<TileItem> OccupiedItems = new List<TileItem>();
+    protected List<TileItem> OccupiedItems = new List<TileItem>();
 
     public TileState state = TileState.WHITE;
 
-    private Vector2Int pos = Vector2Int.zero;
+    protected Vector2Int pos = Vector2Int.zero;
 
-    private TileItem topTileItem;
+    protected TileItem topTileItem;
 
-    private Image _tileImage;
+    protected Image _tileImage;
 
-    private static Color _whiteColor = new Color(142f/255,184f/255,241f/255);
+    protected static Color _whiteColor = new Color(142f/255,184f/255,241f/255);
 
-    private static Color _grayColor = new Color(113f/255,113f/255,160f/255);
+    protected static Color _grayColor = new Color(113f/255,113f/255,160f/255);
 
-    private static Color _hideColor = new Color(50f/255,50f/255,50f/255);
+    protected static Color _hideColor = new Color(50f/255,50f/255,50f/255);
 
-    private bool dirty = false;
+    protected bool dirty = false;
 
-    private void Awake()
+    protected void Awake()
     {
         InitSelf(); 
     }
 
-    private void Start()
+    protected void Start()
     {
         Init(); 
     }
 
-    private void InitSelf() { 
+    protected void InitSelf() { 
         
     }
 
-    private void Init() { 
+    protected void Init() { 
     
     
     }
 
-    public void Refresh() {
+    public virtual void Refresh() {
         SortItemsLayer();
         TileItem nowTopItem = GetLayerTopItem();
         if (dirty) {
@@ -78,7 +78,7 @@ public class TileBase : MonoBehaviour
         dirty = true;
     }
 
-    private void SortItemsLayer() {
+    protected void SortItemsLayer() {
         OccupiedItems.Sort((x, y) => y.GetLayer().CompareTo(x.GetLayer()));
         if (OccupiedItems.Count == 0) {
             return;
@@ -115,11 +115,11 @@ public class TileBase : MonoBehaviour
         return OccupiedItems[0];
     }
 
-    public void OccupyItem(TileItem item) { 
+    public virtual void OccupyItem(TileItem item) { 
         OccupiedItems.Add(item);
     }
 
-    public void RemoveOccupyItem(TileItem item) {
+    public virtual void RemoveOccupyItem(TileItem item) {
         if (OccupiedItems.Contains(item)) { 
             OccupiedItems.Remove(item);
         }
