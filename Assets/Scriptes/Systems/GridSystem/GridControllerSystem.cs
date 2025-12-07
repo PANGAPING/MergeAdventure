@@ -123,9 +123,19 @@ public class GridControllerSystem : GameSystem
     private void InitShelterTiles() {
         _shelterTiles = WorldNode.Find("BottomUIPanel/Content/GeneratorShelter/Content").GetComponentsInChildren<ShelterTileBase>().ToList();
 
-        foreach (ShelterTileBase shelterTileBase in _shelterTiles) { 
-                
+        for (int i = 0; i < _shelterTiles.Count; i++) {
+            ItemConfig itemConfig = ConfigSystem.GetItemConfig(_shelterTileItemIds[i]);
+            if (itemConfig != null) {
+                TileItem generatorItem = MountTileItem(new ItemModel(itemConfig.ID, CommonTool.Vector2IntToArray(new Vector2Int(3,0))),false);
+                _shelterTiles[i].OccupyItem(generatorItem);
+                _shelterTiles[i]._onClick += () =>
+                {
+                    TapGenerator(generatorItem);
+                };
+            }
+            _shelterTiles[i].Refresh();
         }
+
     }
     private void InitTileCursor()
     {
@@ -212,22 +222,9 @@ public class GridControllerSystem : GameSystem
         _gridHelper.RefreshTilesState(new Vector2Int(1, 1));
         _gridHelper.RefreshTiles();
         UpdateWhiteGroundItemNumMap();
-        RefreshShelterTiles();
     }
 
     private void RefreshShelterTiles() {
-        for (int i = 0; i < _shelterTiles.Count; i++) {
-            ItemConfig itemConfig = ConfigSystem.GetItemConfig(_shelterTileItemIds[i]);
-            if (itemConfig != null) {
-                TileItem generatorItem = MountTileItem(new ItemModel(itemConfig.ID, CommonTool.Vector2IntToArray(new Vector2Int(3,0))),false);
-                _shelterTiles[i].OccupyItem(generatorItem);
-                _shelterTiles[i]._onClick += () =>
-                {
-                    TapGenerator(generatorItem);
-                };
-            }
-            _shelterTiles[i].Refresh();
-        }
     }
 
 
