@@ -84,8 +84,6 @@ public class GridControllerSystem : GameSystem
             DestroyImmediate(boardNodeObj);
         }
 
-        InitShelterTiles();
-
         GameObject boardPrefab = Resources.Load<GameObject>(Path.Combine(FoldPath.PrefabFolderPath, "GameBoard"));
         GameObject boardObj = GameObject.Instantiate(boardPrefab, WorldNode);
 
@@ -106,6 +104,7 @@ public class GridControllerSystem : GameSystem
         InitTileCursor();
         LoadMap();
         RefreshMap();
+        InitShelterTiles();
     }
 
 
