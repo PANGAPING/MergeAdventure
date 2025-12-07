@@ -6,8 +6,6 @@ using UnityEngine;
 public class MergeAdventureProgressController : GameProgressController
 {
 
-    private GridHelper _gridHelper;
-
     [SerializeField]
     private int _level;
 
