@@ -60,13 +60,18 @@ public class GridControllerSystem : GameSystem
 
     public List<ShelterTileBase> _shelterTiles = new List<ShelterTileBase>();
 
-    public List<int> _shelterTileItemIds = new List<int>() {2000105,-1,-1,-1,-1,-1 };
+    public List<int> _shelterTileItemIds = new List<int>() {-1,-1,-1,-1,-1,-1 };
 
     protected override void InitSelf()
     {
         _instance = this;
         base.InitSelf();
         ConfigSystem.LoadConfigs();
+
+        //Test code of shelterTile
+        if (MergeAdventureProgressController._instance.GetLevel() > 1) {
+            _shelterTileItemIds = new List<int>() { 2000105, -1, -1, -1, -1, -1 };
+        }
 
         ItemTypesString = new string[Enum.GetNames(typeof(ItemType)).Length];
         ItemTypes = (ItemType[])Enum.GetValues(typeof(ItemType));
