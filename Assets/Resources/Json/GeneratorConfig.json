@@ -5,7 +5,10 @@
     "ItemID": 2000101.0,
     "DropItemIds": "[1100301]",
     "DropItemRatios": "[1]",
-    "MaxHealthCount": 6.0
+    "MaxHealthCount": 6.0,
+    "LuckyRatio": 0.1,
+    "LuckDropItemRatio": "[]",
+    "": null
   },
   {
     "ID": 2000102.0,
@@ -13,7 +16,10 @@
     "ItemID": 2000102.0,
     "DropItemIds": "[1100301]",
     "DropItemRatios": "[1]",
-    "MaxHealthCount": 4.0
+    "MaxHealthCount": 4.0,
+    "LuckyRatio": 0.1,
+    "LuckDropItemRatio": "[]",
+    "": null
   },
   {
     "ID": 2000103.0,
@@ -21,7 +27,10 @@
     "ItemID": 2000103.0,
     "DropItemIds": "[1100301]",
     "DropItemRatios": "[1]",
-    "MaxHealthCount": 5.0
+    "MaxHealthCount": 5.0,
+    "LuckyRatio": 0.1,
+    "LuckDropItemRatio": "[]",
+    "": null
   },
   {
     "ID": 2000104.0,
@@ -29,7 +38,10 @@
     "ItemID": 2000104.0,
     "DropItemIds": "[1100301]",
     "DropItemRatios": "[1]",
-    "MaxHealthCount": 1.0
+    "MaxHealthCount": 1.0,
+    "LuckyRatio": 0.1,
+    "LuckDropItemRatio": "[1]",
+    "": null
   },
   {
     "ID": 2000105.0,
@@ -37,7 +49,10 @@
     "ItemID": 2000105.0,
     "DropItemIds": "[1100301]",
     "DropItemRatios": "[1]",
-    "MaxHealthCount": 2.0
+    "MaxHealthCount": 2.0,
+    "LuckyRatio": 0.2,
+    "LuckDropItemRatio": "[90,10]",
+    "": null
   },
   {
     "ID": 2000106.0,
@@ -45,7 +60,10 @@
     "ItemID": 2000106.0,
     "DropItemIds": "[1100301]",
     "DropItemRatios": "[1]",
-    "MaxHealthCount": 4.0
+    "MaxHealthCount": 4.0,
+    "LuckyRatio": 0.3,
+    "LuckDropItemRatio": "[80,15,5]",
+    "": null
   },
   {
     "ID": 2000107.0,
@@ -53,7 +71,10 @@
     "ItemID": 2000107.0,
     "DropItemIds": "[1100301]",
     "DropItemRatios": "[1]",
-    "MaxHealthCount": 4.0
+    "MaxHealthCount": 4.0,
+    "LuckyRatio": 0.4,
+    "LuckDropItemRatio": "[70,20,5,5]",
+    "": null
   },
   {
     "ID": 2000201.0,
@@ -61,7 +82,10 @@
     "ItemID": 2000201.0,
     "DropItemIds": "[1100201]",
     "DropItemRatios": "[1]",
-    "MaxHealthCount": 3.0
+    "MaxHealthCount": 3.0,
+    "LuckyRatio": 0.1,
+    "LuckDropItemRatio": "[]",
+    "": null
   },
   {
     "ID": 2000202.0,
@@ -69,7 +93,10 @@
     "ItemID": 2000202.0,
     "DropItemIds": "[1100201]",
     "DropItemRatios": "[1]",
-    "MaxHealthCount": 7.0
+    "MaxHealthCount": 7.0,
+    "LuckyRatio": 0.1,
+    "LuckDropItemRatio": "[]",
+    "": null
   },
   {
     "ID": 2000203.0,
@@ -77,7 +104,10 @@
     "ItemID": 2000203.0,
     "DropItemIds": "[1100201]",
     "DropItemRatios": "[1]",
-    "MaxHealthCount": 6.0
+    "MaxHealthCount": 6.0,
+    "LuckyRatio": 0.1,
+    "LuckDropItemRatio": "[]",
+    "": null
   },
   {
     "ID": 2000204.0,
@@ -85,7 +115,10 @@
     "ItemID": 2000204.0,
     "DropItemIds": "[1100201]",
     "DropItemRatios": "[1]",
-    "MaxHealthCount": 1.0
+    "MaxHealthCount": 1.0,
+    "LuckyRatio": 0.1,
+    "LuckDropItemRatio": "[1]",
+    "": null
   },
   {
     "ID": 2000205.0,
@@ -93,7 +126,10 @@
     "ItemID": 2000205.0,
     "DropItemIds": "[1100201]",
     "DropItemRatios": "[1]",
-    "MaxHealthCount": 1.0
+    "MaxHealthCount": 1.0,
+    "LuckyRatio": 0.2,
+    "LuckDropItemRatio": "[90,10]",
+    "": null
   },
   {
     "ID": 2000206.0,
@@ -101,7 +137,10 @@
     "ItemID": 2000206.0,
     "DropItemIds": "[1100201]",
     "DropItemRatios": "[1]",
-    "MaxHealthCount": 1.0
+    "MaxHealthCount": 1.0,
+    "LuckyRatio": 0.3,
+    "LuckDropItemRatio": "[80,15,5]",
+    "": null
   },
   {
     "ID": 2000207.0,
@@ -109,6 +148,9 @@
     "ItemID": 2000207.0,
     "DropItemIds": "[1100201]",
     "DropItemRatios": "[1]",
-    "MaxHealthCount": 1.0
+    "MaxHealthCount": 1.0,
+    "LuckyRatio": 0.4,
+    "LuckDropItemRatio": "[70,20,5,5]",
+    "": null
   }
 ]

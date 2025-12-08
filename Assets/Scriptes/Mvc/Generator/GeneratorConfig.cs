@@ -22,4 +22,9 @@ public class GeneratorConfig  : FlyEggConfig
 
     [JsonConverter(typeof(IntegerJsonConverter))]
     public int MaxHealthCount;
+
+    public float LuckyRatio;
+
+    [JsonConverter(typeof(FloatArrayJsonConverter))]
+    public float[] LuckDropItemRatio;
 }
