@@ -4,6 +4,55 @@ using UnityEngine;
 
 public static class DropAlgorithmHelper
 {
+
+    public static Dictionary<int, int> GetGeneratorDropResult(Generator generator,out bool luck) { 
+        Dictionary<int, int> result = new Dictionary<int, int>();
+        luck = false;
+
+        GeneratorConfig generatorConfig = ConfigSystem.GetGeneratorConfig(generator.Model.ItemConfigID);
+
+        int[] itemIds = generatorConfig.DropItemIds;
+        float[] itemWeight = generatorConfig.DropItemRatios;
+
+        // 权重总和
+        float totalWeight = 0f;
+        foreach (var w in itemWeight)
+        {
+            totalWeight += w;
+        }
+
+        float rand = Random.value * totalWeight;
+        float current = 0f;
+
+        int chooseItemId = -1;
+        // 根据权重挑选物品
+        for (int j = 0; j < itemIds.Length; j++)
+        {
+            current += itemWeight[j];
+            if (rand <= current)
+            {
+                chooseItemId = itemIds[j];
+                break;
+            }
+        }
+
+        if (chooseItemId < 0) {
+            return result;
+        }
+
+        //Luck逻辑
+        float luckyRatio = generatorConfig.LuckyRatio;
+        float[] luckDropRatioWeight = generatorConfig.LuckDropItemRatio;
+
+        if (luckyRatio > Random.value) {
+            luck = true;
+            chooseItemId += 1; 
+        }
+
+        result[chooseItemId] = 1;
+        return result;
+    }
+
     public static Dictionary<int, int> GetDropResult(
        int[] itemIds,
        float[] weights,

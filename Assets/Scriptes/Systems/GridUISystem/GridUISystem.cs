@@ -1,8 +1,11 @@
+using DG.Tweening;
 using FlyEggFrameWork;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GridUISystem : GameSystem
 {
@@ -80,4 +83,41 @@ public class GridUISystem : GameSystem
             demandsPanel.UpdateView(groundItemMap);
         } 
     }
+
+
+        /// <summary>
+    /// 在指定位置弹出一条幸运提示文字（如“Lucky Drop!”）
+    /// </summary>
+    public void ShowLuckyPopup(RectTransform parent, Vector3 worldPosition, string text, Color color)
+    {
+        GameObject obj= GameObject.Instantiate(ResourceHelper.GetUIPrefab("LuckyPopup"), WorldNode);
+        RectTransform rt = obj.GetComponent<RectTransform>();
+        TextMeshProUGUI t = obj.GetComponent<TextMeshProUGUI>();
+
+        transform.position = worldPosition;
+        Vector2 anchoredPos = worldPosition;
+        // 初始缩放
+        rt.localScale = Vector3.one * 0.6f;
+        rt.anchoredPosition = anchoredPos;
+
+        // 动画序列
+        Sequence seq = DOTween.Sequence();
+
+        // 第一阶段：向上 + 淡入 + 放大
+        seq.Append(rt.DOScale(1.15f, 0.2f).SetEase(Ease.OutBack))
+           .Join(rt.DOAnchorPos(anchoredPos, 0.2f).SetEase(Ease.OutQuad))
+           .Join(t.DOFade(1f, 0.15f));
+
+        // 第二阶段：轻微回弹到 1.0
+        seq.Append(rt.DOScale(1f, 0.15f).SetEase(Ease.OutBack));
+
+        // 第三阶段：往上飘 + 淡出
+        seq.Append(rt.DOAnchorPos(anchoredPos + new Vector2(0, 40), 0.6f).SetEase(Ease.OutQuad))
+           .Join(t.DOFade(0f, 0.6f));
+
+        // 完成后销毁
+        seq.OnComplete(() => GameObject.Destroy(obj));
+    }
+
+
 }

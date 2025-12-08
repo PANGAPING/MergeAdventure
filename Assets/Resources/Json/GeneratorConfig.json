@@ -39,7 +39,7 @@
     "DropItemIds": "[1100301]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 1.0,
-    "LuckyRatio": 0.1,
+    "LuckyRatio": 0.2,
     "LuckDropItemRatio": "[1]",
     "": null
   },
@@ -61,7 +61,7 @@
     "DropItemIds": "[1100301]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 4.0,
-    "LuckyRatio": 0.3,
+    "LuckyRatio": 0.2,
     "LuckDropItemRatio": "[80,15,5]",
     "": null
   },
@@ -72,7 +72,7 @@
     "DropItemIds": "[1100301]",
     "DropItemRatios": "[1]",
     "MaxHealthCount": 4.0,
-    "LuckyRatio": 0.4,
+    "LuckyRatio": 0.2,
     "LuckDropItemRatio": "[70,20,5,5]",
     "": null
   },

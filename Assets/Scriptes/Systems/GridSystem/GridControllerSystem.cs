@@ -465,8 +465,12 @@ public class GridControllerSystem : GameSystem
     private void TapGenerator(TileItem tileItem) {
         Generator generator = (Generator)tileItem;
         GeneratorConfig generatorConfig = ConfigSystem.GetGeneratorConfig(tileItem.Model.GetItemConfig().ID);
-        Dictionary<int,int> dropMap = DropAlgorithmHelper.GetDropResult(generatorConfig.DropItemIds,generatorConfig.DropItemRatios,1);
-        Drop(dropMap, tileItem.GetPos());
+        bool luck = false;
+        Dictionary<int,int> dropMap = DropAlgorithmHelper.GetGeneratorDropResult(generator,out luck);
+
+        Drop(dropMap, tileItem.GetPos(),luck);
+
+        //Lucky µ¯Ä»
     }
 
     private void TapChest(TileItem tileItem) {
@@ -578,7 +582,7 @@ public class GridControllerSystem : GameSystem
         Drop(new Dictionary<int, int> { { mergeToId, 1 } }, mergePos);
     }
 
-    private void Drop(Dictionary<int, int> items, Vector2Int dropFromPos) {
+    private void Drop(Dictionary<int, int> items, Vector2Int dropFromPos , bool luck = false) {
         List<int> dropItemIdList = new List<int>();
         foreach (var itemId in items.Keys) {
             for (int i = 0; i < items[itemId]; i++) {
@@ -590,6 +594,11 @@ public class GridControllerSystem : GameSystem
 
         for (int dropIndex = 0; dropIndex < dropItemIdList.Count; dropIndex++) {
             DropItem(dropItemIdList[dropIndex], dropFromPos, availBases[dropIndex].GetPos());
+            //Temp
+            if (luck)
+            {
+                GridUISystem._instance.ShowLuckyPopup(WorldNode.GetComponent<RectTransform>(), _gridHelper.GetCellWorldPosition(availBases[dropIndex].GetPos()), "Lucky!", Color.red);
+            }
         }
 
         GroundItemChangeEvent();
