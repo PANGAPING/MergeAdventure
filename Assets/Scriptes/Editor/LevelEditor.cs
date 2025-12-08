@@ -264,7 +264,6 @@ public class LevelEditor : EditorWindow
         DrawItemExtraConfigPanel();
 
         DrawViewHelperPanel();
-
         DrawSaveButton();
         DrawTestButton();
 
@@ -313,14 +312,15 @@ public class LevelEditor : EditorWindow
                         {
                             return;
                         }
-                        if (activeTileBase.ExistItemOfType(ItemType.ELF))
-                        {
-                            activeTileBase.GetItemOfType(ItemType.ELF).SetGroup(groupValue);
-                        }
-                        else if (activeTileBase.ExistItemOfType(ItemType.ELFCLOUD))
+                        if (activeTileBase.ExistItemOfType(ItemType.ELFCLOUD) && NodeMap[ItemType.ELFCLOUD].gameObject.activeSelf)
                         {
                             activeTileBase.GetItemOfType(ItemType.ELFCLOUD).SetGroup(groupValue);
                         }
+                        else if (activeTileBase.ExistItemOfType(ItemType.ELF) && NodeMap[ItemType.ELF].gameObject.activeSelf)
+                        {
+                            activeTileBase.GetItemOfType(ItemType.ELF).SetGroup(groupValue);
+                        }
+
                     }
                 }
                 else if (activeTileBase != null && usingItem != null && !activeTileBase.ExistItemOfType(usingItem.Type) && !activeTileBase.ExistItemOfLayer(usingItem.Layer))
@@ -445,7 +445,7 @@ public class LevelEditor : EditorWindow
         GUILayout.Space(10);
 
         EditorGUILayout.LabelField("Filter:", GUILayout.Width(40));
-        filterString = EditorGUILayout.TextField(filterString);
+        filterString = EditorGUILayout.TextField(filterString,GUILayout.Width(120));
 
         GUILayout.Space(10);
         GUILayout.EndHorizontal();
@@ -545,13 +545,45 @@ public class LevelEditor : EditorWindow
 
     private void DrawViewHelperPanel()
     {
+        if (!editing) {
+            return;
+        }
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
 
-        GUILayout.Space(10);
+        GUILayout.BeginVertical();
+        EditorGUILayout.LabelField("œ‘ æ”Î“˛≤ÿ:", GUILayout.Width(60));
+
+        GUILayout.BeginVertical();
+
+        for (int i = 0; i < ItemTypes.Length; i++)
+        {
+            if (i % 5 == 0) {
+                GUILayout.BeginHorizontal();
+            }
+            ItemType itemType = ItemTypes[i];
+            string itemTypeString = EnumUtils.GetStringValue(itemType);
+            bool active = GUILayout.Toggle(NodeMap[itemType].gameObject.activeSelf, itemTypeString);
+            if (active)
+            {
+                NodeMap[itemType].gameObject.SetActive(true);
+            }
+            else { 
+                NodeMap[itemType].gameObject.SetActive(false);
+            }
+            if (i % 5 == 4 || i == ItemTypes.Length -1) {
+                GUILayout.FlexibleSpace();
+                GUILayout.EndHorizontal();
+            }
+        }
+
+        GUILayout.EndVertical();
+
+        GUILayout.EndVertical();
 
 
         GUILayout.EndHorizontal();
+        GUILayout.Space(10);
     }
 
     private void DrawSaveButton()

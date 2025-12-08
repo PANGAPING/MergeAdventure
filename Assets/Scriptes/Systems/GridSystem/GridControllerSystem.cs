@@ -69,7 +69,7 @@ public class GridControllerSystem : GameSystem
         ConfigSystem.LoadConfigs();
 
         //Test code of shelterTile
-        if (MergeAdventureProgressController._instance.GetLevel() > 1) {
+        if (MergeAdventureProgressController._instance.GetLevel() > 2) {
             _shelterTileItemIds = new List<int>() { 2000105, -1, -1, -1, -1, -1 };
         }
 
