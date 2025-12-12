@@ -46,12 +46,6 @@ public class TileBase : MonoBehaviour
     public virtual void Refresh() {
         SortItemsLayer();
         TileItem nowTopItem = GetLayerTopItem();
-        if (dirty) {
-            if (nowTopItem != null && nowTopItem != topTileItem) { 
-                nowTopItem.AppearAnimation();
-            }
-            dirty = false;
-        }
 
         if (state == TileState.WHITE)
         {
@@ -70,6 +64,14 @@ public class TileBase : MonoBehaviour
         else if (state == TileState.HIDE) {
             _tileImage.color = _hideColor;
         }
+
+        if (dirty) {
+            if (nowTopItem != null && nowTopItem != topTileItem) { 
+                nowTopItem.AppearAnimation();
+            }
+            dirty = false;
+        }
+
 
         topTileItem = nowTopItem;
     }

@@ -256,7 +256,6 @@ public class GridControllerSystem : GameSystem
 
         if (inboard)
         {
-            MountItemMap(item);
 
             if (tilePoses.Length > 0)
             {
@@ -266,6 +265,7 @@ public class GridControllerSystem : GameSystem
             {
                 _gridHelper.PutObjectOnTile(itemObject, tilePos, 0);
             }
+            MountItemMap(item);
         }
         else { 
         
