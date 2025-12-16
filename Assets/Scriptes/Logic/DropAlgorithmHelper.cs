@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public static class DropAlgorithmHelper
 {
@@ -94,15 +96,12 @@ public static class DropAlgorithmHelper
         return result;
     }
 
+ 
     /// <summary>
     /// 获取某一次掉落的物品数量
+    /// 目标：所有掉落次数结束后，各物品总数严格等于 ratios * totalCount（整数分配且总和=totalCount），
+    ///       且每次掉落总数严格等于 dropWeights * totalCount（整数分配且总和=totalCount）。
     /// </summary>
-    /// <param name="totalCount">总掉落数量</param>
-    /// <param name="itemIds">物品ID数组</param>
-    /// <param name="ratios">物品对应掉落比例</param>
-    /// <param name="dropWeights">每次掉落占总数量的权重数组</param>
-    /// <param name="dropIndex">第几次掉落（0开始）</param>
-    /// <returns>Dictionary(物品ID → 掉落数量)</returns>
     public static Dictionary<int, int> GetDropResultOnce(
         int totalCount,
         int[] itemIds,
@@ -110,42 +109,171 @@ public static class DropAlgorithmHelper
         float[] dropWeights,
         int dropIndex)
     {
-        Dictionary<int, int> result = new Dictionary<int, int>();
+        var result = new Dictionary<int, int>();
 
-        // 初始化返回结构
-        for (int i = 0; i < itemIds.Length; i++)
-            result[itemIds[i]] = 0;
-
-        // 如果 dropIndex 超过长度，直接返回空
-        if (dropIndex < 0 || dropIndex >= dropWeights.Length)
+        if (itemIds == null || ratios == null || dropWeights == null ||
+            itemIds.Length == 0 || ratios.Length == 0 || dropWeights.Length == 0)
             return result;
 
-        // 算出本次掉落数量
-        int dropThisTime = Mathf.RoundToInt(totalCount * dropWeights[dropIndex]);
+        int itemN = Mathf.Min(itemIds.Length, ratios.Length);
 
-        // 求比例总和
-        float ratioSum = 0f;
-        for (int i = 0; i < ratios.Length; i++)
-            ratioSum += ratios[i];
+        // 初始化返回结构
+        for (int i = 0; i < itemN; i++)
+            result[itemIds[i]] = 0;
 
-        // 根据比例随机掉落
-        for (int n = 0; n < dropThisTime; n++)
+        if (totalCount <= 0) return result;
+        if (dropIndex < 0 || dropIndex >= dropWeights.Length) return result;
+
+        // 1) 全局：每个物品总量（列和），严格 sum = totalCount
+        int[] totalPerItem = AllocateIntegerByWeights(totalCount, ratios, itemN);
+
+        // 2) 全局：每次掉落总量（行和），严格 sum = totalCount
+        int dropK = dropWeights.Length;
+        int[] dropPerTime = AllocateIntegerByWeights(totalCount, dropWeights, dropK);
+
+        // 3) 从 0 次开始模拟分配到 dropIndex
+        int[] remaining = (int[])totalPerItem.Clone();
+
+        for (int t = 0; t <= dropIndex; t++)
         {
-            float rand = Random.value * ratioSum;
-            float cur = 0;
+            int need = dropPerTime[t];
+            int[] takeThisTime = AllocateOnceFromRemaining(remaining, need);
 
-            for (int i = 0; i < itemIds.Length; i++)
+            if (t == dropIndex)
             {
-                cur += ratios[i];
-                if (rand <= cur)
-                {
-                    result[itemIds[i]]++;
-                    break;
-                }
+                // 返回这一轮
+                for (int i = 0; i < itemN; i++)
+                    result[itemIds[i]] = takeThisTime[i];
+                return result;
             }
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// 最大余数法：按权重分配整数，保证总和=total。
+    /// </summary>
+    private static int[] AllocateIntegerByWeights(int total, float[] weights, int n)
+    {
+        int[] outArr = new int[n];
+        if (total <= 0 || n <= 0) return outArr;
+
+        double sum = 0;
+        for (int i = 0; i < n; i++) sum += Math.Max(0.0, weights[i]);
+
+        // 如果全是 0，均分
+        if (sum <= 1e-12)
+        {
+            int baseEach = total / n;
+            int rem = total - baseEach * n;
+            for (int i = 0; i < n; i++) outArr[i] = baseEach;
+            for (int i = 0; i < rem; i++) outArr[i]++;
+            return outArr;
+        }
+
+        int allocated = 0;
+        double[] frac = new double[n];
+
+        for (int i = 0; i < n; i++)
+        {
+            double w = Math.Max(0.0, weights[i]);
+            double exact = total * (w / sum);
+            int flo = (int)Math.Floor(exact + 1e-12);
+            outArr[i] = flo;
+            allocated += flo;
+            frac[i] = exact - flo;
+        }
+
+        int left = total - allocated;
+        if (left <= 0) return outArr;
+
+        // 按小数部分从大到小补齐（同分按 index）
+        int[] idx = new int[n];
+        for (int i = 0; i < n; i++) idx[i] = i;
+
+        Array.Sort(idx, (a, b) =>
+        {
+            int c = frac[b].CompareTo(frac[a]);
+            return c != 0 ? c : a.CompareTo(b);
+        });
+
+        for (int k = 0; k < left; k++)
+            outArr[idx[k % n]]++;
+
+        return outArr;
+    }
+
+    /// <summary>
+    /// 从 remaining[] 里取 need 个，按“当前剩余比例”分配，保证：
+    /// 1) sum(take)=need（若总剩余>=need）
+    /// 2) take[i] <= remaining[i]
+    /// 3) 并扣减 remaining
+    /// </summary>
+    private static int[] AllocateOnceFromRemaining(int[] remaining, int need)
+    {
+        int n = remaining.Length;
+        int[] take = new int[n];
+
+        int totalRemain = 0;
+        for (int i = 0; i < n; i++) totalRemain += Mathf.Max(0, remaining[i]);
+
+        if (need <= 0 || totalRemain <= 0) return take;
+
+        // 安全：need 不会超过总剩余（理论上 dropPerTime 总和=totalCount，且 remaining 初始=totalCount）
+        need = Mathf.Min(need, totalRemain);
+
+        int allocated = 0;
+        double[] frac = new double[n];
+
+        // 先 floor(need * remain / totalRemain)
+        for (int i = 0; i < n; i++)
+        {
+            int r = Mathf.Max(0, remaining[i]);
+            if (r == 0) { take[i] = 0; frac[i] = -1; continue; }
+
+            double exact = (double)need * r / totalRemain;
+            int flo = (int)Math.Floor(exact + 1e-12);
+
+            // flo 不可能超过 r（但加一道保险）
+            flo = Mathf.Min(flo, r);
+
+            take[i] = flo;
+            allocated += flo;
+            frac[i] = exact - flo;
+        }
+
+        int left = need - allocated;
+        if (left > 0)
+        {
+            // 按小数部分从大到小补齐，且不能超过 remaining
+            int[] idx = new int[n];
+            for (int i = 0; i < n; i++) idx[i] = i;
+
+            Array.Sort(idx, (a, b) =>
+            {
+                int c = frac[b].CompareTo(frac[a]);
+                return c != 0 ? c : a.CompareTo(b);
+            });
+
+            for (int k = 0; k < idx.Length && left > 0; k++)
+            {
+                int i = idx[k];
+                if (remaining[i] > take[i])
+                {
+                    take[i]++;
+                    left--;
+                    // 继续下一格，保证尽量按余数分配
+                    if (k == idx.Length - 1 && left > 0) k = -1; // 再扫一轮（极少发生）
+                }
+            }
+        }
+
+        // 扣减 remaining
+        for (int i = 0; i < n; i++)
+            remaining[i] -= take[i];
+
+        return take;
     }
 
 

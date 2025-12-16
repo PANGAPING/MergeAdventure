@@ -53,6 +53,7 @@ public class WonderSketch : TileItem
         itemImg.material = null;
 
         transform.Find("Crystal").gameObject.SetActive(false);
+        transform.Find("Base").gameObject.SetActive(true);
         BounceAnimation();
     }
 
