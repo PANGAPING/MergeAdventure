@@ -348,7 +348,7 @@ public class GridControllerSystem : GameSystem
     }
 
     private void TapItem(TileItem tileItem) {
-        tileItem.BounceAnimation();
+        tileItem.GetTaped();
         ItemType itemType = tileItem.GetItemType();
 
         if (tileItem.IsActive())
