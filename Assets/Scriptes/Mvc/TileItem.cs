@@ -138,6 +138,10 @@ public class TileItem : FlyEggInstance
         return Model.GetItemConfig().Movable == 1; 
     }
 
+    public virtual void GetTaped() { 
+        BounceAnimation();
+    }
+
     public virtual void MoveAnimation(Vector3 targetPostion, AnimationEndActionType animationEndActionType = AnimationEndActionType.NONE, float speed = 2000f)
     {
         inAnimation = true;

@@ -8,4 +8,7 @@ public class DiedTile : TileItem
     {
     }
 
+    public override void GetTaped()
+    {
+    }
 }
