@@ -49,13 +49,12 @@ public enum ItemType
     ASSET,
     [StringValue("ELF")]
     ELF,
-   
-    [StringValue("NORMAL")]
-    NORMAL,
     [StringValue("GENERATOR")]
     GENERATOR,
     [StringValue("TREE")]
     TREE,
+    [StringValue("NORMAL")]
+    NORMAL,
     [StringValue("MAPPAINTER")]
     MAPPAINTER,
     [StringValue("DIEDTILE")]
