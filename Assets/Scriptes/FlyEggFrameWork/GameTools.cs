@@ -10,6 +10,56 @@ namespace FlyEggFrameWork.Tools
 {
     public static class CommonTool
     {
+                /// <summary>
+    /// 16进制字符串转 Unity Color
+    /// 支持：#RGB, #RGBA, #RRGGBB, #RRGGBBAA（# 可省略）
+    /// </summary>
+    public static Color HexToColor(string hex)
+    {
+        if (string.IsNullOrEmpty(hex))
+            return Color.white;
+
+        hex = hex.Trim();
+
+        if (hex.StartsWith("#"))
+            hex = hex.Substring(1);
+
+        // 简写形式：RGB / RGBA
+        if (hex.Length == 3 || hex.Length == 4)
+        {
+            string r = new string(hex[0], 2);
+            string g = new string(hex[1], 2);
+            string b = new string(hex[2], 2);
+            string a = hex.Length == 4 ? new string(hex[3], 2) : "FF";
+
+            return new Color(
+                Convert.ToInt32(r, 16) / 255f,
+                Convert.ToInt32(g, 16) / 255f,
+                Convert.ToInt32(b, 16) / 255f,
+                Convert.ToInt32(a, 16) / 255f
+            );
+        }
+
+        // 标准形式：RRGGBB / RRGGBBAA
+        if (hex.Length == 6 || hex.Length == 8)
+        {
+            string r = hex.Substring(0, 2);
+            string g = hex.Substring(2, 2);
+            string b = hex.Substring(4, 2);
+            string a = hex.Length == 8 ? hex.Substring(6, 2) : "FF";
+
+            return new Color(
+                Convert.ToInt32(r, 16) / 255f,
+                Convert.ToInt32(g, 16) / 255f,
+                Convert.ToInt32(b, 16) / 255f,
+                Convert.ToInt32(a, 16) / 255f
+            );
+        }
+
+        Debug.LogWarning($"HexToColor: invalid hex string \"{hex}\"");
+        return Color.white;
+    }
+
 
         public static int[,] DictionaryToArray2(Dictionary<int, int> dic) { 
             int[,] array2 = new int[dic.Count, 2];

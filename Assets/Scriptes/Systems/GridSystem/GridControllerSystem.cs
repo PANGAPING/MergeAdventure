@@ -464,6 +464,7 @@ public class GridControllerSystem : GameSystem
 
     private void TapGenerator(TileItem tileItem) {
         Generator generator = (Generator)tileItem;
+        tileItem.GetTaped();
         GeneratorConfig generatorConfig = ConfigSystem.GetGeneratorConfig(tileItem.Model.GetItemConfig().ID);
         bool luck = false;
         Dictionary<int,int> dropMap = DropAlgorithmHelper.GetGeneratorDropResult(generator,out luck);
@@ -597,7 +598,7 @@ public class GridControllerSystem : GameSystem
             //Temp
             if (luck)
             {
-                GridUISystem._instance.ShowLuckyPopup(WorldNode.GetComponent<RectTransform>(), _gridHelper.GetCellWorldPosition(availBases[dropIndex].GetPos()), "Lucky!", Color.red);
+                GridUISystem._instance.ShowLuckyPopup(WorldNode.GetComponent<RectTransform>(), _gridHelper.GetCellWorldPosition(availBases[dropIndex].GetPos()), "Lucky!!", CommonTool.HexToColor("F5FF00"));
             }
         }
 

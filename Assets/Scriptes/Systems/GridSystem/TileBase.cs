@@ -1,3 +1,4 @@
+using FlyEggFrameWork.Tools;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -92,6 +93,7 @@ public class TileBase : MonoBehaviour
             OccupiedItems[i].Hide();
         }
     }
+
 
     public void Mount(Vector2Int pos) { 
         this.pos = pos;

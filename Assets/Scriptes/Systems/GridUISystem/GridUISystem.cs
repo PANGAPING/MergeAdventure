@@ -90,9 +90,11 @@ public class GridUISystem : GameSystem
     /// </summary>
     public void ShowLuckyPopup(RectTransform parent, Vector3 worldPosition, string text, Color color)
     {
-        GameObject obj= GameObject.Instantiate(ResourceHelper.GetUIPrefab("LuckyPopup"), WorldNode);
+        GameObject obj= GameObject.Instantiate(ResourceHelper.GetUIPrefab("TextPopup"), WorldNode);
         RectTransform rt = obj.GetComponent<RectTransform>();
         TextMeshProUGUI t = obj.GetComponent<TextMeshProUGUI>();
+        t.text = text;
+        t.color = color;
 
         transform.position = worldPosition;
         Vector2 anchoredPos = worldPosition;
