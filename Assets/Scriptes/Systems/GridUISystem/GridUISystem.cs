@@ -88,7 +88,7 @@ public class GridUISystem : GameSystem
         /// <summary>
     /// 在指定位置弹出一条幸运提示文字（如“Lucky Drop!”）
     /// </summary>
-    public void ShowLuckyPopup(RectTransform parent, Vector3 worldPosition, string text, Color color)
+    public void ShowPopup( Vector3 worldPosition, string text, Color color)
     {
         GameObject obj= GameObject.Instantiate(ResourceHelper.GetUIPrefab("TextPopup"), WorldNode);
         RectTransform rt = obj.GetComponent<RectTransform>();

@@ -465,22 +465,35 @@ public class GridControllerSystem : GameSystem
     private void TapGenerator(TileItem tileItem) {
         Generator generator = (Generator)tileItem;
         tileItem.GetTaped();
+
         GeneratorConfig generatorConfig = ConfigSystem.GetGeneratorConfig(tileItem.Model.GetItemConfig().ID);
         bool luck = false;
-        Dictionary<int,int> dropMap = DropAlgorithmHelper.GetGeneratorDropResult(generator,out luck);
 
-        Drop(dropMap, tileItem.GetPos(),luck);
+        Dictionary<int,int> dropMap = DropAlgorithmHelper.GetGeneratorDropResult(generator,out luck);
+        bool success = Drop(dropMap, tileItem.GetPos(), luck);
+
+        if (!success) {
+            GridUISystem._instance.ShowPopup(_gridHelper.GetCellWorldPosition(tileItem.GetPos()), "Board Full!", Color.white); 
+        }
 
         //Lucky µ¯Ä»
     }
 
     private void TapChest(TileItem tileItem) {
         Chest chest = (Chest)tileItem;
-        ChestConfig  chestConfig= ConfigSystem.GetChestConfig(tileItem.Model.GetItemConfig().ID);
-        Dictionary<int,int> dropMap = DropAlgorithmHelper.GetDropResult(chestConfig.DropItemIds,chestConfig.DropItemRatios,1);
-        Drop(dropMap, tileItem.GetPos());
-
         chest.GetTaped();
+
+        ChestConfig  chestConfig= ConfigSystem.GetChestConfig(tileItem.Model.GetItemConfig().ID);
+
+        Dictionary<int,int> dropMap = DropAlgorithmHelper.GetDropResult(chestConfig.DropItemIds,chestConfig.DropItemRatios,1);
+
+        bool success = Drop(dropMap, tileItem.GetPos());
+
+        if (!success)
+        {
+            GridUISystem._instance.ShowPopup(_gridHelper.GetCellWorldPosition(tileItem.GetPos()), "Board Full!", Color.white);
+        }
+
         int remainCount = chest.GetRemainCount();
         if (remainCount <= 0) { 
             UnMountItemMap(tileItem);
@@ -583,26 +596,33 @@ public class GridControllerSystem : GameSystem
         Drop(new Dictionary<int, int> { { mergeToId, 1 } }, mergePos);
     }
 
-    private void Drop(Dictionary<int, int> items, Vector2Int dropFromPos , bool luck = false) {
+    private bool  Drop(Dictionary<int, int> items, Vector2Int dropFromPos , bool luck = false) {
         List<int> dropItemIdList = new List<int>();
         foreach (var itemId in items.Keys) {
             for (int i = 0; i < items[itemId]; i++) {
                 dropItemIdList.Add(itemId);
             }
         }
-
         List<TileBase> availBases =  _gridHelper.GetEmptyPoses(dropFromPos, dropItemIdList.Count);
 
-        for (int dropIndex = 0; dropIndex < dropItemIdList.Count; dropIndex++) {
+        for (int dropIndex = 0; dropIndex < availBases.Count; dropIndex++) {
             DropItem(dropItemIdList[dropIndex], dropFromPos, availBases[dropIndex].GetPos());
             //Temp
             if (luck)
             {
-                GridUISystem._instance.ShowLuckyPopup(WorldNode.GetComponent<RectTransform>(), _gridHelper.GetCellWorldPosition(availBases[dropIndex].GetPos()), "Lucky!!", CommonTool.HexToColor("F5FF00"));
+                GridUISystem._instance.ShowPopup( _gridHelper.GetCellWorldPosition(availBases[dropIndex].GetPos()), "Lucky!!", CommonTool.HexToColor("F5FF00"));
             }
         }
 
         GroundItemChangeEvent();
+
+        if (availBases.Count == dropItemIdList.Count)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     private void GroundItemChangeEvent() {
