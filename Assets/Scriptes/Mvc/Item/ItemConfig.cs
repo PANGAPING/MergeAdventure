@@ -45,8 +45,11 @@ public enum ItemType
     STACK,
     [StringValue("ELFCLOUD")]
     ELFCLOUD,
+ [StringValue("ASSET")]
+    ASSET,
     [StringValue("ELF")]
     ELF,
+   
     [StringValue("NORMAL")]
     NORMAL,
     [StringValue("GENERATOR")]
@@ -59,8 +62,6 @@ public enum ItemType
     DIEDTILE,
     [StringValue("CHEST")]
     CHEST,
-    [StringValue("ASSET")]
-    ASSET,
     [StringValue("WONDERSKETCH")]
     WONDERSKETCH
 }
