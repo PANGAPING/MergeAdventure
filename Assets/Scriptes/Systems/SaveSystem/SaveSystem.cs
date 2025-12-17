@@ -11,7 +11,7 @@ public static class SaveSystem
 {
     public static void SaveUserData(UserData userData)
     {
-        string userDataPath = Path.Combine(FoldPath.UserDataFolderPath, "User_" + userData.ToString());
+        string userDataPath = Path.Combine(FoldPath.UserDataFolderPath, "User_" + userData.UserId.ToString());
 
         if (File.Exists(userDataPath))
         {
