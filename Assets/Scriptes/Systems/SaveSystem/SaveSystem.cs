@@ -57,6 +57,7 @@ public static class SaveSystem
             userData.AssetDatas[i] = assetData;
         }
 
+        SaveUserData(userData);
         return userData;
     }
 
