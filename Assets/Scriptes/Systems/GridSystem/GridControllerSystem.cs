@@ -66,10 +66,9 @@ public class GridControllerSystem : GameSystem
     {
         _instance = this;
         base.InitSelf();
-        ConfigSystem.LoadConfigs();
 
         //Test code of shelterTile
-        if (MergeAdventureProgressController._instance.GetLevel() > 2) {
+        if (MergeAdventureProgressController._instance.GetLevelId() > 2) {
             _shelterTileItemIds = new List<int>() { 2000105, -1, -1, -1, -1, -1 };
         }
 
@@ -197,7 +196,7 @@ public class GridControllerSystem : GameSystem
 
 
     private void LoadMap() {
-        MapSetting = ConfigSystem.GetMapSetting(MergeAdventureProgressController._instance.GetLevel());
+        MapSetting = ConfigSystem.GetMapSetting(MergeAdventureProgressController._instance.GetLevelId());
 
         NodeMap = new Dictionary<ItemType, Transform>();
         itemMap = new Dictionary<ItemType, Dictionary<Vector2Int, TileItem>>();

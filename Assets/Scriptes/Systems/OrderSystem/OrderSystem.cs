@@ -1,18 +1,22 @@
+using FlyEggFrameWork;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OrderSystem : MonoBehaviour
+public class OrderSystem : GameSystem
 {
-    // Start is called before the first frame update
-    void Start()
+    protected GameObject _orderDishPrefab;
+
+    protected GameObject _wonderDishPrefab;
+
+    protected override void InitSelf()
     {
-        
+        base.InitSelf();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Init()
     {
-        
+        base.Init();
     }
+
 }

@@ -51,6 +51,8 @@ namespace FlyEggFrameWork.GameGlobalConfig
 
         public static string MapSettingFolderPath = Path.Combine(Application.dataPath, "MapSetting");
 
+        public static string UserDataFolderPath = Path.Combine(Application.dataPath, "UserData");
+
         public static string MaterialFolderPath = Path.Combine("Material");
     }
 
@@ -66,11 +68,11 @@ namespace FlyEggFrameWork.GameGlobalConfig
 
         public static string ChestConfig = Path.Combine(FoldPath.DefaultJsonConfigFolder, "ChestConfig");
 
+        public static string AssetConfig = Path.Combine(FoldPath.DefaultJsonConfigFolder, "AssetConfig");
+
         public static string LocalizationExcelFile = Path.Combine(FoldPath.LocalizationFolderPath, "Localization.xlsx");
 
     }
-
-
 
 }
 

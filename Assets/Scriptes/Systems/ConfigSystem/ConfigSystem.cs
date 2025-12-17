@@ -15,6 +15,7 @@ public static class ConfigSystem
     public static Dictionary<int,GeneratorConfig> GeneratorConfigs { get; set; }
     public static Dictionary<int,ChestConfig> ChestConfigs { get; set; }
     public static Dictionary<int,MechanismConfig> MechanismConfigs { get; set; }
+    public static Dictionary<int,AssetConfig> AssetConfigs{ get; set; }
 
 
     public static void LoadConfigs()
@@ -24,6 +25,7 @@ public static class ConfigSystem
         InitGeneratorConfig();
         InitMechanismConfig();
         InitChestConfig();
+        InitAssetConfig();
     }
 
     private static void InitItemConfig()
@@ -94,6 +96,25 @@ public static class ConfigSystem
             return null;
         }
     }
+
+    
+
+    public static AssetConfig GetAssetConfig(int assetID) {
+        try
+        {
+            return AssetConfigs[assetID];
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("There is no asset id:" + assetID.ToString());
+            return null;
+        }
+    }
+    public static AssetConfig[] GetAssetConfigs()
+    {
+        return AssetConfigs.Values.ToArray();
+    }
+
     private static void InitGeneratorConfig()
     {
         GeneratorConfigs = new Dictionary<int, GeneratorConfig>();
@@ -116,6 +137,18 @@ public static class ConfigSystem
         {
             ChestConfig chestConfig = chestConfigs[i];
             ChestConfigs[chestConfig.ID] = chestConfig;
+        }
+    }
+
+    private static void InitAssetConfig() {
+        AssetConfigs = new Dictionary<int,AssetConfig>();
+
+        AssetConfig[] assetConfigs = LoadJsonConfigArray<AssetConfig>(ConfigPath.AssetConfig);
+
+        for (int i = 0; i < assetConfigs.Length; i++)
+        {
+            AssetConfig assetConfig= assetConfigs[i];
+            AssetConfigs[assetConfig.ID] = assetConfig;
         }
     }
 
