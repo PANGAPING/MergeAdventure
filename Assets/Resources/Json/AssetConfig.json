@@ -1,0 +1,22 @@
+﻿[
+  {
+    "ID": 1.0,
+    "Name": "Energy",
+    "SpritePath": "AssetIcon/Energy"
+  },
+  {
+    "ID": 2.0,
+    "Name": "Coin",
+    "SpritePath": "AssetIcon/Coin"
+  },
+  {
+    "ID": 3.0,
+    "Name": "Diamond",
+    "SpritePath": "AssetIcon/Diamond"
+  },
+  {
+    "ID": 101.0,
+    "Name": "Key",
+    "SpritePath": "AssetIcon/Key"
+  }
+]
