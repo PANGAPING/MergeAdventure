@@ -1,6 +1,8 @@
 using FlyEggFrameWork;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class MergeAdventureProgressController : GameProgressController
@@ -19,10 +21,32 @@ public class MergeAdventureProgressController : GameProgressController
         ConfigSystem.LoadConfigs();
         _userData = SaveSystem.GetUserData(_userId);
         base.InitProgress();
+
+        GridControllerSystem._instance._onGroundItemChange += SaveProgress;
     }
 
     public int GetLevelId() {
         return _userData.CurrentLevelId;
     }
-    
+
+    public MapSetting GetMapSetting()
+    {
+        MapSetting usedMapSetting = _userData.MapDatas.ToList().Find(x => x.Level == _userData.CurrentLevelId);
+        if (usedMapSetting == null) {
+            return ConfigSystem.GetMapSetting(_userData.CurrentLevelId);     
+        }
+        return usedMapSetting;
+    }    
+
+    public void SaveProgress() {
+        MapSetting curMapSetting = GridControllerSystem._instance.GetCurMapSetting();
+
+        for (int i = 0; i < _userData.MapDatas.Length; i++) {
+            if (_userData.MapDatas[i].Level == curMapSetting.Level) {
+                _userData.MapDatas[i] = curMapSetting; 
+            }
+        }
+
+        SaveSystem.SaveUserData(_userData);
+    }
 }

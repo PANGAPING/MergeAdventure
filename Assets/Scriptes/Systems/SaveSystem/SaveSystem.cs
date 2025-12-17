@@ -23,7 +23,6 @@ public static class SaveSystem
     }
 
     public static UserData GetUserData(int userId = 0) {
-
         string userDataPath = Path.Combine(FoldPath.UserDataFolderPath, "User_" + userId.ToString());
         UserData userData = new UserData(userId);
 

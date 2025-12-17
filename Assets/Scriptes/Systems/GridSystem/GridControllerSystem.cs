@@ -62,6 +62,7 @@ public class GridControllerSystem : GameSystem
 
     public List<int> _shelterTileItemIds = new List<int>() {-1,-1,-1,-1,-1,-1 };
 
+
     protected override void InitSelf()
     {
         _instance = this;
@@ -221,6 +222,22 @@ public class GridControllerSystem : GameSystem
         }
     }
 
+    public MapSetting GetCurMapSetting() {
+        MapSetting mapSetting = new MapSetting(MergeAdventureProgressController._instance.GetLevelId());
+        mapSetting.StartPos = MapSetting.StartPos;
+
+        List<ItemModel> items = new List<ItemModel>();
+
+        foreach (ItemType itemType in ItemTypes)
+        {
+            foreach (TileItem tileItem in itemMap[itemType].Values) {
+                items.Add(tileItem.Model);
+            }
+        }
+
+        mapSetting.Items = items.ToArray();
+        return mapSetting;
+    }
     private void RefreshMap() {
         _gridHelper.RefreshTilesState(new Vector2Int(1, 1));
         _gridHelper.RefreshTiles();
