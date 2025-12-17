@@ -197,7 +197,7 @@ public class GridControllerSystem : GameSystem
 
 
     private void LoadMap() {
-        MapSetting = ConfigSystem.GetMapSetting(MergeAdventureProgressController._instance.GetLevelId());
+        MapSetting =MergeAdventureProgressController._instance.GetMapSetting();
 
         NodeMap = new Dictionary<ItemType, Transform>();
         itemMap = new Dictionary<ItemType, Dictionary<Vector2Int, TileItem>>();
