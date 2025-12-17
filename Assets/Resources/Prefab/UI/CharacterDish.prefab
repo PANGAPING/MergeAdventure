@@ -153,6 +153,7 @@ GameObject:
   - component: {fileID: 2900217111241842259}
   - component: {fileID: 2900217111241842257}
   - component: {fileID: 2900217111241842258}
+  - component: {fileID: 878210420117118706}
   m_Layer: 5
   m_Name: CharacterDish
   m_TagString: Untagged
@@ -221,6 +222,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &878210420117118706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2900217111241842260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 219c31b1b2d516c41a6d25332ad74e3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelState: 0
+  _isPathPanel: 0
+  _characterImg: {fileID: 2900217112162621371}
+  _rewardPanel: {fileID: 2745644608855309608}
 --- !u!1 &2900217112162621373
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,6 +733,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44c4acd7d1554a4429d7c8ed0db85779, type: 3}
+--- !u!114 &2745644608855309608 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7688986240611221454, guid: 44c4acd7d1554a4429d7c8ed0db85779, type: 3}
+  m_PrefabInstance: {fileID: 5525557232348300006}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfa70115c39e35e469f686a5bae402ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &3820583674234074371 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8767322766985066469, guid: 44c4acd7d1554a4429d7c8ed0db85779, type: 3}

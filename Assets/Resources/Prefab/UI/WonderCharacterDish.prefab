@@ -449,8 +449,9 @@ GameObject:
   - component: {fileID: 9210245295987585387}
   - component: {fileID: 2918823122131039752}
   - component: {fileID: 698032345360909748}
+  - component: {fileID: 4891629069359129480}
   m_Layer: 5
-  m_Name: DishWonder
+  m_Name: DishWonderItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -517,6 +518,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 2.3
+--- !u!114 &4891629069359129480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3153184325067502390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e74765df195ee747a6a086a364e0bbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelState: 0
+  _isPathPanel: 0
+  _itemImgPanel: {fileID: 3429784761546392058}
+  _checkObj: {fileID: 5820647285055029914}
 --- !u!1 &3443330567850122984
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,7 +757,7 @@ GameObject:
   - component: {fileID: 5766724303578167180}
   - component: {fileID: 5766724303578167183}
   m_Layer: 5
-  m_Name: MainCharacterDish
+  m_Name: WonderCharacterDish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -820,7 +837,7 @@ GameObject:
   - component: {fileID: 5130224362805683534}
   - component: {fileID: 4493698718644359892}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Check
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -29,6 +29,9 @@ public class GridUISystem : GameSystem
     protected override void Init()
     {
         base.Init();
+
+        OrderSystem._instance._onOrderChange += UpdateOrderDishes;
+
         GridControllerSystem._instance._onGroundItemChange += UpdateDemandsPanels;
     }
 
@@ -63,7 +66,7 @@ public class GridUISystem : GameSystem
         tipsObj.transform.position = tileItem.GetUIPivotPoint().position;
         DemandsPanel tileItemPanel = tipsObj.GetComponent<DemandsPanel>();
         demandPanels.Add(tileItemPanel);
-        tileItemPanel.MountTileItem(tileItem ,() => { GridControllerSystem._instance.TryFeedElf((Elf)tileItem); });
+        tileItemPanel.MountTileItem(tileItem, () => { GridControllerSystem._instance.TryFeedElf((Elf)tileItem); });
 
 
         UpdateDemandsPanels();
@@ -77,15 +80,30 @@ public class GridUISystem : GameSystem
         return tileItemPanel;
     }
 
-    public virtual void UpdateDemandsPanels() {
-        Dictionary<int,int> groundItemMap = GridControllerSystem._instance.GetWhiteGroundItemNumMap();
-        foreach (DemandsPanel demandsPanel in demandPanels) { 
+    public void UpdateDemandsPanels()
+    {
+        Dictionary<int, int> groundItemMap = GridControllerSystem._instance.GetWhiteGroundItemNumMap();
+        foreach (DemandsPanel demandsPanel in demandPanels)
+        {
             demandsPanel.UpdateView(groundItemMap);
-        } 
+        }
+    }
+
+    public void UpdateOrderDishes()
+    {
+        GameObject orderDishPrefab = ResourceHelper.GetUIPrefab("CharacterDish");
+        GameObject wonderDishPrefab = ResourceHelper.GetUIPrefab("WonderCharacterDish");
+
+        Dictionary<int, int> groundItemMap = GridControllerSystem._instance.GetWhiteGroundItemNumMap();
+        
+
+
+
+
     }
 
 
-        /// <summary>
+    /// <summary>
     /// 在指定位置弹出一条幸运提示文字（如“Lucky Drop!”）
     /// </summary>
     public void ShowPopup( Vector3 worldPosition, string text, Color color)

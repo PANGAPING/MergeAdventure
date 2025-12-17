@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2203416197915583512}
   - component: {fileID: 3035177716728697793}
   - component: {fileID: 5016386958249454765}
+  - component: {fileID: 7979391689994019380}
   m_Layer: 5
   m_Name: RewardItemPanel
   m_TagString: Untagged
@@ -74,6 +75,22 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &7979391689994019380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302686904663109247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1768ef6e08d177e44af19a92e1cab95f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelState: 0
+  _isPathPanel: 0
+  _iconPanel: {fileID: 6460208362705929184}
+  _textPanel: {fileID: 5640664981109619146}
 --- !u!1 &2866393126671285799
 GameObject:
   m_ObjectHideFlags: 0

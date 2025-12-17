@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6400543020793885541}
   - component: {fileID: 7167947513881774655}
   m_Layer: 5
-  m_Name: CheckSymbol
+  m_Name: Check
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,6 +86,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5601247598719814152}
   - component: {fileID: 4184638483227346109}
+  - component: {fileID: 421432466114401428}
   m_Layer: 5
   m_Name: DishNeedItem
   m_TagString: Untagged
@@ -123,6 +124,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4619308549988088341}
   m_CullTransparentMesh: 1
+--- !u!114 &421432466114401428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4619308549988088341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e30492d1d0b4a4bbdc1361d2e21ff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelState: 0
+  _isPathPanel: 0
+  _itemImgPanel: {fileID: 6266575662286813652}
+  _checkObj: {fileID: 3304996550307828054}
 --- !u!1 &7211478579709152544
 GameObject:
   m_ObjectHideFlags: 0
