@@ -12,8 +12,22 @@ public class DishNeedItem : GameUIPanel
     [SerializeField]
     protected GameObject _checkObj;
 
-    public virtual void UpdateView(int itemId,Dictionary<int,int> groundItemMap)
+    protected int _itemId;
+
+    public virtual void MountItemId(int itemId) {
+        _itemId = itemId; 
+    }
+
+    public virtual void UpdateView(Dictionary<int,int> groundItemMap)
     {
         base.UpdateView();
+
+        if (groundItemMap.ContainsKey(_itemId) && groundItemMap[_itemId] > 0)
+        {
+            _checkObj.SetActive(true);
+        }
+        else {
+            _checkObj.SetActive(false);
+        }
     }
 }

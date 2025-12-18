@@ -1,9 +1,11 @@
 using DG.Tweening;
 using FlyEggFrameWork;
+using FlyEggFrameWork.Tools;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +16,8 @@ public class GridUISystem : GameSystem
     public List<TileItemPanel> tileItemPanels = new List<TileItemPanel>();
 
     public List<DemandsPanel> demandPanels = new List<DemandsPanel>();
+
+    public List<CharacterDishPanel>  characterDishPanels= new List<CharacterDishPanel>();
 
     private Transform WorldNode;
 
@@ -89,17 +93,41 @@ public class GridUISystem : GameSystem
         }
     }
 
-    public void UpdateOrderDishes()
-    {
+    public void InitOrderDishes() {
+        Transform dishesContainer = WorldNode.Find("CharacterDishes");
+        List<OrderModel> orderModels = OrderSystem._instance.GetOrderModels();
+
+        characterDishPanels = new List<CharacterDishPanel>();
+        CommonTool.DeleteAllChildren(dishesContainer);
+
         GameObject orderDishPrefab = ResourceHelper.GetUIPrefab("CharacterDish");
         GameObject wonderDishPrefab = ResourceHelper.GetUIPrefab("WonderCharacterDish");
 
+        foreach (OrderModel orderModel in orderModels)
+        {
+            GameObject dishObj;
+            if (orderModel.IsLevelTarget)
+            {
+                dishObj = GameObject.Instantiate(wonderDishPrefab,dishesContainer);
+            }
+            else { 
+                dishObj = GameObject.Instantiate(orderDishPrefab,dishesContainer);
+            }
+            CharacterDishPanel  characterDishPanel= dishObj.GetComponent<CharacterDishPanel>();
+            characterDishPanel.MountOrderModel(orderModel);
+            characterDishPanels.Add(characterDishPanel);
+        }
+
+        UpdateOrderDishes();
+    }
+
+    public void UpdateOrderDishes()
+    {
         Dictionary<int, int> groundItemMap = GridControllerSystem._instance.GetWhiteGroundItemNumMap();
-        
 
-
-
-
+        foreach (CharacterDishPanel characterDishPanel in characterDishPanels) {
+            characterDishPanel.UpdateView(groundItemMap);
+        }
     }
 
 

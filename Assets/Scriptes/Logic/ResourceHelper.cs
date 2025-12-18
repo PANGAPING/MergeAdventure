@@ -27,7 +27,10 @@ public static class ResourceHelper
 
     public static Sprite GetItemSprite(ItemConfig itemConfig) {
         return Resources.Load<Sprite>(Path.Combine(FoldPath.SpriteFolderPath,itemConfig.SpritePath));
+    }
 
+    public static Sprite GetAssetSprite(AssetConfig assetConfig) { 
+        return Resources.Load<Sprite>(Path.Combine(FoldPath.SpriteFolderPath,assetConfig.SpritePath));
     }
 
     public static Vector2 ConvertSpritePivotToRectTransform(Sprite sprite)

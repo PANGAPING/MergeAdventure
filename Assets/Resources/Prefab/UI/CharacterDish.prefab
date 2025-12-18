@@ -238,6 +238,7 @@ MonoBehaviour:
   _isPathPanel: 0
   _characterImg: {fileID: 2900217112162621371}
   _rewardPanel: {fileID: 2745644608855309608}
+  _dishItemContain: {fileID: 2443124185922127774}
 --- !u!1 &2900217112162621373
 GameObject:
   m_ObjectHideFlags: 0

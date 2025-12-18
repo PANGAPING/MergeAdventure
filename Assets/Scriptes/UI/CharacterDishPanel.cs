@@ -1,3 +1,4 @@
+using FlyEggFrameWork.Tools;
 using FlyEggFrameWork.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,15 +15,42 @@ public class CharacterDishPanel : GameUIPanel
     [SerializeField]
     protected OrderRewardPanel _rewardPanel;
 
+    [SerializeField]
+    protected Transform _dishItemContain;
+
+    protected List<DishNeedItem> _dishNeedItems;
+
     public virtual void MountOrderModel(OrderModel orderModel) {
         _orderModel = orderModel;
-        UpdateView();
+        _rewardPanel.Mount(orderModel);
+
+        _dishNeedItems = new List<DishNeedItem>();
+        CommonTool.DeleteAllChildren(_dishItemContain);
+        GameObject orderDishPrefab = ResourceHelper.GetUIPrefab("CharacterDish");
+        if (orderModel.IsLevelTarget) {
+            orderDishPrefab = ResourceHelper.GetUIPrefab("WonderCharacterDish");
+        }
+
+        for (int i = 0; i < orderModel.NeedItemId.Length; i++) {
+            GameObject dishItemObj = GameObject.Instantiate(orderDishPrefab, _dishItemContain);
+            DishNeedItem dishNeedItem = dishItemObj.GetComponent<DishNeedItem>();
+            dishNeedItem.MountItemId(orderModel.NeedItemId[i]);
+            _dishNeedItems.Add(dishNeedItem);
+        }
+
+       
+    }
+    public virtual OrderModel GetOrderModel() {
+        return _orderModel; 
     }
 
-    public override void UpdateView()
+    public void UpdateView(Dictionary<int,int> groundItemMap)
     {
         base.UpdateView();
-        
+
+        foreach (DishNeedItem needItem in _dishNeedItems) {
+            needItem.UpdateView(groundItemMap); 
+        }
     }
 
 }

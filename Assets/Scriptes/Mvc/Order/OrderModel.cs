@@ -7,6 +7,8 @@ public class OrderModel : FlyEggModel
 {
     public int GuestId;
 
+    public bool IsLevelTarget;
+
     public int[] NeedItemId;
 
     public int[] NeedItemNum;
