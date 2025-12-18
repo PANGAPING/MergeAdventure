@@ -1,3 +1,4 @@
+﻿using DG.Tweening;
 using FlyEggFrameWork.Tools;
 using FlyEggFrameWork.UI;
 using System.Collections;
@@ -40,7 +41,7 @@ public class CharacterDishPanel : GameUIPanel
 
             if (orderModel.IsLevelTarget)
             {
-                dishNeedItem =(DishNeedItem) dishItemObj.GetComponent<DishWonderItem>();
+                dishNeedItem = (DishNeedItem)dishItemObj.GetComponent<DishWonderItem>();
             }
             else
             {
@@ -56,18 +57,18 @@ public class CharacterDishPanel : GameUIPanel
         };
     }
     public virtual OrderModel GetOrderModel() {
-        return _orderModel; 
+        return _orderModel;
     }
 
-    public void UpdateView(Dictionary<int,int> groundItemMap)
+    public void UpdateView(Dictionary<int, int> groundItemMap)
     {
         base.UpdateView();
 
         bool satisfied = true;
-        
+
         foreach (DishNeedItem needItem in _dishNeedItems) {
             needItem.UpdateView(groundItemMap);
-            if (!needItem.IsSatisied()) { 
+            if (!needItem.IsSatisied()) {
                 satisfied = false;
             }
         }
@@ -75,4 +76,75 @@ public class CharacterDishPanel : GameUIPanel
         _serveButton.gameObject.SetActive(satisfied);
     }
 
+    public Vector3 GetDishFlytarget() {
+        return transform.position;
+    }
+
+
+    public void FinishAnimation(
+                float popUpY = 40f,          // 向上弹高度
+        float popDur = 0.22f,
+        Vector2 squashScale = default, // 挤压比例 (x > 1, y < 1)
+        float squashDur = 0.08f,
+
+        float stretchDur = 0.1f,     // 回弹时间
+        float downY = 350f,           // 向下离场距离
+        float downDur = 0.28f
+   )
+    {
+        RectTransform rect = transform.GetComponent<RectTransform>();
+        if (rect == null) return;
+
+        rect.DOKill();
+
+        // 默认挤压比例
+        if (squashScale == default)
+            squashScale = new Vector2(1.08f, 0.92f);
+
+        Vector2 startPos = rect.anchoredPosition;
+        Vector3 startScale = rect.localScale;
+
+        Sequence seq = DOTween.Sequence()
+            .SetUpdate(true) // UI 对话通常不受 TimeScale 影响
+            .SetTarget(rect);
+
+        seq.AppendInterval(0.8f);
+
+
+        // 1️⃣ 向上弹（位移）
+        seq.Append(
+            rect.DOAnchorPosY(startPos.y + popUpY, popDur)
+                .SetEase(Ease.OutQuad)
+        );
+
+        // 2️⃣ 解压弹动（挤压）
+        seq.Append(
+            rect.DOScale(
+                new Vector3(
+                    startScale.x * squashScale.x,
+                    startScale.y * squashScale.y,
+                    1f
+                ),
+                squashDur
+            ).SetEase(Ease.OutQuad)
+        );
+
+        // 3️⃣ 回弹恢复（Stretch back）
+        seq.Append(
+            rect.DOScale(startScale, stretchDur)
+                .SetEase(Ease.OutBack, 1.6f)
+        );
+
+        // 4️⃣ 向下离场（重力感）
+        seq.Append(
+            rect.DOAnchorPosY(startPos.y - downY, downDur)
+                .SetEase(Ease.InCubic)
+        );
+
+        // 5️⃣ 完成后消耗
+        seq.OnComplete(() =>
+        {
+            AnimationEndAction(AnimationEndActionType.DESTORY);
+        });
+    }
 }

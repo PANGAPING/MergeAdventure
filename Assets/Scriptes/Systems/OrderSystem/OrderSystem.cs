@@ -54,6 +54,13 @@ public class OrderSystem : GameSystem
 
 
     public void FinishOrder(OrderModel orderModel) {
+
+        int[] needItemId = orderModel.NeedItemId;
+
+        for (int i = 0; i < needItemId.Length; i++) { 
+            GridControllerSystem._instance.DisappearTargetItem(needItemId[i],GridUISystem._instance.GetOrderDishFlytarget(orderModel));
+        }
+
         if (_onOrderFinished != null) {
             _onOrderFinished.Invoke(orderModel);
         }

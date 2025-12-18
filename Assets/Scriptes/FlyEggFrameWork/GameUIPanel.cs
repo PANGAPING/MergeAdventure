@@ -65,6 +65,18 @@ namespace FlyEggFrameWork.UI
         public virtual void Mount()
         {
         }
+        public virtual void AnimationEndAction(AnimationEndActionType animationEndActionType)
+        {
+            if (animationEndActionType == AnimationEndActionType.NONE)
+            {
+
+            }
+            else if (animationEndActionType == AnimationEndActionType.DESTORY)
+            {
+                GameObject.Destroy(gameObject);
+            }
+        }
+
 
         public virtual void Open()
         {

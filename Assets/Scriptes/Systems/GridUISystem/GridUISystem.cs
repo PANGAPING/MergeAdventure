@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using FlyEggFrameWork;
 using FlyEggFrameWork.Tools;
 using System;
@@ -17,7 +17,7 @@ public class GridUISystem : GameSystem
 
     public List<DemandsPanel> demandPanels = new List<DemandsPanel>();
 
-    public List<CharacterDishPanel>  characterDishPanels= new List<CharacterDishPanel>();
+    public List<CharacterDishPanel> characterDishPanels = new List<CharacterDishPanel>();
 
     private Transform WorldNode;
 
@@ -94,6 +94,11 @@ public class GridUISystem : GameSystem
         }
     }
 
+    public Vector3 GetOrderDishFlytarget(OrderModel orderModel) { 
+        CharacterDishPanel characterDishPanel = characterDishPanels.Find(x => x.GetOrderModel() == orderModel);
+        return characterDishPanel.GetDishFlytarget();
+    }
+
     public void InitOrderDishes() {
         Transform dishesContainer = WorldNode.Find("Scrollbar/Viewport/Content/CharacterDishes");
         List<OrderModel> orderModels = OrderSystem._instance.GetOrderModels();
@@ -138,44 +143,52 @@ public class GridUISystem : GameSystem
     public void RemoveOrderDishes(OrderModel orderModel)
     {
         CharacterDishPanel characterDishPanel = characterDishPanels.Find(x => x.GetOrderModel() == orderModel);
-        GameObject.Destroy(characterDishPanel.gameObject);
-
+        characterDishPanel.FinishAnimation();
         characterDishPanels.Remove(characterDishPanel);
     }
 
     /// <summary>
-    /// ÔÚÖ¸¶¨Î»ÖÃµ¯³öÒ»ÌõĞÒÔËÌáÊ¾ÎÄ×Ö£¨Èç¡°Lucky Drop!¡±£©
+    /// åœ¨æŒ‡å®šä½ç½®å¼¹å‡ºä¸€æ¡å¹¸è¿æç¤ºæ–‡å­—ï¼ˆå¦‚â€œLucky Drop!â€ï¼‰
     /// </summary>
-    public void ShowPopup( Vector3 worldPosition, string text, Color color)
+    public void ShowPopup(Vector3 worldPosition, string text, Color color, float delay = 0.3f)
     {
-        GameObject obj= GameObject.Instantiate(ResourceHelper.GetUIPrefab("TextPopup"), WorldNode);
+        GameObject obj = GameObject.Instantiate(
+    ResourceHelper.GetUIPrefab("TextPopup"),
+    WorldNode
+);
+
         RectTransform rt = obj.GetComponent<RectTransform>();
         TextMeshProUGUI t = obj.GetComponent<TextMeshProUGUI>();
+
         t.text = text;
         t.color = color;
 
-        transform.position = worldPosition;
         Vector2 anchoredPos = worldPosition;
-        // ³õÊ¼Ëõ·Å
+
         rt.localScale = Vector3.one * 0.6f;
         rt.anchoredPosition = anchoredPos;
 
-        // ¶¯»­ĞòÁĞ
+        // å…ˆè®¾ä¸ºå®Œå…¨é€æ˜ï¼Œé¿å…å»¶è¿ŸæœŸé—´é—ªä¸€ä¸‹
+        t.alpha = 0f;
+
         Sequence seq = DOTween.Sequence();
 
-        // µÚÒ»½×¶Î£ºÏòÉÏ + µ­Èë + ·Å´ó
+        // â­ å»¶è¿Ÿ
+        if (delay > 0f)
+            seq.AppendInterval(delay);
+
+        // ç¬¬ä¸€é˜¶æ®µï¼šå¼¹å‡º
         seq.Append(rt.DOScale(1.15f, 0.2f).SetEase(Ease.OutBack))
            .Join(rt.DOAnchorPos(anchoredPos, 0.2f).SetEase(Ease.OutQuad))
            .Join(t.DOFade(1f, 0.15f));
 
-        // µÚ¶ş½×¶Î£ºÇáÎ¢»Øµ¯µ½ 1.0
+        // ç¬¬äºŒé˜¶æ®µï¼šå›å¼¹
         seq.Append(rt.DOScale(1f, 0.15f).SetEase(Ease.OutBack));
 
-        // µÚÈı½×¶Î£ºÍùÉÏÆ® + µ­³ö
+        // ç¬¬ä¸‰é˜¶æ®µï¼šä¸Šé£˜æ¶ˆå¤±
         seq.Append(rt.DOAnchorPos(anchoredPos + new Vector2(0, 40), 0.6f).SetEase(Ease.OutQuad))
            .Join(t.DOFade(0f, 0.6f));
 
-        // Íê³ÉºóÏú»Ù
         seq.OnComplete(() => GameObject.Destroy(obj));
     }
 

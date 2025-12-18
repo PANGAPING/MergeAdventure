@@ -606,10 +606,34 @@ public class GridControllerSystem : GameSystem
         UnMountItemMap(tileItem1);
         UnMountItemMap(tileItem2);
 
-        tileItem1.MoveAnimation(_gridHelper.GetCellWorldPosition(mergePos), AnimationEndActionType.DESTORY);
-        tileItem2.MoveAnimation(_gridHelper.GetCellWorldPosition(mergePos), AnimationEndActionType.DESTORY);
+        tileItem1.AnimationEndAction(AnimationEndActionType.DESTORY);
+        tileItem2.AnimationEndAction(AnimationEndActionType.DESTORY);
+
+        //tileItem1.MoveAnimation(_gridHelper.GetCellWorldPosition(mergePos), AnimationEndActionType.DESTORY,8000);
+        //tileItem2.MoveAnimation(_gridHelper.GetCellWorldPosition(mergePos), AnimationEndActionType.DESTORY,8000);
 
         Drop(new Dictionary<int, int> { { mergeToId, 1 } }, mergePos);
+    }
+
+    public void DisappearTargetItem(int targetItemId,Vector3 animationTarget) { 
+
+        _groundWhiteItemNumMap = new Dictionary<int, int>();
+
+        foreach (TileBase tileBase in _gridHelper.GetTileBases()) {
+            if (tileBase.GetState() == TileState.WHITE) {
+                TileItem tileItem = tileBase.GetLayerTopItem();
+                if (tileItem != null) {
+                    int itemId = tileItem.Model.GetItemConfig().ID;
+                    if (itemId == targetItemId) {
+                        UnMountItemMap(tileItem);
+                        tileItem.MoveAnimation(animationTarget,AnimationEndActionType.DESTORY,2000);
+                        break;
+                    }
+                }
+            }
+        }
+
+    
     }
 
     private bool  Drop(Dictionary<int, int> items, Vector2Int dropFromPos , bool luck = false) {

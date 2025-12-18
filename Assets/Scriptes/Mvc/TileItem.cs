@@ -142,17 +142,58 @@ public class TileItem : FlyEggInstance
         BounceAnimation();
     }
 
-    public virtual void MoveAnimation(Vector3 targetPostion, AnimationEndActionType animationEndActionType = AnimationEndActionType.NONE, float speed = 2000f)
+    public virtual void MoveAnimation(
+    Vector3 targetPostion,
+    AnimationEndActionType animationEndActionType = AnimationEndActionType.NONE,
+    float speed = 1400f)
     {
         inAnimation = true;
 
-        float span = (targetPostion - transform.position).magnitude/speed;
-        transform.DOPath(new Vector3[] { transform.position, targetPostion }, span, PathType.Linear).onComplete += () =>
-         {
-             inAnimation = false;
-             AnimationEndAction(animationEndActionType);
-         };
+        // 结束旧动画，防止叠加
+        transform.DOKill();
+
+        Vector3 startPos = transform.position;
+        Vector3 startScale = transform.localScale;
+
+        float distance = (targetPostion - startPos).magnitude;
+        float duration = Mathf.Max(0.02f, distance / Mathf.Max(1f, speed));
+
+        // ===== 可调手感参数 =====
+        float liftHeight = Mathf.Clamp(distance * 0.03f, 0f, 0.25f); // 下落前微抬（世界单位）
+        float liftDur = Mathf.Min(0.10f, duration * 0.25f);
+
+        // 解压（落地挤压）比例：越大越Q
+        Vector3 squashScale = new Vector3(startScale.x * 1.12f, startScale.y * 0.88f, startScale.z * 1.12f);
+        float squashDur = 0.07f;
+        float reboundDur = 0.12f;
+
+        // 下落时长占比
+        float fallDur = Mathf.Max(0.05f, duration - liftDur);
+
+        // ===== 组合动画 =====
+        Sequence seq = DOTween.Sequence().SetTarget(transform);
+
+        // 1) 轻微上提（可选：让“松手掉落”更真实）
+        if (liftHeight > 0.0001f)
+        {
+            seq.Append(transform.DOMoveY(startPos.y + liftHeight, liftDur).SetEase(Ease.OutQuad));
+        }
+
+        // 2) 下坠到目标点（重力感：InQuad / InCubic）
+        seq.Append(transform.DOMove(targetPostion, fallDur).SetEase(Ease.InQuad));
+
+        // 3) 落地“解压”：挤压 -> 回弹（只做 scale，不用透明）
+        seq.Append(transform.DOScale(squashScale, squashDur).SetEase(Ease.OutQuad));
+        seq.Append(transform.DOScale(startScale, reboundDur).SetEase(Ease.OutBack, 1.6f));
+
+        // 4) 完成回调
+        seq.OnComplete(() =>
+        {
+            inAnimation = false;
+            AnimationEndAction(animationEndActionType);
+        });
     }
+
     public virtual void AppearAnimation(AnimationEndActionType animationEndActionType = AnimationEndActionType.NONE)
     {
         inAnimation = true;
