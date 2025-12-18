@@ -34,7 +34,8 @@ public class GridUISystem : GameSystem
     {
         base.Init();
 
-        OrderSystem._instance._onOrderChange += UpdateOrderDishes;
+        OrderSystem._instance._onOrderFinished += RemoveOrderDishes;
+        OrderSystem._instance._onOrderAdd += AddOrderDishes;
         GridControllerSystem._instance._onGroundItemChange += UpdateDemandsPanels;
         GridControllerSystem._instance._onGroundItemChange += UpdateOrderDishes;
     }
@@ -94,7 +95,7 @@ public class GridUISystem : GameSystem
     }
 
     public void InitOrderDishes() {
-        Transform dishesContainer = WorldNode.Find("CharacterDishes");
+        Transform dishesContainer = WorldNode.Find("Scrollbar/Viewport/Content/CharacterDishes");
         List<OrderModel> orderModels = OrderSystem._instance.GetOrderModels();
 
         characterDishPanels = new List<CharacterDishPanel>();
@@ -130,6 +131,16 @@ public class GridUISystem : GameSystem
         }
     }
 
+    public void AddOrderDishes(OrderModel orderModel)
+    {
+        characterDishPanels.Remove(characterDishPanels.Find(x => x.GetOrderModel() == orderModel));
+        
+    }
+
+    public void RemoveOrderDishes(OrderModel orderModel)
+    {
+
+    }
 
     /// <summary>
     /// 在指定位置弹出一条幸运提示文字（如“Lucky Drop!”）

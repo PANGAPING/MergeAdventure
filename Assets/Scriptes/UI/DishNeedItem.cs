@@ -14,6 +14,8 @@ public class DishNeedItem : GameUIPanel
 
     protected int _itemId;
 
+    protected bool satisfied = false;
+
     public virtual void MountItemId(int itemId)
     {
         _itemId = itemId;
@@ -31,9 +33,15 @@ public class DishNeedItem : GameUIPanel
         if (groundItemMap.ContainsKey(_itemId) && groundItemMap[_itemId] > 0)
         {
             _checkObj.SetActive(true);
+            satisfied = true;
         }
         else {
             _checkObj.SetActive(false);
+            satisfied = false;
         }
+    }
+
+    public virtual bool IsSatisied() {
+        return satisfied;
     }
 }

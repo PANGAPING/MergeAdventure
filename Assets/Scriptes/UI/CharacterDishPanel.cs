@@ -20,6 +20,9 @@ public class CharacterDishPanel : GameUIPanel
 
     protected List<DishNeedItem> _dishNeedItems;
 
+    [SerializeField]
+    protected GameUIButton _serveButton;
+
     public virtual void MountOrderModel(OrderModel orderModel) {
         _orderModel = orderModel;
         _rewardPanel.Mount(orderModel);
@@ -47,6 +50,7 @@ public class CharacterDishPanel : GameUIPanel
             _dishNeedItems.Add(dishNeedItem);
         }
 
+        
     }
     public virtual OrderModel GetOrderModel() {
         return _orderModel; 
@@ -56,9 +60,16 @@ public class CharacterDishPanel : GameUIPanel
     {
         base.UpdateView();
 
+        bool satisfied = true;
+        
         foreach (DishNeedItem needItem in _dishNeedItems) {
-            needItem.UpdateView(groundItemMap); 
+            needItem.UpdateView(groundItemMap);
+            if (!needItem.IsSatisied()) { 
+                satisfied = false;
+            }
         }
+
+        _serveButton.gameObject.SetActive(satisfied);
     }
 
 }

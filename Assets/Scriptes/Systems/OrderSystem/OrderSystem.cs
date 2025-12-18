@@ -10,7 +10,11 @@ public class OrderSystem : GameSystem
 {
     public static OrderSystem _instance;
 
-    public EventHandler _onOrderChange;
+    public delegate void OrderEventHandler(OrderModel orderModel);
+
+    public OrderEventHandler _onOrderFinished;
+
+    public OrderEventHandler _onOrderAdd;
 
     protected List<OrderModel> orderModels = new List<OrderModel>();
 
@@ -41,11 +45,18 @@ public class OrderSystem : GameSystem
         orderModel.RewardItemNum = rewardNum.ToArray();
 
         orderModels.Add(orderModel);
+
+
+        if (_onOrderAdd != null) {
+            _onOrderAdd.Invoke(orderModel);
+        }
     }
 
 
-    public void FinishOrder() { 
-    
+    public void FinishOrder(OrderModel orderModel) {
+        if (_onOrderFinished != null) {
+            _onOrderFinished.Invoke(orderModel);
+        }
     }
 
     public List<OrderModel> GetOrderModels() {
@@ -53,11 +64,4 @@ public class OrderSystem : GameSystem
     }
 
 
-    private void OrderChangeEvent()
-    {
-        if (_onOrderChange != null)
-        {
-            _onOrderChange.Invoke();
-        }
-    }
 }
