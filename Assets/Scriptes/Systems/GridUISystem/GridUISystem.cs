@@ -133,13 +133,14 @@ public class GridUISystem : GameSystem
 
     public void AddOrderDishes(OrderModel orderModel)
     {
-        characterDishPanels.Remove(characterDishPanels.Find(x => x.GetOrderModel() == orderModel));
-        
     }
 
     public void RemoveOrderDishes(OrderModel orderModel)
     {
+        CharacterDishPanel characterDishPanel = characterDishPanels.Find(x => x.GetOrderModel() == orderModel);
+        GameObject.Destroy(characterDishPanel.gameObject);
 
+        characterDishPanels.Remove(characterDishPanel);
     }
 
     /// <summary>

@@ -50,7 +50,10 @@ public class CharacterDishPanel : GameUIPanel
             _dishNeedItems.Add(dishNeedItem);
         }
 
-        
+        _serveButton._onClick += () =>
+        {
+            OrderSystem._instance.FinishOrder(_orderModel);
+        };
     }
     public virtual OrderModel GetOrderModel() {
         return _orderModel; 
