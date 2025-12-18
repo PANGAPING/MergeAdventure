@@ -14,8 +14,14 @@ public class DishNeedItem : GameUIPanel
 
     protected int _itemId;
 
-    public virtual void MountItemId(int itemId) {
-        _itemId = itemId; 
+    public virtual void MountItemId(int itemId)
+    {
+        _itemId = itemId;
+        ItemConfig config = ConfigSystem.GetItemConfig(itemId);
+        if (config != null)
+        {
+            _itemImgPanel.sprite = ResourceHelper.GetItemSprite(config);
+        }
     }
 
     public virtual void UpdateView(Dictionary<int,int> groundItemMap)

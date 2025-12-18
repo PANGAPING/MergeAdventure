@@ -1,3 +1,4 @@
+using FlyEggFrameWork.Tools;
 using FlyEggFrameWork.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ public class OrderRewardPanel : GameUIPanel
         
         _rewardItemPanels = new List<RewardItemPanel>();
         GameObject rewardItemPrefab = ResourceHelper.GetUIPrefab("RewardItemPanel");
+
+        CommonTool.DeleteAllChildren(transform);
 
         for (int i = 0; i < rewardTypes.Length; i++) {
             GameObject rewardItemObj = GameObject.Instantiate(rewardItemPrefab, transform);    

@@ -35,7 +35,6 @@ public class GridUISystem : GameSystem
         base.Init();
 
         OrderSystem._instance._onOrderChange += UpdateOrderDishes;
-
         GridControllerSystem._instance._onGroundItemChange += UpdateDemandsPanels;
     }
 

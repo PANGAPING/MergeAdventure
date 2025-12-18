@@ -6,11 +6,11 @@ public class DishWonderItem : DishNeedItem
 {
     [SerializeField]
     private GameObject WhatSymbolObj;
-    public void UpdateView(int itemId, Dictionary<int, int> groundItemMap)
+    public override void UpdateView(Dictionary<int, int> groundItemMap)
     {
-        base.UpdateView();
+        base.UpdateView(groundItemMap);
 
-        if (groundItemMap.ContainsKey(itemId) && groundItemMap[itemId] > 0)
+        if (groundItemMap.ContainsKey(_itemId) && groundItemMap[_itemId] > 0)
         {
             _itemImgPanel.material = null;
             WhatSymbolObj.SetActive(false);

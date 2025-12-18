@@ -20,13 +20,15 @@ public class OrderSystem : GameSystem
         base.InitSelf();
 
         NewOrder(new List<int>() { 1100105 }, new List<int>() { 1 },new List<int> {1,2},new List<int> {100,200},true);
-        NewOrder(new List<int>() { 1100203,1100304 }, new List<int>() { 1 },new List<int> {101,2},new List<int> {1,20},false);
-        NewOrder(new List<int>() { 1100204,1100305 }, new List<int>() { 1 },new List<int> {101,2},new List<int> {2,40},false);
+        NewOrder(new List<int>() { 1100203,1100304 }, new List<int>() { 1,1 },new List<int> {101,2},new List<int> {1,20},false);
+        NewOrder(new List<int>() { 1100204,1100305 }, new List<int>() { 1,1 },new List<int> {101,2},new List<int> {2,40},false);
     }
 
     protected override void Init()
     {
         base.Init();
+
+        GridUISystem._instance.InitOrderDishes();
     }
 
     public void NewOrder(List<int> needItemIds,List<int> needItemNums,List<int> rewardType,List<int> rewardNum,bool isLevelTarget = false) { 

@@ -26,19 +26,27 @@ public class CharacterDishPanel : GameUIPanel
 
         _dishNeedItems = new List<DishNeedItem>();
         CommonTool.DeleteAllChildren(_dishItemContain);
-        GameObject orderDishPrefab = ResourceHelper.GetUIPrefab("CharacterDish");
+        GameObject orderDishPrefab = ResourceHelper.GetUIPrefab("DishNeedItem");
         if (orderModel.IsLevelTarget) {
-            orderDishPrefab = ResourceHelper.GetUIPrefab("WonderCharacterDish");
+            orderDishPrefab = ResourceHelper.GetUIPrefab("DishWonderItem");
         }
 
         for (int i = 0; i < orderModel.NeedItemId.Length; i++) {
             GameObject dishItemObj = GameObject.Instantiate(orderDishPrefab, _dishItemContain);
-            DishNeedItem dishNeedItem = dishItemObj.GetComponent<DishNeedItem>();
+            DishNeedItem dishNeedItem;
+
+            if (orderModel.IsLevelTarget)
+            {
+                dishNeedItem =(DishNeedItem) dishItemObj.GetComponent<DishWonderItem>();
+            }
+            else
+            {
+                dishNeedItem = dishItemObj.GetComponent<DishNeedItem>();
+            }
             dishNeedItem.MountItemId(orderModel.NeedItemId[i]);
             _dishNeedItems.Add(dishNeedItem);
         }
 
-       
     }
     public virtual OrderModel GetOrderModel() {
         return _orderModel; 
