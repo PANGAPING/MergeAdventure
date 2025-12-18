@@ -36,6 +36,7 @@ public class GridUISystem : GameSystem
 
         OrderSystem._instance._onOrderChange += UpdateOrderDishes;
         GridControllerSystem._instance._onGroundItemChange += UpdateDemandsPanels;
+        GridControllerSystem._instance._onGroundItemChange += UpdateOrderDishes;
     }
 
     public void OpenButtonTips(TileItem tileItem, Action<TileItem> callback) {
