@@ -633,7 +633,7 @@ public class GridControllerSystem : GameSystem
             }
         }
 
-    
+        GroundItemChangeEvent();
     }
 
     private bool  Drop(Dictionary<int, int> items, Vector2Int dropFromPos , bool luck = false) {

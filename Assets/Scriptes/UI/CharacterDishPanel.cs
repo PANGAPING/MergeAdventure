@@ -53,6 +53,7 @@ public class CharacterDishPanel : GameUIPanel
 
         _serveButton._onClick += () =>
         {
+            _serveButton.gameObject.SetActive(false);
             OrderSystem._instance.FinishOrder(_orderModel);
         };
     }
