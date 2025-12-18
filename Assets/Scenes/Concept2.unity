@@ -12890,7 +12890,7 @@ GameObject:
   - component: {fileID: 1684237115}
   - component: {fileID: 1684237117}
   m_Layer: 5
-  m_Name: GroupProgressBar
+  m_Name: GroupProgressPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
