@@ -138,7 +138,7 @@ public class InventorySystem :  GameSystem
         }
     }
 
-    private ASSETTYPE ConvertIdToAssetType(int assetId)
+    public ASSETTYPE ConvertIdToAssetType(int assetId)
     {
         ASSETTYPE ass = ASSETTYPE.COIN;
         ass = _assetTypeToIDMap.Keys.ElementAt(_assetTypeToIDMap.Values.ToList().IndexOf(assetId));

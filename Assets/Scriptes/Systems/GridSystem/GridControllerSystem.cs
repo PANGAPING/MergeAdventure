@@ -545,10 +545,13 @@ public class GridControllerSystem : GameSystem
         tileItem.Die();
         
         int itemId = tileItem.GetItemId();
-        int assetId = ConfigSystem.GetAssetItemConfig(itemId).AssetId; 
-        int assetNum = ConfigSystem.GetAssetItemConfig(itemId).Num;
+        AssetItemConfig assetItemConfig = ConfigSystem.GetAssetItemConfig(itemId);
+        InventorySystem._instance.AddAsset(assetItemConfig.AssetId,assetItemConfig.Num);
+        Sprite assetSprite = ResourceHelper.GetAssetSprite(ConfigSystem.GetAssetConfig(assetItemConfig.AssetId));
 
-        InventorySystem._instance.AddAsset(assetId, assetNum);
+        RewardItemPanel rewardItemPanel = GridUISystem._instance.GetAssetBar(assetItemConfig.AssetId);
+
+        GridUISystem._instance.FlyRewardIcon(assetSprite, (float)assetItemConfig.Num / 100,_gridHelper.GetCellWorldPosition(tileItem.GetPos()),rewardItemPanel.transform.position,rewardItemPanel.gameObject.GetComponent<RectTransform>());
     }
 
     private void StartDragTileItem(TileBase tileBase) { 
