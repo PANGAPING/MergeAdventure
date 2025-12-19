@@ -145,7 +145,7 @@ public class TileItem : FlyEggInstance
     public virtual void MoveAnimation(
     Vector3 targetPostion,
     AnimationEndActionType animationEndActionType = AnimationEndActionType.NONE,
-    float speed = 1400f)
+    float duration= 0.4f)
     {
         inAnimation = true;
 
@@ -156,7 +156,6 @@ public class TileItem : FlyEggInstance
         Vector3 startScale = transform.localScale;
 
         float distance = (targetPostion - startPos).magnitude;
-        float duration = Mathf.Max(0.02f, distance / Mathf.Max(1f, speed));
 
         // ===== 可调手感参数 =====
         float liftHeight = Mathf.Clamp(distance * 0.03f, 0f, 0.25f); // 下落前微抬（世界单位）

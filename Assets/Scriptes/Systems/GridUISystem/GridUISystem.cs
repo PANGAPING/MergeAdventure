@@ -21,6 +21,8 @@ public class GridUISystem : GameSystem
 
     private Transform WorldNode;
 
+    public Dictionary<ASSETTYPE, RewardItemPanel> _assetBarsMap;
+
     protected override void InitSelf()
     {
         _instance = this;
@@ -38,6 +40,9 @@ public class GridUISystem : GameSystem
         OrderSystem._instance._onOrderAdd += AddOrderDishes;
         GridControllerSystem._instance._onGroundItemChange += UpdateDemandsPanels;
         GridControllerSystem._instance._onGroundItemChange += UpdateOrderDishes;
+
+        InitOrderDishes();
+        InitAssetBars();
     }
 
     public void OpenButtonTips(TileItem tileItem, Action<TileItem> callback) {
@@ -133,6 +138,28 @@ public class GridUISystem : GameSystem
 
         foreach (CharacterDishPanel characterDishPanel in characterDishPanels) {
             characterDishPanel.UpdateView(groundItemMap);
+        }
+    }
+
+
+    public void InitAssetBars() {
+        _assetBarsMap = new Dictionary<ASSETTYPE, RewardItemPanel>();
+        Transform barContainer = WorldNode.Find("TopUIPanel/Content");
+
+        _assetBarsMap.Add(ASSETTYPE.ENERGY, barContainer.Find("EnergyBar").GetComponent<RewardItemPanel>());
+        _assetBarsMap.Add(ASSETTYPE.COIN, barContainer.Find("CoinBar").GetComponent<RewardItemPanel>());
+        _assetBarsMap.Add(ASSETTYPE.DIAMOND, barContainer.Find("DiamondBar").GetComponent<RewardItemPanel>());
+
+        UpdateAssetBars();
+
+    }
+
+
+    public void UpdateAssetBars() {
+        foreach (ASSETTYPE assetType in _assetBarsMap.Keys) {
+            RewardItemPanel rewardItemPanel = _assetBarsMap[assetType];
+            int itemNum =  InventorySystem._instance.GetAssetNum(assetType);
+            rewardItemPanel.UpdateView(null,itemNum.ToString()); 
         }
     }
 

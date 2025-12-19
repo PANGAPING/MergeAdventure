@@ -32,7 +32,6 @@ public class OrderSystem : GameSystem
     {
         base.Init();
 
-        GridUISystem._instance.InitOrderDishes();
     }
 
     public void NewOrder(List<int> needItemIds,List<int> needItemNums,List<int> rewardType,List<int> rewardNum,bool isLevelTarget = false) { 

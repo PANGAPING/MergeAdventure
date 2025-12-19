@@ -570,7 +570,7 @@ public class GridControllerSystem : GameSystem
                 targetTileItem.SetPos(closetEmptyTile.GetPos());
                 MountItemMap(targetTileItem);
 
-                targetTileItem.MoveAnimation(_gridHelper.GetCellWorldPosition(closetEmptyTile.GetPos()));
+                targetTileItem.MoveAnimation(_gridHelper.GetCellWorldPosition(closetEmptyTile.GetPos()),AnimationEndActionType.NONE,0.2f);
             }
             else
             {
@@ -579,7 +579,7 @@ public class GridControllerSystem : GameSystem
         }
 
         MountItemMap(draggingItem);
-        draggingItem.MoveAnimation(_gridHelper.GetCellWorldPosition(draggingItem.GetPos()));
+        draggingItem.MoveAnimation(_gridHelper.GetCellWorldPosition(draggingItem.GetPos()),AnimationEndActionType.NONE,0.1f);
 
         dragging = false;
         draggingItem = null;
@@ -626,7 +626,7 @@ public class GridControllerSystem : GameSystem
                     int itemId = tileItem.Model.GetItemConfig().ID;
                     if (itemId == targetItemId) {
                         UnMountItemMap(tileItem);
-                        tileItem.MoveAnimation(animationTarget,AnimationEndActionType.DESTORY,2000);
+                        tileItem.MoveAnimation(animationTarget,AnimationEndActionType.DESTORY);
                         break;
                     }
                 }

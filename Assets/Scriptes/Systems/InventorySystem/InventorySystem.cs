@@ -1,8 +1,109 @@
+using FlyEggFrameWork;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
+using Unity.XR.OpenVR;
 using UnityEngine;
 
-public class InventorySystem : MonoBehaviour
+public class InventorySystem :  GameSystem
 {
-    
+    public static InventorySystem _instance;
+    public EventHandler  _onInventoryChange;
+    public UserData _userData;
+
+    public Dictionary<ASSETTYPE, int> _assetTypeToIDMap = new Dictionary<ASSETTYPE, int>() {
+        { ASSETTYPE.ENERGY,1},
+        {ASSETTYPE.COIN,2},
+        {ASSETTYPE.DIAMOND,3},
+        {ASSETTYPE.KEY,101}
+    };
+
+    protected override void InitSelf()
+    {
+        _instance = this;
+        base.InitSelf();
+        _userData = MergeAdventureProgressController._instance.GetUserData();
+    }
+
+    protected override void Init()
+    {
+        base.Init();
+    }
+
+    public bool AddAsset(ASSETTYPE assetType, int count)
+    {
+        bool suc = true;
+
+        int assetId = _assetTypeToIDMap[assetType];
+
+        List<AssetData> assetDatas = _userData.AssetDatas.ToList();
+
+        if (assetDatas.Exists(x => x.AssetId == assetId))
+        {
+            assetDatas.Find(x => x.AssetId == assetId).AssetNum += count;
+        }
+        else
+        {
+            assetDatas.Add(new AssetData(assetId,count));
+        }
+
+        _userData.AssetDatas = assetDatas.ToArray();
+        InventoryChangeEvent();
+        return suc;
+    }
+
+    public bool RemoveAsset(ASSETTYPE assetType, int count)
+    {
+        bool suc = true;
+        int assetId = _assetTypeToIDMap[assetType];
+
+        List<AssetData> assetDatas = _userData.AssetDatas.ToList();
+
+        if (assetDatas.Exists(x => x.AssetId == assetId))
+        {
+            AssetData have = assetDatas.Find(x => x.AssetId == assetId);
+            if (have.AssetNum < count) {
+                return false;
+            }
+            have.AssetNum -= count;
+        }
+        else
+        {
+            return false;
+        }
+
+        _userData.AssetDatas = assetDatas.ToArray();
+        InventoryChangeEvent();
+        return suc;
+    }
+
+    public int GetAssetNum(ASSETTYPE assetType)
+    {
+        int assetId = _assetTypeToIDMap[assetType];
+        List<AssetData> assetDatas = _userData.AssetDatas.ToList();
+
+        if (assetDatas.Exists(x => x.AssetId == assetId))
+        {
+            AssetData have = assetDatas.Find(x => x.AssetId == assetId);
+            return have.AssetNum;
+        }
+        else
+        {
+            return 0;
+        }
+
+    }
+    private void InventoryChangeEvent() {
+        if (_onInventoryChange != null) {
+            _onInventoryChange.Invoke(); 
+        }
+    }
+}
+
+public enum ASSETTYPE { 
+    ENERGY,
+    COIN,
+    DIAMOND,
+    KEY
 }

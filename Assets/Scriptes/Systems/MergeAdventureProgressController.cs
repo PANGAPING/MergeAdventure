@@ -21,12 +21,15 @@ public class MergeAdventureProgressController : GameProgressController
         ConfigSystem.LoadConfigs();
         _userData = SaveSystem.GetUserData(_userId);
         base.InitProgress();
-
         GridControllerSystem._instance._onGroundItemChange += SaveProgress;
     }
 
     public int GetLevelId() {
         return _userData.CurrentLevelId;
+    }
+
+    public UserData GetUserData() {
+        return _userData;
     }
 
     public MapSetting GetMapSetting()

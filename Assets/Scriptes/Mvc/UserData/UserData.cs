@@ -15,6 +15,7 @@ public class UserData :  FlyEggModel
     public AssetData[] AssetDatas;
 
     public OrderModel[] OrderDatas;
+
     public UserData(int userId){
         UserId = userId;
         CurrentLevelId = 1;

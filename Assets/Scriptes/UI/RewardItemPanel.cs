@@ -26,7 +26,9 @@ public class RewardItemPanel : GameUIPanel
     public void UpdateView(Sprite sprite,string text)
     {
         base.UpdateView();
-        _iconPanel.sprite = sprite;
+        if (_iconPanel != null) { 
+            _iconPanel.sprite = sprite;
+        }
         _textPanel.text = text;
     }
 

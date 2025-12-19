@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 31463536}
   - component: {fileID: 31463535}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1582,6 +1582,7 @@ GameObject:
   - component: {fileID: 188154129}
   - component: {fileID: 188154131}
   - component: {fileID: 188154130}
+  - component: {fileID: 188154132}
   m_Layer: 5
   m_Name: EnergyBar
   m_TagString: Untagged
@@ -1648,6 +1649,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 188154128}
   m_CullTransparentMesh: 1
+--- !u!114 &188154132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188154128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1768ef6e08d177e44af19a92e1cab95f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelState: 0
+  _isPathPanel: 0
+  _iconPanel: {fileID: 0}
+  _textPanel: {fileID: 31463535}
 --- !u!1 &203364653
 GameObject:
   m_ObjectHideFlags: 0
@@ -3570,7 +3587,7 @@ GameObject:
   - component: {fileID: 518012570}
   - component: {fileID: 518012569}
   m_Layer: 5
-  m_Name: Text (TMP) (2)
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3992,6 +4009,7 @@ GameObject:
   - component: {fileID: 543781004}
   - component: {fileID: 543781006}
   - component: {fileID: 543781005}
+  - component: {fileID: 543781007}
   m_Layer: 5
   m_Name: DiamondBar
   m_TagString: Untagged
@@ -4058,6 +4076,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 543781003}
   m_CullTransparentMesh: 1
+--- !u!114 &543781007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543781003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1768ef6e08d177e44af19a92e1cab95f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelState: 0
+  _isPathPanel: 0
+  _iconPanel: {fileID: 0}
+  _textPanel: {fileID: 518012569}
 --- !u!1 &560713485
 GameObject:
   m_ObjectHideFlags: 0
@@ -12611,6 +12645,7 @@ GameObject:
   - component: {fileID: 1517364761}
   - component: {fileID: 1517364763}
   - component: {fileID: 1517364762}
+  - component: {fileID: 1517364764}
   m_Layer: 5
   m_Name: CoinBar
   m_TagString: Untagged
@@ -12677,6 +12712,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1517364760}
   m_CullTransparentMesh: 1
+--- !u!114 &1517364764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517364760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1768ef6e08d177e44af19a92e1cab95f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelState: 0
+  _isPathPanel: 0
+  _iconPanel: {fileID: 0}
+  _textPanel: {fileID: 1581527263}
 --- !u!1 &1519883181
 GameObject:
   m_ObjectHideFlags: 0
@@ -13228,7 +13279,7 @@ GameObject:
   - component: {fileID: 1581527264}
   - component: {fileID: 1581527263}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
