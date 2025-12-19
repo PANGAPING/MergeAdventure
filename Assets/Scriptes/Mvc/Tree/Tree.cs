@@ -6,6 +6,8 @@ public class Tree : TileItem
 {
     private TileItemPanel _bloodSliderPanel = null;
 
+    private TreeConfig _treeConfig = null;
+
     protected override void InitSelf()
     {
         base.InitSelf();
@@ -15,6 +17,7 @@ public class Tree : TileItem
     {
         base.MountModel(itemModel);
         Model.SetIntData(GetMaxBloodCount());
+        _treeConfig = ConfigSystem.GetTreeConfig(Model.GetItemConfig().ID);
     }
 
     public virtual bool GetCut(int count =1) {
@@ -39,6 +42,11 @@ public class Tree : TileItem
         return die;
     }
 
+    public virtual int GetCutCost() {
+        int cutIndex = _treeConfig.MaxHealthCount - GetNowBloodCount();
+        return _treeConfig.EnergyCost[cutIndex];
+    }
+
     private void ShowBloodSlide() {
         _bloodSliderPanel = GridUISystem._instance.NewBloodSlider(this);
 
@@ -49,8 +57,10 @@ public class Tree : TileItem
     }
 
     public int GetMaxBloodCount() { 
-        TreeConfig treeConfig = ConfigSystem.GetTreeConfig(Model.GetItemConfig().ID);
-        return treeConfig.MaxHealthCount;
+
+        if(_treeConfig ==null)
+        _treeConfig = ConfigSystem.GetTreeConfig(Model.GetItemConfig().ID);
+        return _treeConfig.MaxHealthCount;
     }
     
 }

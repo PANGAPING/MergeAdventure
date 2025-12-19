@@ -51,6 +51,7 @@ public class GridUISystem : GameSystem
         TileItemPanel tileItemPanel = tipsObj.GetComponent<TileItemPanel>();
         tileItemPanel.MountTileItem(tileItem, () => { callback?.Invoke(tileItem); CloseButtonTips(tileItem); });
 
+
         tileItemPanels.Add(tileItemPanel);
     }
 

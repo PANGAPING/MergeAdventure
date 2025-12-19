@@ -423,10 +423,20 @@ public class GridControllerSystem : GameSystem
     private void TryCutTree(TileItem tileItem) {
         Tree tree = (Tree)tileItem;
 
-        Dictionary<int,int> items =  GetCutDropItemMap(tree );
+        Dictionary<int,int> items =  GetCutDropItemMap(tree);
 
+        int energyCost = tree.GetCutCost();
+
+        bool success = InventorySystem._instance.HaveAsset(ASSETTYPE.ENERGY, energyCost);
+        if (!success)
+        {
+            GridUISystem._instance.ShowPopup(_gridHelper.GetCellWorldPosition(tileItem.GetPos()), "No Energy!", Color.white);
+            DeActiveItem(tileItem);
+            return;
+        }
+        
+        
         Drop(items, tileItem.GetPos());
-
         bool die = tree.GetCut(1);
         if (die) {
             DestroySpecialTileItems(new List<TileItem> { tileItem });
@@ -486,11 +496,22 @@ public class GridControllerSystem : GameSystem
         bool luck = false;
 
         Dictionary<int,int> dropMap = DropAlgorithmHelper.GetGeneratorDropResult(generator,out luck);
-        bool success = Drop(dropMap, tileItem.GetPos(), luck);
 
-        if (!success) {
-            GridUISystem._instance.ShowPopup(_gridHelper.GetCellWorldPosition(tileItem.GetPos()), "Board Full!", Color.white); 
+        bool success = InventorySystem._instance.HaveAsset(ASSETTYPE.ENERGY, 1);
+        if (!success)
+        {
+            GridUISystem._instance.ShowPopup(_gridHelper.GetCellWorldPosition(tileItem.GetPos()), "No Energy!", Color.white);
+            return;
         }
+
+
+        success = Drop(dropMap, tileItem.GetPos(), luck);
+        if (!success) {
+            GridUISystem._instance.ShowPopup(_gridHelper.GetCellWorldPosition(tileItem.GetPos()), "Board Full!", Color.white);
+            return;
+        }
+
+        InventorySystem._instance.RemoveAsset(ASSETTYPE.ENERGY, 1);
 
         //Lucky µ¯Ä»
     }

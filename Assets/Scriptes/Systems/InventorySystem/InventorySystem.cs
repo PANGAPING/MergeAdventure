@@ -53,6 +53,25 @@ public class InventorySystem :  GameSystem
         return suc;
     }
 
+    public bool HaveAsset(ASSETTYPE assetType, int count) {
+
+        int assetId = _assetTypeToIDMap[assetType];
+
+        List<AssetData> assetDatas = _userData.AssetDatas.ToList();
+
+        if (assetDatas.Exists(x => x.AssetId == assetId))
+        {
+            AssetData have = assetDatas.Find(x => x.AssetId == assetId);
+            if (have.AssetNum >= count)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
     public bool RemoveAsset(ASSETTYPE assetType, int count)
     {
         bool suc = true;

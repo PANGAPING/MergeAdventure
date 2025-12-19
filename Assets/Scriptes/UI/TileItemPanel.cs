@@ -26,6 +26,13 @@ public class TileItemPanel : GameUIPanel
                 button._onClick += () => { callback.Invoke();  };
             }
         }
+
+        if (tileItem is Tree) { 
+            Tree tree = (Tree)tileItem;
+            if (button != null) { 
+                button.Mount(tree.GetCutCost().ToString());
+            }
+        }
     }
     public TileItem GetTileItem() {
         return _tileItem; 
