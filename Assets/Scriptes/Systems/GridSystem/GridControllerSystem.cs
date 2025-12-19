@@ -434,8 +434,9 @@ public class GridControllerSystem : GameSystem
             DeActiveItem(tileItem);
             return;
         }
-        
-        
+
+        InventorySystem._instance.RemoveAsset(ASSETTYPE.ENERGY, energyCost);
+
         Drop(items, tileItem.GetPos());
         bool die = tree.GetCut(1);
         if (die) {
@@ -542,6 +543,12 @@ public class GridControllerSystem : GameSystem
     {
         UnMountItemMap(tileItem);
         tileItem.Die();
+        
+        int itemId = tileItem.GetItemId();
+        int assetId = ConfigSystem.GetAssetItemConfig(itemId).AssetId; 
+        int assetNum = ConfigSystem.GetAssetItemConfig(itemId).Num;
+
+        InventorySystem._instance.AddAsset(assetId, assetNum);
     }
 
     private void StartDragTileItem(TileBase tileBase) { 
@@ -671,7 +678,7 @@ public class GridControllerSystem : GameSystem
             //Temp
             if (luck)
             {
-                GridUISystem._instance.ShowPopup( _gridHelper.GetCellWorldPosition(availBases[dropIndex].GetPos()), "Lucky!!", CommonTool.HexToColor("F5FF00"));
+                GridUISystem._instance.ShowPopup( _gridHelper.GetCellWorldPosition(availBases[dropIndex].GetPos()), "Lucky!!", CommonTool.HexToColor("F5FF00"),0.3f);
             }
         }
 

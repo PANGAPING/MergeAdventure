@@ -1,0 +1,27 @@
+﻿[
+  {
+    "ID": 1.0,
+    "Name": "Guest1",
+    "SpritePath": "Guest/Character1"
+  },
+  {
+    "ID": 2.0,
+    "Name": "Guest2",
+    "SpritePath": "Guest/Character2"
+  },
+  {
+    "ID": 3.0,
+    "Name": "Guest3",
+    "SpritePath": "Guest/Character3"
+  },
+  {
+    "ID": 4.0,
+    "Name": "Guest4",
+    "SpritePath": "Guest/Character4"
+  },
+  {
+    "ID": 5.0,
+    "Name": "Guest5",
+    "SpritePath": "Guest/Character5"
+  }
+]

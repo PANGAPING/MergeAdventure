@@ -1,0 +1,52 @@
+﻿[
+  {
+    "ItemID": 4000101.0,
+    "AssetId": 1.0,
+    "Num": 2.0
+  },
+  {
+    "ItemID": 4000102.0,
+    "AssetId": 1.0,
+    "Num": 6.0
+  },
+  {
+    "ItemID": 4000103.0,
+    "AssetId": 1.0,
+    "Num": 15.0
+  },
+  {
+    "ItemID": 4000104.0,
+    "AssetId": 1.0,
+    "Num": 40.0
+  },
+  {
+    "ItemID": 4000105.0,
+    "AssetId": 1.0,
+    "Num": 100.0
+  },
+  {
+    "ItemID": 4000201.0,
+    "AssetId": 2.0,
+    "Num": 2.0
+  },
+  {
+    "ItemID": 4000202.0,
+    "AssetId": 2.0,
+    "Num": 6.0
+  },
+  {
+    "ItemID": 4000203.0,
+    "AssetId": 2.0,
+    "Num": 15.0
+  },
+  {
+    "ItemID": 4000204.0,
+    "AssetId": 2.0,
+    "Num": 40.0
+  },
+  {
+    "ItemID": 4000205.0,
+    "AssetId": 2.0,
+    "Num": 100.0
+  }
+]

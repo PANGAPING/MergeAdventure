@@ -40,6 +40,7 @@ public class GridUISystem : GameSystem
         OrderSystem._instance._onOrderAdd += AddOrderDishes;
         GridControllerSystem._instance._onGroundItemChange += UpdateDemandsPanels;
         GridControllerSystem._instance._onGroundItemChange += UpdateOrderDishes;
+        InventorySystem._instance._onInventoryChange += UpdateAssetBars;
 
         InitOrderDishes();
         InitAssetBars();
@@ -178,7 +179,7 @@ public class GridUISystem : GameSystem
     /// <summary>
     /// 在指定位置弹出一条幸运提示文字（如“Lucky Drop!”）
     /// </summary>
-    public void ShowPopup(Vector3 worldPosition, string text, Color color, float delay = 0.3f)
+    public void ShowPopup(Vector3 worldPosition, string text, Color color, float delay = 0.1f)
     {
         GameObject obj = GameObject.Instantiate(
     ResourceHelper.GetUIPrefab("TextPopup"),

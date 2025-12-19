@@ -70,6 +70,8 @@ namespace FlyEggFrameWork.GameGlobalConfig
 
         public static string AssetConfig = Path.Combine(FoldPath.DefaultJsonConfigFolder, "AssetConfig");
 
+        public static string AssetItemConfig = Path.Combine(FoldPath.DefaultJsonConfigFolder, "AssetItemConfig");
+
         public static string LocalizationExcelFile = Path.Combine(FoldPath.LocalizationFolderPath, "Localization.xlsx");
 
     }

@@ -52,6 +52,25 @@ public class InventorySystem :  GameSystem
         InventoryChangeEvent();
         return suc;
     }
+    public bool AddAsset(int assetId, int count)
+    {
+        ASSETTYPE assetType = ConvertIdToAssetType(assetId);
+
+
+        return AddAsset(assetType, count);
+    }
+    public bool RemoveAsset(int assetId, int count)
+    {
+        ASSETTYPE assetType = ConvertIdToAssetType(assetId);
+
+        return RemoveAsset(assetType, count);
+    }
+
+    public bool HaveAsset(int assetId, int count) { 
+    
+        ASSETTYPE assetType = ConvertIdToAssetType(assetId);;
+        return HaveAsset(assetType, count);
+    }
 
     public bool HaveAsset(ASSETTYPE assetType, int count) {
 
@@ -67,9 +86,9 @@ public class InventorySystem :  GameSystem
                 return true;
             }
         }
-
         return false;
     }
+
 
 
     public bool RemoveAsset(ASSETTYPE assetType, int count)
@@ -117,6 +136,13 @@ public class InventorySystem :  GameSystem
         if (_onInventoryChange != null) {
             _onInventoryChange.Invoke(); 
         }
+    }
+
+    private ASSETTYPE ConvertIdToAssetType(int assetId)
+    {
+        ASSETTYPE ass = ASSETTYPE.COIN;
+        ass = _assetTypeToIDMap.Keys.ElementAt(_assetTypeToIDMap.Values.ToList().IndexOf(assetId));
+        return ass;
     }
 }
 

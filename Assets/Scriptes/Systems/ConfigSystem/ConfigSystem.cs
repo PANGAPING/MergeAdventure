@@ -16,6 +16,7 @@ public static class ConfigSystem
     public static Dictionary<int,ChestConfig> ChestConfigs { get; set; }
     public static Dictionary<int,MechanismConfig> MechanismConfigs { get; set; }
     public static Dictionary<int,AssetConfig> AssetConfigs{ get; set; }
+    public static Dictionary<int,AssetItemConfig> AssetItemConfigs{ get; set; }
 
 
     public static void LoadConfigs()
@@ -26,6 +27,7 @@ public static class ConfigSystem
         InitMechanismConfig();
         InitChestConfig();
         InitAssetConfig();
+        InitAssetItemConfig();
     }
 
     private static void InitItemConfig()
@@ -149,6 +151,31 @@ public static class ConfigSystem
         {
             AssetConfig assetConfig= assetConfigs[i];
             AssetConfigs[assetConfig.ID] = assetConfig;
+        }
+    }
+
+    private static void InitAssetItemConfig() { 
+         AssetItemConfigs = new Dictionary<int,AssetItemConfig>();
+
+        AssetItemConfig[] assetItemConfigs = LoadJsonConfigArray<AssetItemConfig>(ConfigPath.AssetItemConfig);
+
+        for (int i = 0; i < assetItemConfigs.Length; i++)
+        {
+            AssetItemConfig assetItemConfig= assetItemConfigs[i];
+            AssetItemConfigs[assetItemConfig.ItemID] = assetItemConfig;
+        } 
+    }
+
+    public static AssetItemConfig GetAssetItemConfig(int itemId)
+    {
+        try
+        {
+            return AssetItemConfigs[itemId];
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("There is no itemAssetConfig id:" + itemId.ToString());
+            return null;
         }
     }
 
