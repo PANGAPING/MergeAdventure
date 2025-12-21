@@ -174,10 +174,27 @@ public class GridUISystem : GameSystem
 
     public void UpdateaGroupProgress()
     {
-        
+        if (_groupProgressPanel != null)
+        {
+            _groupProgressPanel.UpdateView(InventorySystem._instance.GetAssetNum(ASSETTYPE.KEY));
+        }
     }
-    public void NewGroupProgress() { 
-    
+    public void NewGroupProgress() {
+        if (_groupProgressPanel != null) { 
+            Destroy(_groupProgressPanel.gameObject);
+            _groupProgressPanel = null;
+        }
+
+        int groupNow = GridControllerSystem._instance.GetCurrentTargetGroupId();
+        if (!GridControllerSystem._instance.IsGroupUnlockByKey(groupNow)) {
+            return; 
+        }
+
+        GameObject progressPanelObject = GameObject.Instantiate(ResourceHelper.GetUIPrefab("GroupProgressPanel"),WorldNode);
+        _groupProgressPanel = progressPanelObject.GetComponent<GroupProgressPanel>();
+
+        _groupProgressPanel.Mount(GridControllerSystem._instance.GetGroupNeedKey(groupNow));
+        progressPanelObject.transform.position = GridControllerSystem._instance.GetGroupCenterPosition(groupNow);
     }
 
 

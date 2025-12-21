@@ -17,15 +17,26 @@ public class GroupProgressPanel : GameUIPanel
     private TextMeshProUGUI _progressText;
 
     [SerializeField]
-    private GroupUnlocker _groupUnlocker;
+    private GameObject _unlockBtn;
 
-    public void Mount(GroupUnlocker groupUnlocker) { 
-        _groupUnlocker = groupUnlocker;
+    private int _need;
+
+    public void Mount(int need) { 
+        _need = need;
     }
 
     public void UpdateView(int have) {
-        int need = _groupUnlocker.GetNeedKeyCount();
+        int need = _need;
         _progressSlider.value = (float)have / (float)need;
         _progressText.text = have.ToString() + "/" + need.ToString();
+        if (have >= need)
+        {
+            _progressSlider.gameObject.SetActive(false);
+            _unlockBtn.SetActive(true);
+        }
+        else {
+            _progressSlider.gameObject.SetActive(true);
+            _unlockBtn.SetActive(false);
+        }
     }
 }

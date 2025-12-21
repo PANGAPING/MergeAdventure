@@ -506,12 +506,33 @@ public class GridControllerSystem : GameSystem
                 return group; 
             }
         }
-
         return -1;
     }
 
+    public Vector2 GetGroupCenterPosition(int group) { 
+        List<TileItem> elfClouds = _gridHelper.GetElfClouds(group);
+        List<Vector2Int> vector2Ints = elfClouds.Select(x => x.GetPos()).ToList();
+        Vector2 center = Vector2.zero;
+        foreach (Vector2Int pos in vector2Ints) { 
+            center += _gridHelper.GetCellWorldPosition(pos);
+        }
+
+        center = center / vector2Ints.Count;
+
+        return center;
+    }
+
+    public int GetGroupNeedKey(int group) {
+        int keyNum = 1;
+        ItemModel groupLocker = MapSetting.Items.ToList().Find(x => x.GetItemConfig().Name == "GroupLocker" && x.IntData == group);
+        if (groupLocker != null) {
+            keyNum = groupLocker.IntData; 
+        }
+        return keyNum;
+    }
+
     public bool IsGroupUnlockByKey(int group) {
-        return itemMap[ItemType.ELF].ToList().Exists(x => (x.Value.GetGroup() == group));
+        return !itemMap[ItemType.ELF].ToList().Exists(x => (x.Value.GetGroup() == group));
     }
 
     public void UnlockGroup(int group) {
