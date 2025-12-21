@@ -1339,6 +1339,19 @@
     "IntData": "[]"
   },
   {
+    "ID": 5000001.0,
+    "Name": "GroupLocker",
+    "ItemBaseSize": "[1,1]",
+    "SpritePath": "MapSetting/GroupLocker",
+    "PrefabPath": null,
+    "NextLevelID": 0.0,
+    "Type": "MAPSETTING",
+    "Movable": 0.0,
+    "Obstacle": 0.0,
+    "Layer": 9.0,
+    "IntData": "[]"
+  },
+  {
     "ID": 9000001.0,
     "Name": "GroupPainter",
     "ItemBaseSize": "[1,1]",

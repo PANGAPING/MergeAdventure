@@ -62,7 +62,9 @@ public enum ItemType
     [StringValue("CHEST")]
     CHEST,
     [StringValue("WONDERSKETCH")]
-    WONDERSKETCH
+    WONDERSKETCH,
+    [StringValue("MAPSETTING")]
+    MAPSETTING
 }
 
 
