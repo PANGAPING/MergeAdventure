@@ -172,7 +172,7 @@ public class GridUISystem : GameSystem
         NewGroupProgress();
     }
 
-    public void UpdateaGroupProgress()
+    public void UpdateGroupProgress()
     {
         if (_groupProgressPanel != null)
         {
@@ -195,6 +195,7 @@ public class GridUISystem : GameSystem
 
         _groupProgressPanel.Mount(GridControllerSystem._instance.GetGroupNeedKey(groupNow));
         progressPanelObject.transform.position = GridControllerSystem._instance.GetGroupCenterPosition(groupNow);
+        UpdateGroupProgress();
     }
 
 
