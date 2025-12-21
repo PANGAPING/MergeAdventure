@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 2580519645038984920}
   - component: {fileID: 3173510008435754721}
   m_Layer: 5
-  m_Name: CloudLocker
+  m_Name: GroupLocker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

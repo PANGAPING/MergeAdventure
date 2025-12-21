@@ -228,7 +228,7 @@ public class LevelEditor : EditorWindow
     }
 
 
-    private void MountTileItem(ItemModel itemModel)
+    private TileItem MountTileItem(ItemModel itemModel)
     {
 
         ItemConfig itemConfig = ConfigSystem.GetItemConfig(itemModel.ItemConfigID);
@@ -284,7 +284,7 @@ public class LevelEditor : EditorWindow
         TileBase tileBase = _gridHelper.GetTileBase(tilePos);
         tileBase.OccupyItem(item);
 
-        item.SetGroup(groupValue);
+        return item;
     }
 
 
@@ -704,7 +704,8 @@ public class LevelEditor : EditorWindow
     private void NewItem(ItemConfig itemConfig, Vector2Int tilePos)
     {
         ItemModel itemModel = new ItemModel(itemConfig, CommonTool.Vector2IntToArray(tilePos));
-        MountTileItem(itemModel);
+        TileItem item = MountTileItem(itemModel);
+        item.SetGroup(groupValue);
     }
     private void AddDemandToWonderSketch(ItemConfig itemConfig, WonderSketch wonderSketch) { 
         wonderSketch.SetDemand(itemConfig.ID);

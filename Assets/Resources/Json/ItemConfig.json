@@ -1343,7 +1343,7 @@
     "Name": "GroupLocker",
     "ItemBaseSize": "[1,1]",
     "SpritePath": "MapSetting/GroupLocker",
-    "PrefabPath": "MapSetting/GroupLocker",
+    "PrefabPath": "TileItem/GroupLocker",
     "NextLevelID": 0.0,
     "Type": "MAPSETTING",
     "Movable": 0.0,
