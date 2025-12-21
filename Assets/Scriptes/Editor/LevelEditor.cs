@@ -72,11 +72,15 @@ public class LevelEditor : EditorWindow
     [Space]
     protected Transform WorldNode;
 
+    protected Transform ItemsNode;
+
     protected Transform BoardNode;
 
     protected GridLayoutGroup BoardLayoutGroup;
 
     public Dictionary<ItemType, Transform> NodeMap;
+
+    public Dictionary<int, Transform> LayerNodeMap;
 
     [Header("Helper")]
     [Space]
@@ -133,6 +137,8 @@ public class LevelEditor : EditorWindow
 
         GameObject worldNodeObj = GameObject.Find("Canvas");
         WorldNode = worldNodeObj.transform;
+
+
         if (worldNodeObj != null)
         {
             CommonTool.DeleteAllChildrenImmediate(WorldNode);
@@ -142,10 +148,16 @@ public class LevelEditor : EditorWindow
             return;
         }
 
+
         GameObject boardNodeObj = GameObject.Find("Canvas/GameBoard");
         if (boardNodeObj != null) {
             DestroyImmediate(boardNodeObj);
         }
+
+        GameObject itemNodeObj = new GameObject("Items");
+        itemNodeObj.transform.SetParent(WorldNode, false);
+        ItemsNode = itemNodeObj.transform;
+
 
         GameObject boardPrefab = Resources.Load<GameObject>(Path.Combine(FoldPath.PrefabFolderPath, "GameBoard"));
         GameObject boardObj = GameObject.Instantiate(boardPrefab, WorldNode);
@@ -159,6 +171,7 @@ public class LevelEditor : EditorWindow
 
         SceneVisibilityManager.instance.DisableAllPicking();
         LoadMap();
+        SortLayer();
     }
 
     private void InitTileCursor() {
@@ -176,6 +189,8 @@ public class LevelEditor : EditorWindow
         MapSetting = ConfigSystem.GetMapSetting(editingLevel);
 
         NodeMap = new Dictionary<ItemType, Transform>();
+        LayerNodeMap = new Dictionary<int, Transform>();
+
         itemMap = new Dictionary<ItemType, Dictionary<Vector2Int, TileItem>>();
         itemModelListMap = new Dictionary<ItemType, List<ItemModel>>();
 
@@ -199,6 +214,20 @@ public class LevelEditor : EditorWindow
         }
     }
 
+    private void SortLayer() {
+        List<int> layers = new List<int>();
+        foreach (int layer in LayerNodeMap.Keys)
+        {
+            layers.Add(layer);
+        }
+        
+        layers.Sort((int x,int y) => x - y);
+
+        foreach (int layer in layers) {
+            LayerNodeMap[layer].SetSiblingIndex(layers.IndexOf(layer)); 
+        }
+    }
+
 
     private void MountTileItem(ItemModel itemModel)
     {
@@ -207,7 +236,18 @@ public class LevelEditor : EditorWindow
 
         GameObject itemPrefab = ResourceHelper.GetItemPrefab(itemConfig);
 
-        GameObject itemObject = GameObject.Instantiate(itemPrefab, NodeMap[itemConfig.Type]);
+        int layer = itemConfig.Layer;
+        GameObject itemObject;
+
+        if (!LayerNodeMap.ContainsKey(layer))
+        {
+            LayerNodeMap.Add(layer, new GameObject(layer.ToString()).transform);
+            LayerNodeMap[layer].SetParent(ItemsNode);
+        }
+
+        itemObject = GameObject.Instantiate(itemPrefab, LayerNodeMap[layer]);
+
+        // itemObject = GameObject.Instantiate(itemPrefab, NodeMap[itemConfig.Type]);
 
         TileItem item = itemObject.GetComponent<TileItem>();
 
@@ -234,6 +274,7 @@ public class LevelEditor : EditorWindow
         {
            _gridHelper.PutObjectOnTile(itemObject, tilePos, 0);
         }
+
         TileBase tileBase = _gridHelper.GetTileBase(tilePos);
         tileBase.OccupyItem(item);
     }
@@ -556,25 +597,38 @@ public class LevelEditor : EditorWindow
 
         GUILayout.BeginVertical();
 
-        for (int i = 0; i < ItemTypes.Length; i++)
-        {
-            if (i % 5 == 0) {
-                GUILayout.BeginHorizontal();
-            }
-            ItemType itemType = ItemTypes[i];
-            string itemTypeString = EnumUtils.GetStringValue(itemType);
-            bool active = GUILayout.Toggle(NodeMap[itemType].gameObject.activeSelf, itemTypeString);
+        //  for (int i = 0; i < ItemTypes.Length; i++)
+        //  {
+        //      if (i % 5 == 0) {
+        //          GUILayout.BeginHorizontal();
+        //      }
+        //      ItemType itemType = ItemTypes[i];
+        //      string itemTypeString = EnumUtils.GetStringValue(itemType);
+        //      bool active = GUILayout.Toggle(NodeMap[itemType].gameObject.activeSelf, itemTypeString);
+        //      if (active)
+        //      {
+        //          NodeMap[itemType].gameObject.SetActive(true);
+        //      }
+        //      else { 
+        //          NodeMap[itemType].gameObject.SetActive(false);
+        //      }
+        //      if (i % 5 == 4 || i == ItemTypes.Length -1) {
+        //          GUILayout.FlexibleSpace();
+        //          GUILayout.EndHorizontal();
+        //      }
+        //  }
+
+        foreach (int layer in LayerNodeMap.Keys) {
+            bool active = GUILayout.Toggle(LayerNodeMap[layer].gameObject.activeSelf, layer.ToString());
             if (active)
             {
-                NodeMap[itemType].gameObject.SetActive(true);
+                LayerNodeMap[layer].gameObject.SetActive(true);
             }
-            else { 
-                NodeMap[itemType].gameObject.SetActive(false);
+            else
+            {
+                LayerNodeMap[layer].gameObject.SetActive(false);
             }
-            if (i % 5 == 4 || i == ItemTypes.Length -1) {
-                GUILayout.FlexibleSpace();
-                GUILayout.EndHorizontal();
-            }
+
         }
 
         GUILayout.EndVertical();

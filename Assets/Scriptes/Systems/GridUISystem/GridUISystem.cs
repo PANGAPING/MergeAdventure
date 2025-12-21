@@ -149,6 +149,12 @@ public class GridUISystem : GameSystem
         _assetBarsMap = new Dictionary<ASSETTYPE, RewardItemPanel>();
         Transform barContainer = WorldNode.Find("TopUIPanel/Content");
 
+        RewardItemPanel engergyBar = barContainer.Find("EnergyBar").GetComponent<RewardItemPanel>();
+        engergyBar.transform.GetComponent<GameUIButton>()._onClick += () =>
+        {
+            InventorySystem._instance.AddAsset(ASSETTYPE.ENERGY, 100);
+        };
+
         _assetBarsMap.Add(ASSETTYPE.ENERGY, barContainer.Find("EnergyBar").GetComponent<RewardItemPanel>());
         _assetBarsMap.Add(ASSETTYPE.COIN, barContainer.Find("CoinBar").GetComponent<RewardItemPanel>());
         _assetBarsMap.Add(ASSETTYPE.DIAMOND, barContainer.Find("DiamondBar").GetComponent<RewardItemPanel>());
