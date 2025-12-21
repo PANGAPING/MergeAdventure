@@ -154,9 +154,6 @@ public class LevelEditor : EditorWindow
             DestroyImmediate(boardNodeObj);
         }
 
-        GameObject itemNodeObj = new GameObject("Items");
-        itemNodeObj.transform.SetParent(WorldNode, false);
-        ItemsNode = itemNodeObj.transform;
 
 
         GameObject boardPrefab = Resources.Load<GameObject>(Path.Combine(FoldPath.PrefabFolderPath, "GameBoard"));
@@ -166,6 +163,11 @@ public class LevelEditor : EditorWindow
         BoardLayoutGroup = BoardNode.GetComponent<GridLayoutGroup>();
 
         _gridHelper = new GridHelper(BoardLayoutGroup);
+
+        GameObject itemNodeObj = new GameObject("Items");
+        itemNodeObj.transform.SetParent(WorldNode, false);
+        ItemsNode = itemNodeObj.transform;
+
 
         InitTileCursor();
 
@@ -197,9 +199,9 @@ public class LevelEditor : EditorWindow
         foreach (ItemType itemType in ItemTypes)
         {
             string itemTypeString = EnumUtils.GetStringValue(itemType);
-            Transform node = new GameObject(itemTypeString).transform;
-            node.SetParent(WorldNode);
-            NodeMap.Add(itemType, node);
+            //Transform node = new GameObject(itemTypeString).transform;
+            //node.SetParent(WorldNode);
+            //NodeMap.Add(itemType, node);
             itemModelListMap.Add(itemType, new List<ItemModel>());
         }
 
@@ -237,6 +239,7 @@ public class LevelEditor : EditorWindow
         GameObject itemPrefab = ResourceHelper.GetItemPrefab(itemConfig);
 
         int layer = itemConfig.Layer;
+        ItemType itemType = itemConfig.Type;
         GameObject itemObject;
 
         if (!LayerNodeMap.ContainsKey(layer))
@@ -245,7 +248,13 @@ public class LevelEditor : EditorWindow
             LayerNodeMap[layer].SetParent(ItemsNode);
         }
 
-        itemObject = GameObject.Instantiate(itemPrefab, LayerNodeMap[layer]);
+        if (!NodeMap.ContainsKey(itemType))
+        {
+            NodeMap.Add(itemType, new GameObject(EnumUtils.GetStringValue(itemType)).transform);
+            NodeMap[itemType].SetParent(LayerNodeMap[layer]);
+        }
+
+        itemObject = GameObject.Instantiate(itemPrefab,LayerNodeMap[layer]);
 
         // itemObject = GameObject.Instantiate(itemPrefab, NodeMap[itemConfig.Type]);
 
