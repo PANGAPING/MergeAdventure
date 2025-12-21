@@ -217,11 +217,10 @@ public class LevelEditor : EditorWindow
     }
 
     private void SortLayer() {
-        LayerNodeMap.OrderBy(x => x.Key);
 
-        List<int> layers = LayerNodeMap.Keys.ToList();
+        LayerNodeMap = CommonTool.RebuildSortedByKey(LayerNodeMap);
 
-        foreach (int layer in layers) {
+        foreach (int layer in LayerNodeMap.Keys) {
             LayerNodeMap[layer].SetSiblingIndex(LayerNodeMap.Keys.ToList().IndexOf(layer)); 
         }
 

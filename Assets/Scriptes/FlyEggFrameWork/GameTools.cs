@@ -10,16 +10,54 @@ namespace FlyEggFrameWork.Tools
 {
     public static class CommonTool
     {
-                /// <summary>
-    /// 16进制字符串转 Unity Color
-    /// 支持：#RGB, #RGBA, #RRGGBB, #RRGGBBAA（# 可省略）
-    /// </summary>
-    public static Color HexToColor(string hex)
-    {
-        if (string.IsNullOrEmpty(hex))
-            return Color.white;
 
-        hex = hex.Trim();
+
+        public static Dictionary<TKey, TValue> RebuildSortedByValue<TKey, TValue>(
+    Dictionary<TKey, TValue> source,
+    bool ascending = true)
+        {
+            var result = new Dictionary<TKey, TValue>();
+
+            var sorted = ascending
+                ? source.OrderBy(kv => kv.Value)
+                : source.OrderByDescending(kv => kv.Value);
+
+            foreach (var kv in sorted)
+            {
+                result.Add(kv.Key, kv.Value);
+            }
+
+            return result;
+        }
+        public static Dictionary<TKey, TValue> RebuildSortedByKey<TKey, TValue>(
+    Dictionary<TKey, TValue> source,
+    bool ascending = true)
+        {
+            var result = new Dictionary<TKey, TValue>();
+
+            var sorted = ascending
+                ? source.OrderBy(kv => kv.Key)
+                : source.OrderByDescending(kv => kv.Key);
+
+            foreach (var kv in sorted)
+            {
+                result.Add(kv.Key, kv.Value);
+            }
+
+            return result;
+        }
+
+
+        /// <summary>
+        /// 16进制字符串转 Unity Color
+        /// 支持：#RGB, #RGBA, #RRGGBB, #RRGGBBAA（# 可省略）
+        /// </summary>
+        public static Color HexToColor(string hex)
+        {
+            if (string.IsNullOrEmpty(hex))
+                return Color.white;
+
+            hex = hex.Trim();
 
         if (hex.StartsWith("#"))
             hex = hex.Substring(1);
