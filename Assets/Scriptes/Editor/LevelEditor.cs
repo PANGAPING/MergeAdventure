@@ -91,6 +91,7 @@ public class LevelEditor : EditorWindow
     protected int groupValue;
 
 
+
     [MenuItem("Level/LevelEditor")]
     private static void ShowLevelEditorEnter()
     {
@@ -282,6 +283,8 @@ public class LevelEditor : EditorWindow
 
         TileBase tileBase = _gridHelper.GetTileBase(tilePos);
         tileBase.OccupyItem(item);
+
+        item.SetGroup(groupValue);
     }
 
 
@@ -308,11 +311,9 @@ public class LevelEditor : EditorWindow
         DrawItems();
 
         DrawItemExtraConfigPanel();
-
         DrawViewHelperPanel();
         DrawSaveButton();
         DrawTestButton();
-
         EditorGUILayout.EndVertical();
     }
 
@@ -574,11 +575,11 @@ public class LevelEditor : EditorWindow
 
     private void DrawItemExtraConfigPanel()
     {
-        if (usingItem == null || usingItem.Type != ItemType.MAPPAINTER) {
+        if (usingItem == null ) {
             return;
         }
 
-        if (usingItem.Name == "GroupPainter")
+        if (usingItem.Name == "GroupPainter" || usingItem.Name =="GroupLocker" || usingItem.Name.StartsWith("ElfCloud"))
         {
             GUILayout.BeginHorizontal();
             GUILayout.Space(10);
@@ -588,6 +589,7 @@ public class LevelEditor : EditorWindow
             GUILayout.EndHorizontal();
         }
     }
+
 
     private void DrawViewHelperPanel()
     {
