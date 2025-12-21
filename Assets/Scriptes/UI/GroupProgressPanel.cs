@@ -17,7 +17,7 @@ public class GroupProgressPanel : GameUIPanel
     private TextMeshProUGUI _progressText;
 
     [SerializeField]
-    private GameObject _unlockBtn;
+    private GameUIButton _unlockBtn;
 
     private int _need;
 
@@ -32,11 +32,11 @@ public class GroupProgressPanel : GameUIPanel
         if (have >= need)
         {
             _progressSlider.gameObject.SetActive(false);
-            _unlockBtn.SetActive(true);
+            _unlockBtn.gameObject.SetActive(true);
         }
         else {
             _progressSlider.gameObject.SetActive(true);
-            _unlockBtn.SetActive(false);
+            _unlockBtn.gameObject.SetActive(false);
         }
     }
 }

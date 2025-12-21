@@ -44,7 +44,7 @@ public class GridUISystem : GameSystem
         GridControllerSystem._instance._onGroundItemChange += UpdateDemandsPanels;
         GridControllerSystem._instance._onGroundItemChange += UpdateOrderDishes;
         InventorySystem._instance._onInventoryChange += UpdateAssetBars;
-        InventorySystem._instance._onInventoryChange += UpdateaGroupProgress;
+        InventorySystem._instance._onInventoryChange += UpdateGroupProgress;
         GridControllerSystem._instance._onUnlockGroup += NewGroupProgress;
 
         InitOrderDishes();
