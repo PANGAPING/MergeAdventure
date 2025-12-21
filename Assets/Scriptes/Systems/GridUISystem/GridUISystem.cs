@@ -168,6 +168,9 @@ public class GridUISystem : GameSystem
 
     }
 
+    public GroupProgressPanel GetGroupProgressPanel() {
+        return _groupProgressPanel;
+    }
     public void InitGroupProgress() {
         NewGroupProgress();
     }

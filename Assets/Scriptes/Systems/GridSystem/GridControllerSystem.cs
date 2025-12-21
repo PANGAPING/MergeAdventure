@@ -522,12 +522,16 @@ public class GridControllerSystem : GameSystem
         return center;
     }
 
+    public MapSetting GetOriMapSetting() {
+        return ConfigSystem.GetMapSetting(MergeAdventureProgressController._instance.GetLevelId());
+    }
+
     public int GetGroupNeedKey(int group) {
         int keyNum = 1;
 
         List<TileItem> tileItems = _gridHelper.GetElfClouds(group);
 
-        ItemModel groupLocker = MapSetting.Items.ToList().Find(x => x.GetItemConfig().Name == "GroupLocker" && tileItems.Exists(y =>y.GetPos() == CommonTool.ArrayToVector2Int(x.TilePos)));
+        ItemModel groupLocker = GetOriMapSetting().Items.ToList().Find(x => x.GetItemConfig().Name == "GroupLocker" && tileItems.Exists(y =>y.GetPos() == CommonTool.ArrayToVector2Int(x.TilePos)));
 
         if (groupLocker != null) {
             keyNum = groupLocker.IntData;

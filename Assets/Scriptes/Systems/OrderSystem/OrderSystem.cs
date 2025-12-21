@@ -77,6 +77,12 @@ public class OrderSystem : GameSystem
             {
                 GridUISystem._instance.FlyRewardIcon(assetIcon, 1, characterDishPanel.transform.position, panel.transform.position, panel.gameObject.GetComponent<RectTransform>());
             }
+            if (InventorySystem._instance.ConvertIdToAssetType(itemType) == ASSETTYPE.KEY) {
+                GroupProgressPanel groupProgressPanel = GridUISystem._instance.GetGroupProgressPanel();
+                if (groupProgressPanel != null) { 
+                    GridUISystem._instance.FlyRewardIcon(assetIcon, 1, characterDishPanel.transform.position,groupProgressPanel.transform.position, groupProgressPanel.gameObject.GetComponent<RectTransform>());
+                }
+            }
         }
 
         if (_onOrderFinished != null) {
