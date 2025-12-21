@@ -524,10 +524,15 @@ public class GridControllerSystem : GameSystem
 
     public int GetGroupNeedKey(int group) {
         int keyNum = 1;
-        ItemModel groupLocker = MapSetting.Items.ToList().Find(x => x.GetItemConfig().Name == "GroupLocker" && x.IntData == group);
+
+        List<TileItem> tileItems = _gridHelper.GetElfClouds(group);
+
+        ItemModel groupLocker = MapSetting.Items.ToList().Find(x => x.GetItemConfig().Name == "GroupLocker" && tileItems.Exists(y =>y.GetPos() == CommonTool.ArrayToVector2Int(x.TilePos)));
+
         if (groupLocker != null) {
-            keyNum = groupLocker.IntData; 
+            keyNum = groupLocker.IntData;
         }
+
         return keyNum;
     }
 

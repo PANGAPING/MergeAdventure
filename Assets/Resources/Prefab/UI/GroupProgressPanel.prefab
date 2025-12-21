@@ -841,7 +841,7 @@ MonoBehaviour:
   _lockerImg: {fileID: 2620645884679782266}
   _progressSlider: {fileID: 2620645885796617159}
   _progressText: {fileID: 2620645885233780023}
-  _unlockBtn: {fileID: 0}
+  _unlockBtn: {fileID: 3986691484544055325}
 --- !u!1001 &2620645885313903541
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -959,6 +959,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab2e717b5c0b89e4e88d374b6c6e5824, type: 3}
+--- !u!114 &3986691484544055325 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1373023134385165224, guid: ab2e717b5c0b89e4e88d374b6c6e5824, type: 3}
+  m_PrefabInstance: {fileID: 2620645885313903541}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01975af7387c3b2488f262dd2e119e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &5197972462164376444 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7817281272482926793, guid: ab2e717b5c0b89e4e88d374b6c6e5824, type: 3}
