@@ -24,6 +24,8 @@ public class GridUISystem : GameSystem
 
     public Dictionary<ASSETTYPE, RewardItemPanel> _assetBarsMap;
 
+    public GroupProgressPanel _groupProgressPanel;
+
     protected override void InitSelf()
     {
         _instance = this;
@@ -42,9 +44,12 @@ public class GridUISystem : GameSystem
         GridControllerSystem._instance._onGroundItemChange += UpdateDemandsPanels;
         GridControllerSystem._instance._onGroundItemChange += UpdateOrderDishes;
         InventorySystem._instance._onInventoryChange += UpdateAssetBars;
+        InventorySystem._instance._onInventoryChange += UpdateaGroupProgress;
+        GridControllerSystem._instance._onUnlockGroup += NewGroupProgress;
 
         InitOrderDishes();
         InitAssetBars();
+        InitGroupProgress();
     }
 
     public void OpenButtonTips(TileItem tileItem, Action<TileItem> callback) {
@@ -161,6 +166,18 @@ public class GridUISystem : GameSystem
 
         UpdateAssetBars();
 
+    }
+
+    public void InitGroupProgress() {
+        NewGroupProgress();
+    }
+
+    public void UpdateaGroupProgress()
+    {
+        
+    }
+    public void NewGroupProgress() { 
+    
     }
 
 

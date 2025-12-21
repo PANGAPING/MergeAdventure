@@ -7,15 +7,25 @@ using TMPro;
 
 public class GroupProgressPanel : GameUIPanel
 {
+    [SerializeField]
     private Image _lockerImg;
 
+    [SerializeField]
     private Slider _progressSlider;
 
+    [SerializeField]
     private TextMeshProUGUI _progressText;
 
+    [SerializeField]
+    private GroupUnlocker _groupUnlocker;
 
-    public void UpdateView(int have,int all) {
-        _progressSlider.value = (float)have / (float)all;
-        _progressText.text = have.ToString() + "/" +all.ToString();
+    public void Mount(GroupUnlocker groupUnlocker) { 
+        _groupUnlocker = groupUnlocker;
+    }
+
+    public void UpdateView(int have) {
+        int need = _groupUnlocker.GetNeedKeyCount();
+        _progressSlider.value = (float)have / (float)need;
+        _progressText.text = have.ToString() + "/" + need.ToString();
     }
 }

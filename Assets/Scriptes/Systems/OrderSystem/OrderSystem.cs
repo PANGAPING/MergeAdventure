@@ -79,8 +79,6 @@ public class OrderSystem : GameSystem
             }
         }
 
-
-
         if (_onOrderFinished != null) {
             _onOrderFinished.Invoke(orderModel);
         }

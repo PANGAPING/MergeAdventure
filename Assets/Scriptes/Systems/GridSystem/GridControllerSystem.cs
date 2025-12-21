@@ -56,12 +56,18 @@ public class GridControllerSystem : GameSystem
 
     public EventHandler  _onGroundItemChange;
 
+    public EventHandler  _onUnlockGroup;
+
     private Dictionary<int, int> _groundWhiteItemNumMap = new Dictionary<int, int>();
 
     public List<ShelterTileBase> _shelterTiles = new List<ShelterTileBase>();
 
     public List<int> _shelterTileItemIds = new List<int>() {-1,-1,-1,-1,-1,-1 };
 
+    //Group
+    public Dictionary<int,List<TileItem>> _groupElfCloudMap= new Dictionary<int,List<TileItem>>();
+
+    public Dictionary<int,bool> _groupUnlockedMap = new Dictionary<int,bool>(); 
 
     protected override void InitSelf()
     {
@@ -108,6 +114,7 @@ public class GridControllerSystem : GameSystem
 
         InitTileCursor();
         LoadMap();
+        InitCloudGroup();
         RefreshMap();
         InitShelterTiles();
     }
@@ -218,8 +225,30 @@ public class GridControllerSystem : GameSystem
         for (int i = 0; i < MapSetting.Items.Length; i++)
         {
             ItemModel itemModel = MapSetting.Items[i];
-            MountTileItem(itemModel);
+
+            if (itemModel.GetItemConfig().Type != ItemType.MAPSETTING) { 
+                MountTileItem(itemModel);
+            }
         }
+    }
+
+    public void InitCloudGroup() { 
+         _groupElfCloudMap = new Dictionary<int, List<TileItem>>();
+        _groupUnlockedMap = new Dictionary<int,bool>();
+
+        List<int> groups = new List<int>();
+        Dictionary<Vector2Int, TileItem> cloudItems = itemMap[ItemType.ELFCLOUD];
+        foreach (TileItem item in cloudItems.Values) {
+            if (!groups.Contains(item.GetGroup())) {
+                groups.Add(item.GetGroup()); 
+            }
+        }
+
+        foreach (int groupId in groups) {
+            _groupUnlockedMap.Add(groupId, false);
+            _groupElfCloudMap.Add(groupId, cloudItems.Values.ToList().FindAll(x => x.GetGroup() == groupId).ToList());
+        }
+
     }
 
     public MapSetting GetCurMapSetting() {
@@ -463,16 +492,43 @@ public class GridControllerSystem : GameSystem
             tileItem.MoveAnimation(_gridHelper.GetCellWorldPosition(tileItem.GetPos()), AnimationEndActionType.DESTORY);
         }
 
-        int group = elf.GetGroup();
-
         List<TileItem> tileItemsToDestroy = new List<TileItem>();
         tileItemsToDestroy.Add(elf);
-
-        List<TileItem> elfClouds = _gridHelper.GetElfClouds(group);
-        tileItemsToDestroy.AddRange(elfClouds);
-
         DestroySpecialTileItems(tileItemsToDestroy);
+
+        int group = elf.GetGroup();
+        UnlockGroup(group);
+    }
+
+    public int GetCurrentTargetGroupId() {
+        foreach (int group in _groupUnlockedMap.Keys) {
+            if (!_groupUnlockedMap[group]) { 
+                return group; 
+            }
+        }
+
+        return -1;
+    }
+
+    public bool IsGroupUnlockByKey(int group) {
+        return itemMap[ItemType.ELF].ToList().Exists(x => (x.Value.GetGroup() == group));
+    }
+
+    public void UnlockGroup(int group) {
+        List<TileItem> elfClouds = _gridHelper.GetElfClouds(group);
+        DestroySpecialTileItems(elfClouds);
+
+        _groupUnlockedMap[group] = true;
+
+        UnlockGroupEvent();
         GroundItemChangeEvent();
+    }
+
+    public void UnlockGroupEvent() {
+        if (_onUnlockGroup != null)
+        {
+            _onUnlockGroup.Invoke();
+        }
     }
 
     private void DestroySpecialTileItems(List<TileItem> tileItems) {
@@ -702,6 +758,8 @@ public class GridControllerSystem : GameSystem
             _onGroundItemChange.Invoke();
         }
     }
+
+
     public Dictionary<int, int> GetWhiteGroundItemNumMap() {
         return _groundWhiteItemNumMap;
     }
