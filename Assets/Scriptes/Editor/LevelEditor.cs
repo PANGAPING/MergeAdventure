@@ -217,17 +217,14 @@ public class LevelEditor : EditorWindow
     }
 
     private void SortLayer() {
-        List<int> layers = new List<int>();
-        foreach (int layer in LayerNodeMap.Keys)
-        {
-            layers.Add(layer);
-        }
-        
-        layers.Sort((int x,int y) => x - y);
+        LayerNodeMap.OrderBy(x => x.Key);
+
+        List<int> layers = LayerNodeMap.Keys.ToList();
 
         foreach (int layer in layers) {
-            LayerNodeMap[layer].SetSiblingIndex(layers.IndexOf(layer)); 
+            LayerNodeMap[layer].SetSiblingIndex(LayerNodeMap.Keys.ToList().IndexOf(layer)); 
         }
+
     }
 
 
@@ -627,7 +624,9 @@ public class LevelEditor : EditorWindow
         //      }
         //  }
 
-        foreach (int layer in LayerNodeMap.Keys) {
+        GUILayout.BeginHorizontal();
+        foreach (int layer in LayerNodeMap.Keys)
+        {
             bool active = GUILayout.Toggle(LayerNodeMap[layer].gameObject.activeSelf, layer.ToString());
             if (active)
             {
@@ -639,6 +638,7 @@ public class LevelEditor : EditorWindow
             }
 
         }
+        GUILayout.EndHorizontal();
 
         GUILayout.EndVertical();
 
