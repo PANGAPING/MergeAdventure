@@ -21,8 +21,16 @@ public class GroupProgressPanel : GameUIPanel
 
     private int _need;
 
-    public void Mount(int need) { 
+    private int _group;
+
+    public void Mount(int need,int group) { 
         _need = need;
+        _group = group;
+
+        _unlockBtn._onClick += () =>
+        {
+            GridControllerSystem._instance.UnlockGroup(_group);
+        };
     }
 
     public void UpdateView(int have) {

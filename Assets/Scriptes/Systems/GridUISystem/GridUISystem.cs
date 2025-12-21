@@ -189,14 +189,14 @@ public class GridUISystem : GameSystem
         }
 
         int groupNow = GridControllerSystem._instance.GetCurrentTargetGroupId();
-        if (!GridControllerSystem._instance.IsGroupUnlockByKey(groupNow)) {
+        if (!GridControllerSystem._instance.IsGroupUnlockByKey(groupNow) || groupNow == -1) {
             return; 
         }
 
         GameObject progressPanelObject = GameObject.Instantiate(ResourceHelper.GetUIPrefab("GroupProgressPanel"),WorldNode);
         _groupProgressPanel = progressPanelObject.GetComponent<GroupProgressPanel>();
 
-        _groupProgressPanel.Mount(GridControllerSystem._instance.GetGroupNeedKey(groupNow));
+        _groupProgressPanel.Mount(GridControllerSystem._instance.GetGroupNeedKey(groupNow),groupNow);
         progressPanelObject.transform.position = GridControllerSystem._instance.GetGroupCenterPosition(groupNow);
         UpdateGroupProgress();
     }
