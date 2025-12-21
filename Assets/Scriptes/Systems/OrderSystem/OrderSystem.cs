@@ -60,6 +60,27 @@ public class OrderSystem : GameSystem
             GridControllerSystem._instance.DisappearTargetItem(needItemId[i],GridUISystem._instance.GetOrderDishFlytarget(orderModel));
         }
 
+        int[] rewardItemTypes = orderModel.RewardItemType;
+        int[] rewardItemNums = orderModel.RewardItemNum;
+
+        CharacterDishPanel characterDishPanel = GridUISystem._instance.GetOrderDish(orderModel);
+
+        for (int i = 0; i < rewardItemTypes.Length; i++) {
+            int itemType = rewardItemTypes[i];
+            int itemNum = rewardItemNums[i];
+
+            InventorySystem._instance.AddAsset(itemType, itemNum);
+
+            Sprite assetIcon = ResourceHelper.GetAssetSprite(itemType);
+            RewardItemPanel panel = GridUISystem._instance.GetAssetBar(itemType);
+            if (panel != null)
+            {
+                GridUISystem._instance.FlyRewardIcon(assetIcon, 1, characterDishPanel.transform.position, panel.transform.position, panel.gameObject.GetComponent<RectTransform>());
+            }
+        }
+
+
+
         if (_onOrderFinished != null) {
             _onOrderFinished.Invoke(orderModel);
         }

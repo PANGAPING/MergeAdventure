@@ -29,6 +29,12 @@ public static class ResourceHelper
         return Resources.Load<Sprite>(Path.Combine(FoldPath.SpriteFolderPath,itemConfig.SpritePath));
     }
 
+    public static Sprite GetAssetSprite(int assetId)
+    {
+        AssetConfig assetConfig = ConfigSystem.GetAssetConfig(assetId);
+        return Resources.Load<Sprite>(Path.Combine(FoldPath.SpriteFolderPath, assetConfig.SpritePath));
+    }
+
     public static Sprite GetAssetSprite(AssetConfig assetConfig) { 
         return Resources.Load<Sprite>(Path.Combine(FoldPath.SpriteFolderPath,assetConfig.SpritePath));
     }

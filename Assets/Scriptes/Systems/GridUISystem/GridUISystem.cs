@@ -174,13 +174,23 @@ public class GridUISystem : GameSystem
         return _assetBarsMap[InventorySystem._instance.ConvertIdToAssetType(assetId)].transform.position;
     }
 
-    public RewardItemPanel GetAssetBar(int assetId) { 
-        return _assetBarsMap[InventorySystem._instance.ConvertIdToAssetType(assetId)];
+    public RewardItemPanel GetAssetBar(int assetId) {
+        ASSETTYPE assT = InventorySystem._instance.ConvertIdToAssetType(assetId);
+        if (!_assetBarsMap.ContainsKey(assT))
+        {
+            return null;
+        }
+        return _assetBarsMap[assT];
     }
-    
+
 
     public void AddOrderDishes(OrderModel orderModel)
     {
+    }
+
+    public CharacterDishPanel GetOrderDish(OrderModel orderModel) { 
+        CharacterDishPanel characterDishPanel = characterDishPanels.Find(x => x.GetOrderModel() == orderModel);
+        return characterDishPanel;
     }
 
     public void RemoveOrderDishes(OrderModel orderModel)
@@ -234,6 +244,7 @@ public class GridUISystem : GameSystem
 
         seq.OnComplete(() => GameObject.Destroy(obj));
     }
+
 
 
     public void FlyRewardIcon(
