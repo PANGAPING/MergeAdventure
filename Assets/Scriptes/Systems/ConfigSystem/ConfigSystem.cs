@@ -55,6 +55,10 @@ public static class ConfigSystem
             return null;
         }
     }
+    public static List<ItemConfig> GetItemConfigs() {
+
+        return ItemConfigs.Values.ToList();
+    }
 
     public static List<ItemConfig> GetItemConfigs(ItemType itemType) {
 

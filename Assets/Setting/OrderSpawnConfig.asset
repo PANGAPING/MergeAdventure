@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c912cd5e1abacb34e905723c72d2e2aa, type: 3}
+  m_Name: OrderSpawnConfig
+  m_EditorClassIdentifier: 
+  maxActiveOrders: 4
+  maxTokens: 4
+  refillIntervalSec: 180
+  refillAmount: 1
+  tokenCostPerOrder: 1
+  oneItemWeight: 0.6
+  twoItemWeight: 0.35
+  threeItemWeight: 0.05
+  targetDifficultyMin: 40
+  targetDifficultyMax: 120
+  recentChainAvoidCount: 3
+  recentDemandWindow: 6
+  demandPenaltyD: 0.7
+  stockK: 16
+  stockBoostMax: 2
+  maxHardOrdersAtOnce: 1
+  hardOrderDifficultyThreshold: 140
+  candidateSampleCount: 20
