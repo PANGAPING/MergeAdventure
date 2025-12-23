@@ -168,11 +168,11 @@ public class OrderAlgorithmHelper
 
         if (trueHardness < hardnessDomain.x)
         {
-            hardblameBase += (hardnessDomain.x - trueHardness) / 100;
+            effBlameBase += (hardnessDomain.x - trueHardness) / 100;
         }
         else if (trueHardness > hardnessDomain.y)
         {
-            hardblameBase += (trueHardness - hardnessDomain.x) / 100;
+             effBlameBase += (trueHardness - hardnessDomain.x) / 100;
         }
 
         score -= effBlameBase * _spawnConfig.supplyPowerLoss;
@@ -184,8 +184,12 @@ public class OrderAlgorithmHelper
     }
 
     private int GetTrueOrderHardness(OrderModel order) {
-        int hardness = 0;
-        return hardness;
+        List<int> genItemIds = GridControllerSystem._instance.GetGeneratorItemIds();
+        List<GeneratorConfig> gens = new List<GeneratorConfig>();
+        foreach (var id in genItemIds) gens.Add(ConfigSystem.GetGeneratorConfig(id));
+
+        var r = OrderClickEstimator.EstimateMinExpectedClicks(order, gens);
+        return r.minExpectedClicks;
     }
 
     private int GetOrderHardness(OrderModel order) {
