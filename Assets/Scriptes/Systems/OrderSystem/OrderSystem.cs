@@ -36,11 +36,11 @@ public class OrderSystem : GameSystem
         _instance = this;
         base.InitSelf();
 
-        NewOrder(new List<int>() { 1100105 }, new List<int>() { 1 },new List<int> {1,2},new List<int> {100,200},true);
-        NewOrder(new List<int>() { 1100203,1100304 }, new List<int>() { 1,1 },new List<int> {101,2},new List<int> {1,20},false);
-        NewOrder(new List<int>() { 1100204,1100305 }, new List<int>() { 1,1 },new List<int> {101,2},new List<int> {2,40},false);
+        //  NewOrder(new List<int>() { 1100105 }, new List<int>() { 1 },new List<int> {1,2},new List<int> {100,200},true);
+        //  NewOrder(new List<int>() { 1100203,1100304 }, new List<int>() { 1,1 },new List<int> {101,2},new List<int> {1,20},false);
+        //  NewOrder(new List<int>() { 1100204,1100305 }, new List<int>() { 1,1 },new List<int> {101,2},new List<int> {2,40},false);
 
-        string orderSpawnConfigPath = Path.Combine(FoldPath.MapSettingFolderPath, "OrderSpawnConfig");
+        string orderSpawnConfigPath = Path.Combine(FoldPath.SettingFolderPath, "OrderSpawnConfig");
         _orderSpawnConfig = Resources.Load<OrderSpawnConfig>(orderSpawnConfigPath);
         _orderAlgorithmHelper = new OrderAlgorithmHelper(_orderSpawnConfig);
     }
