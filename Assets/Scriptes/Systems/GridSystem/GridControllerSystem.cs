@@ -243,6 +243,7 @@ public class GridControllerSystem : GameSystem
                 groups.Add(item.GetGroup()); 
             }
         }
+        groups.Sort();
 
         foreach (int groupId in groups) {
             _groupUnlockedMap.Add(groupId, false);

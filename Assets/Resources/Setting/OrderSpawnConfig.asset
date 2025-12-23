@@ -19,8 +19,8 @@ MonoBehaviour:
   coreOrderWeight: 40
   stretchOrderWeight: 10
   easyDifficultyDomain: {x: 10, y: 20}
-  coreDifficultyDomain: {x: 40, y: 80}
-  stretchDifficultyDomain: {x: 120, y: 200}
+  coreDifficultyDomain: {x: 20, y: 50}
+  stretchDifficultyDomain: {x: 50, y: 100}
   aveDiffculty: 50
   oneItemOrderWeight: 50
   twoItemOrderWeight: 50
