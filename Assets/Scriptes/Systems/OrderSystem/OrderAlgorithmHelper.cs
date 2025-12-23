@@ -28,6 +28,7 @@ public class OrderAlgorithmHelper
         List<int> unlockedGenerators = GridControllerSystem._instance.GetGeneratorItemIds();
         List<ItemMeta> candidateChainTarget = BuildCandidateItemTargets(unlockedGenerators);
 
+        Debug.Log(candidateChainTarget);
         if (candidateChainTarget == null || candidateChainTarget.Count == 0) return null;
 
         // 2) 决定订单结构（1/2/3个需求）
@@ -119,11 +120,10 @@ public class OrderAlgorithmHelper
             return meta;
         }
 
-        // 如果实在避不开，就放宽 usedChain
+        // 如果实在避不开，就放宽
         for (int t = 0; t < TRY; t++)
         {
             var meta = pool[UnityEngine.Random.Range(0, pool.Count)];
-            if (recentChains != null && recentChains.Contains(meta.chainId)) continue;
             return meta;
         }
 
@@ -175,9 +175,9 @@ public class OrderAlgorithmHelper
             hardblameBase += (trueHardness - hardnessDomain.x) / 100;
         }
 
-       // score -= effBlameBase * _spawnConfig.supplyPowerLoss;
+        score -= effBlameBase * _spawnConfig.supplyPowerLoss;
 
-        //4.堆积匹配
+        //4.堆积匹配，还未实装
 
 
         return score;
