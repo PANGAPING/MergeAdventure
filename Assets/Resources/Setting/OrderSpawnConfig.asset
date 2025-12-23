@@ -13,20 +13,22 @@ MonoBehaviour:
   m_Name: OrderSpawnConfig
   m_EditorClassIdentifier: 
   maxActiveOrders: 4
-  maxTokens: 4
-  refillIntervalSec: 180
-  refillAmount: 1
-  tokenCostPerOrder: 1
-  oneItemWeight: 0.6
-  twoItemWeight: 0.35
-  threeItemWeight: 0.05
-  targetDifficultyMin: 40
-  targetDifficultyMax: 120
+  refillOrderInterval: 3000
+  orderStorageCapacity: 12
+  easyOrderWeight: 50
+  coreOrderWeight: 30
+  stretchOrderWeight: 20
+  easyDifficultyDomain: {x: 10, y: 20}
+  coreDifficultyDomain: {x: 40, y: 80}
+  stretchDifficultyDomain: {x: 120, y: 200}
+  aveDiffculty: 50
+  oneItemOrderWeight: 30
+  twoItemOrderWeight: 50
+  threeItemOrderWeight: 20
   recentChainAvoidCount: 3
-  recentDemandWindow: 6
-  demandPenaltyD: 0.7
-  stockK: 16
-  stockBoostMax: 2
-  maxHardOrdersAtOnce: 1
-  hardOrderDifficultyThreshold: 140
+  hardnessLoss: 1
+  supplyPowerLoss: 1
+  stackLoss: 1
+  recentLoss: 1
+  hardnessToCoinR: 0.4
   candidateSampleCount: 20

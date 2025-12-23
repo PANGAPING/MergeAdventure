@@ -31,7 +31,7 @@ public class OrderSystem : GameSystem
 
     private float _lastOrderPoolFillTime = -9999;
 
-    private int _orderCountInPool = 4;
+    private int _orderCountInPool = 8;
 
     protected override void InitSelf()
     {
