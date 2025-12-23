@@ -21,6 +21,8 @@ public class OrderSystem : GameSystem
 
     protected List<OrderModel> activeOrderModels = new List<OrderModel>();
 
+    protected OrderModel targetOrderModel;
+
     //Generate Order paras
 
     private OrderSpawnConfig _orderSpawnConfig;
@@ -35,6 +37,9 @@ public class OrderSystem : GameSystem
     {
         _instance = this;
         base.InitSelf();
+
+        targetOrderModel = NewOrder(new List<int>() { 1100105 }, new List<int>() { 1 },new List<int> {1,2},new List<int> {100,200},true);
+
 
         //  NewOrder(new List<int>() { 1100105 }, new List<int>() { 1 },new List<int> {1,2},new List<int> {100,200},true);
         //  NewOrder(new List<int>() { 1100203,1100304 }, new List<int>() { 1,1 },new List<int> {101,2},new List<int> {1,20},false);
@@ -93,7 +98,7 @@ public class OrderSystem : GameSystem
         }
     }
 
-    public void NewOrder(List<int> needItemIds, List<int> needItemNums, List<int> rewardType, List<int> rewardNum, bool isLevelTarget = false)
+    public OrderModel NewOrder(List<int> needItemIds, List<int> needItemNums, List<int> rewardType, List<int> rewardNum, bool isLevelTarget = false)
     {
         OrderModel orderModel = new OrderModel();
 
@@ -103,11 +108,7 @@ public class OrderSystem : GameSystem
         orderModel.RewardItemType = rewardType.ToArray();
         orderModel.RewardItemNum = rewardNum.ToArray();
 
-        activeOrderModels.Add(orderModel);
-
-        if (_onOrderAdd != null) {
-            _onOrderAdd.Invoke(orderModel);
-        }
+        return orderModel;
     }
 
     public void FinishOrder(OrderModel orderModel) {
@@ -152,5 +153,8 @@ public class OrderSystem : GameSystem
         return activeOrderModels;
     }
 
+    public OrderModel GetLevelTargetOrder() {
+        return targetOrderModel;
+    }
 
 }

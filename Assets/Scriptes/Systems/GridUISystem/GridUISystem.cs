@@ -114,7 +114,9 @@ public class GridUISystem : GameSystem
 
     public void InitOrderDishes() {
         Transform dishesContainer = WorldNode.Find("Scrollbar/Viewport/Content/CharacterDishes");
-        List<OrderModel> orderModels = OrderSystem._instance.GetOrderModels();
+        List<OrderModel> allModels = new List<OrderModel>();
+        allModels.Add(OrderSystem._instance.GetLevelTargetOrder());
+        allModels.AddRange(OrderSystem._instance.GetOrderModels());
 
         characterDishPanels = new List<CharacterDishPanel>();
         CommonTool.DeleteAllChildren(dishesContainer);
@@ -122,7 +124,7 @@ public class GridUISystem : GameSystem
         GameObject orderDishPrefab = ResourceHelper.GetUIPrefab("CharacterDish");
         GameObject wonderDishPrefab = ResourceHelper.GetUIPrefab("WonderCharacterDish");
 
-        foreach (OrderModel orderModel in orderModels)
+        foreach (OrderModel orderModel in allModels)
         {
             GameObject dishObj;
             if (orderModel.IsLevelTarget)
