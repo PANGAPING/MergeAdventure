@@ -27,7 +27,7 @@ public class OrderSystem : GameSystem
 
     private OrderAlgorithmHelper _orderAlgorithmHelper;
 
-    private int _lastOrderPoolFillTime = -99999;
+    private float _lastOrderPoolFillTime = -9999;
 
     private int _orderCountInPool = 4;
 
@@ -48,7 +48,6 @@ public class OrderSystem : GameSystem
     protected override void Init()
     {
         base.Init();
-        TryCreateNewOrdersFromPool();
     }
 
     protected override void Update()
@@ -65,6 +64,7 @@ public class OrderSystem : GameSystem
         if (activeOrderModels.Count + _orderCountInPool < _orderSpawnConfig.orderStorageCapacity)
         {
             _orderCountInPool += 1;
+            _lastOrderPoolFillTime = Time.time;
         }
 
         TryCreateNewOrdersFromPool();

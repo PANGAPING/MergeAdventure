@@ -139,6 +139,28 @@ public class GridUISystem : GameSystem
 
         UpdateOrderDishes();
     }
+  public void AddOrderDishes(OrderModel orderModel)
+    {
+        Transform dishesContainer = WorldNode.Find("Scrollbar/Viewport/Content/CharacterDishes");
+
+        GameObject orderDishPrefab = ResourceHelper.GetUIPrefab("CharacterDish");
+        GameObject wonderDishPrefab = ResourceHelper.GetUIPrefab("WonderCharacterDish");
+
+        GameObject dishObj;
+        if (orderModel.IsLevelTarget)
+        {
+            dishObj = GameObject.Instantiate(wonderDishPrefab, dishesContainer);
+        }
+        else
+        {
+            dishObj = GameObject.Instantiate(orderDishPrefab, dishesContainer);
+        }
+        CharacterDishPanel characterDishPanel = dishObj.GetComponent<CharacterDishPanel>();
+        characterDishPanel.MountOrderModel(orderModel);
+        characterDishPanels.Add(characterDishPanel);
+
+        UpdateOrderDishes();
+    }
 
     public void UpdateOrderDishes()
     {
@@ -228,9 +250,7 @@ public class GridUISystem : GameSystem
     }
 
 
-    public void AddOrderDishes(OrderModel orderModel)
-    {
-    }
+  
 
     public CharacterDishPanel GetOrderDish(OrderModel orderModel) { 
         CharacterDishPanel characterDishPanel = characterDishPanels.Find(x => x.GetOrderModel() == orderModel);

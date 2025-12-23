@@ -8,7 +8,7 @@ public class OrderAlgorithmHelper
 {
     private OrderSpawnConfig _spawnConfig;
 
-    private Queue<int> recentChains;
+    private Queue<int> recentChains = new Queue<int>();
 
     private Dictionary<OrderHardType, Vector2> HardnessDomainMap;
 
@@ -101,7 +101,8 @@ public class OrderAlgorithmHelper
         order.NeedItemId = needIds.ToArray();
         order.NeedItemNum = needNums.ToArray();
 
-        order.RewardItemId = new int[] { 2 };
+        order.RewardItemType = new int[] { 2 };
+        order.RewardItemId = new int[] { 0 };
         order.RewardItemNum = new int[] { (int)(GetOrderHardness(order) * _spawnConfig.hardnessToCoinR) };
         return order;
     }
