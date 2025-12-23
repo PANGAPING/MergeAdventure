@@ -101,9 +101,9 @@ public class OrderAlgorithmHelper
         order.NeedItemId = needIds.ToArray();
         order.NeedItemNum = needNums.ToArray();
 
-        order.RewardItemType = new int[] { 2 };
-        order.RewardItemId = new int[] { 0 };
-        order.RewardItemNum = new int[] { (int)(GetOrderHardness(order) * _spawnConfig.hardnessToCoinR) };
+        order.RewardItemType = new int[] {101, 2 };
+        order.RewardItemId = new int[] {0, 0 };
+        order.RewardItemNum = new int[] { 1,(int)(GetOrderHardness(order) * _spawnConfig.hardnessToCoinR) };
         return order;
     }
 
