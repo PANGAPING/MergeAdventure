@@ -36,7 +36,7 @@ public class OrderSpawnConfig : ScriptableObject
     public int recentChainAvoidCount = 3;
 
     [Header("选择目标订单链时的 倾向|惩罚参数")]
-    public int orderItemTypeLoss = 1; //订单物品种类不匹配损失
+    public int hardnessLoss = 1; //难度不匹配损失
 
     public int supplyPowerLoss = 1; //供应能力不匹配损失
 
@@ -44,6 +44,10 @@ public class OrderSpawnConfig : ScriptableObject
 
     public int recentLoss = 1; //近期出现订单种类损失
 
+    [Header("奖励参数")]
+    public float hardnessToCoinR = 0.4f;
+
     [Header("采样")]
     public int candidateSampleCount = 20;     // 生成候选订单采样次数
+
 }
