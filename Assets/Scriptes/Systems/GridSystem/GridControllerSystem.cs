@@ -542,9 +542,10 @@ public class GridControllerSystem : GameSystem
     public int GetGroupNeedKey(int group) {
         int keyNum = 1;
 
-        List<TileItem> tileItems = _gridHelper.GetElfClouds(group);
+        MapSetting oriMapSetting = GetOriMapSetting();
+        List<ItemModel> elfCloudItems = oriMapSetting.Items.ToList().FindAll(x => x.GetItemType() == ItemType.ELFCLOUD && x.IntData == group);
 
-        ItemModel groupLocker = GetOriMapSetting().Items.ToList().Find(x => x.GetItemConfig().Name == "GroupLocker" && tileItems.Exists(y =>y.GetPos() == CommonTool.ArrayToVector2Int(x.TilePos)));
+        ItemModel groupLocker = oriMapSetting.Items.ToList().Find(x => x.GetItemConfig().Name == "GroupLocker" && elfCloudItems.Exists(y => CommonTool.ArrayToVector2Int(y.TilePos) == CommonTool.ArrayToVector2Int(x.TilePos)));
 
         if (groupLocker != null) {
             keyNum = groupLocker.IntData;
@@ -563,7 +564,7 @@ public class GridControllerSystem : GameSystem
 
         _groupUnlockedMap[group] = true;
 
-        int keyCount = GridControllerSystem._instance.GetGroupNeedKey(group);
+        int keyCount = GetGroupNeedKey(group);
         InventorySystem._instance.RemoveAsset(ASSETTYPE.KEY, keyCount);
 
         UnlockGroupEvent();
