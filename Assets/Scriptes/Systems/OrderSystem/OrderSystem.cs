@@ -25,6 +25,8 @@ public class OrderSystem : GameSystem
 
     private OrderSpawnConfig _orderSpawnConfig;
 
+    private OrderAlgorithmHelper _orderAlgorithmHelper;
+
     private int _lastOrderPoolFillTime = -99999;
 
     private int _orderCountInPool = 4;
@@ -40,6 +42,7 @@ public class OrderSystem : GameSystem
 
         string orderSpawnConfigPath = Path.Combine(FoldPath.MapSettingFolderPath, "OrderSpawnConfig");
         _orderSpawnConfig = Resources.Load<OrderSpawnConfig>(orderSpawnConfigPath);
+        _orderAlgorithmHelper = new OrderAlgorithmHelper(_orderSpawnConfig);
     }
 
     protected override void Init()
@@ -67,19 +70,31 @@ public class OrderSystem : GameSystem
         TryCreateNewOrdersFromPool();
     }
 
-    private void TryCreateNewOrdersFromPool() {
-        int newOrderCount = Mathf.Min(_orderCountInPool,_orderSpawnConfig.maxActiveOrders - activeOrderModels.Count);
-        for (int i = 0; i < newOrderCount; i++) {
-            CreateNewOrder(); 
+    private void TryCreateNewOrdersFromPool()
+    {
+        int newOrderCount = Mathf.Min(_orderCountInPool, _orderSpawnConfig.maxActiveOrders - activeOrderModels.Count);
+        for (int i = 0; i < newOrderCount; i++)
+        {
+            OrderModel newOrder = _orderAlgorithmHelper.GenerateNewOrder();
+            if (newOrder != null)
+            {
+                NewOrder(newOrder);
+                _orderCountInPool -= 1;
+            }
         }
-        _orderCountInPool -= newOrderCount;
     }
 
-    private void CreateNewOrder() {
-
+    public void NewOrder(OrderModel orderModel)
+    {
+        activeOrderModels.Add(orderModel);
+        if (_onOrderAdd != null)
+        {
+            _onOrderAdd.Invoke(orderModel);
+        }
     }
 
-    public void NewOrder(List<int> needItemIds,List<int> needItemNums,List<int> rewardType,List<int> rewardNum,bool isLevelTarget = false) { 
+    public void NewOrder(List<int> needItemIds, List<int> needItemNums, List<int> rewardType, List<int> rewardNum, bool isLevelTarget = false)
+    {
         OrderModel orderModel = new OrderModel();
 
         orderModel.IsLevelTarget = isLevelTarget;

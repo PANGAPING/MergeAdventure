@@ -509,6 +509,18 @@ public class GridControllerSystem : GameSystem
         return -1;
     }
 
+    public List<int> GetGeneratorItemIds() { 
+        List<int> generatorIds = new List<int>();
+
+        foreach (int itemId in _groundWhiteItemNumMap.Keys) { 
+            ItemConfig itemConfig = ConfigSystem.GetItemConfig(itemId);
+            if (itemConfig.Type == ItemType.GENERATOR) { 
+                generatorIds.Add(itemId);
+            }
+        }
+        return generatorIds;
+    }
+
     public Vector2 GetGroupCenterPosition(int group) { 
         List<TileItem> elfClouds = _gridHelper.GetElfClouds(group);
         List<Vector2Int> vector2Ints = elfClouds.Select(x => x.GetPos()).ToList();

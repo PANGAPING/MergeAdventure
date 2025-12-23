@@ -32,6 +32,9 @@ public class OrderSpawnConfig : ScriptableObject
     public int twoItemOrderWeight = 50;
     public int threeItemOrderWeight = 20;
 
+    [Header("订单出现倾向配置")]
+    public int recentChainAvoidCount = 3;
+
     [Header("选择目标订单链时的 倾向|惩罚参数")]
     public int orderItemTypeLoss = 1; //订单物品种类不匹配损失
 
