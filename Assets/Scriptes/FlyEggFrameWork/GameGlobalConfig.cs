@@ -51,6 +51,8 @@ namespace FlyEggFrameWork.GameGlobalConfig
 
         public static string MapSettingFolderPath = Path.Combine(Application.dataPath, "MapSetting");
 
+        public static string SettingFolderPath = Path.Combine(Application.dataPath, "Setting");
+
         public static string UserDataFolderPath = Path.Combine(Application.dataPath, "UserData");
 
         public static string MaterialFolderPath = Path.Combine("Material");

@@ -92,3 +92,11 @@ public static class ChainHelper
         }
     }
 }
+
+public class ChainRuntimeInfo
+{
+    public int chainId; // root item id
+    public float supplyWeight;  // 来自生成器
+    public float stockValue;  // 来自库存/棋盘统计
+    public int recentDemandCount;  // 来自订单历史
+}

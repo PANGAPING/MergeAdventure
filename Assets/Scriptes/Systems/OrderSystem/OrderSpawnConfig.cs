@@ -43,5 +43,4 @@ public class OrderSpawnConfig : ScriptableObject
 
     [Header("采样")]
     public int candidateSampleCount = 20;     // 生成候选订单采样次数
-
 }

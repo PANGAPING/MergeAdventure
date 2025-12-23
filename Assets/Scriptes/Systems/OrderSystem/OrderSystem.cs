@@ -1,10 +1,13 @@
 using DG.Tweening.Core.Easing;
 using FlyEggFrameWork;
+using FlyEggFrameWork.GameGlobalConfig;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.iOS;
 
 public class OrderSystem : GameSystem
 {
@@ -16,7 +19,15 @@ public class OrderSystem : GameSystem
 
     public OrderEventHandler _onOrderAdd;
 
-    protected List<OrderModel> orderModels = new List<OrderModel>();
+    protected List<OrderModel> activeOrderModels = new List<OrderModel>();
+
+    //Generate Order paras
+
+    private OrderSpawnConfig _orderSpawnConfig;
+
+    private int _lastOrderPoolFillTime = -99999;
+
+    private int _orderCountInPool = 4;
 
     protected override void InitSelf()
     {
@@ -26,11 +37,45 @@ public class OrderSystem : GameSystem
         NewOrder(new List<int>() { 1100105 }, new List<int>() { 1 },new List<int> {1,2},new List<int> {100,200},true);
         NewOrder(new List<int>() { 1100203,1100304 }, new List<int>() { 1,1 },new List<int> {101,2},new List<int> {1,20},false);
         NewOrder(new List<int>() { 1100204,1100305 }, new List<int>() { 1,1 },new List<int> {101,2},new List<int> {2,40},false);
+
+        string orderSpawnConfigPath = Path.Combine(FoldPath.MapSettingFolderPath, "OrderSpawnConfig");
+        _orderSpawnConfig = Resources.Load<OrderSpawnConfig>(orderSpawnConfigPath);
     }
 
     protected override void Init()
     {
         base.Init();
+        TryCreateNewOrdersFromPool();
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        if (Time.time - _lastOrderPoolFillTime > _orderSpawnConfig.refillOrderInterval) {
+            AddOrderCountToPool(1); 
+        }
+    }
+
+    private void AddOrderCountToPool(int count = 1)
+    {
+        if (activeOrderModels.Count + _orderCountInPool < _orderSpawnConfig.orderStorageCapacity)
+        {
+            _orderCountInPool += 1;
+        }
+
+        TryCreateNewOrdersFromPool();
+    }
+
+    private void TryCreateNewOrdersFromPool() {
+        int newOrderCount = Mathf.Min(_orderCountInPool,_orderSpawnConfig.maxActiveOrders - activeOrderModels.Count);
+        for (int i = 0; i < newOrderCount; i++) {
+            CreateNewOrder(); 
+        }
+        _orderCountInPool -= newOrderCount;
+    }
+
+    private void CreateNewOrder() {
 
     }
 
@@ -43,14 +88,12 @@ public class OrderSystem : GameSystem
         orderModel.RewardItemType = rewardType.ToArray();
         orderModel.RewardItemNum = rewardNum.ToArray();
 
-        orderModels.Add(orderModel);
-
+        activeOrderModels.Add(orderModel);
 
         if (_onOrderAdd != null) {
             _onOrderAdd.Invoke(orderModel);
         }
     }
-
 
     public void FinishOrder(OrderModel orderModel) {
 
@@ -91,7 +134,7 @@ public class OrderSystem : GameSystem
     }
 
     public List<OrderModel> GetOrderModels() {
-        return orderModels;
+        return activeOrderModels;
     }
 
 
