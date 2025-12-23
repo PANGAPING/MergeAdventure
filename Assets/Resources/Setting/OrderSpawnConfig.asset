@@ -16,15 +16,15 @@ MonoBehaviour:
   refillOrderInterval: 3000
   orderStorageCapacity: 12
   easyOrderWeight: 50
-  coreOrderWeight: 30
-  stretchOrderWeight: 20
+  coreOrderWeight: 40
+  stretchOrderWeight: 10
   easyDifficultyDomain: {x: 10, y: 20}
   coreDifficultyDomain: {x: 40, y: 80}
   stretchDifficultyDomain: {x: 120, y: 200}
   aveDiffculty: 50
-  oneItemOrderWeight: 30
+  oneItemOrderWeight: 50
   twoItemOrderWeight: 50
-  threeItemOrderWeight: 20
+  threeItemOrderWeight: 0
   recentChainAvoidCount: 3
   hardnessLoss: 1
   supplyPowerLoss: 1
