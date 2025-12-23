@@ -144,6 +144,10 @@ public class OrderSystem : GameSystem
             }
         }
 
+        if (activeOrderModels.Contains(orderModel)) { 
+            activeOrderModels.Remove(orderModel);
+        }
+
         if (_onOrderFinished != null) {
             _onOrderFinished.Invoke(orderModel);
         }
