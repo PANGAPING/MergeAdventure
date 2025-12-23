@@ -563,6 +563,9 @@ public class GridControllerSystem : GameSystem
 
         _groupUnlockedMap[group] = true;
 
+        int keyCount = GridControllerSystem._instance.GetGroupNeedKey(group);
+        InventorySystem._instance.RemoveAsset(ASSETTYPE.KEY, keyCount);
+
         UnlockGroupEvent();
         GroundItemChangeEvent();
     }
