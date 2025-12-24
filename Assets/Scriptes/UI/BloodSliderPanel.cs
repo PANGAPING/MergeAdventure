@@ -24,7 +24,6 @@ public class BloodSliderPanel : TileItemPanel
 
         _cell = transform.Find("cell").gameObject;
         for (int i = 0; i < maxBloodCount; i++) {
-            Debug.Log(i);
             GameObject cell = GameObject.Instantiate(_cell, transform);
             cell.SetActive(true);
             if (i < nowBloodCount)

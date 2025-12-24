@@ -819,9 +819,8 @@ public class GridControllerSystem : GameSystem
         foreach (int treeId in treeNumMap.Keys)
         {
             TreeConfig treeConfig = ConfigSystem.GetTreeConfig(treeId);
-            lv1Count += DropAlgorithmHelper.GetTreeDropOfItem(treeConfig, chainId);
+            lv1Count += DropAlgorithmHelper.GetTreeDropOfItem(treeConfig, chainId) * treeNumMap[treeId];
         }
-        Debug.Log(lv1Count);
 
 
         Dictionary<int, int> normalNumMap = new Dictionary<int, int>();
@@ -837,7 +836,7 @@ public class GridControllerSystem : GameSystem
         }
 
         foreach (int normalId in normalNumMap.Keys) {
-            lv1Count += ChainHelper.ConvertItemIntoRootCount(normalId);
+            lv1Count += ChainHelper.ConvertItemIntoRootCount(normalId) * normalNumMap[normalId];
         }
 
         return (int)(lv1Count / mergeNeedRootCount);
