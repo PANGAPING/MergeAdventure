@@ -811,31 +811,29 @@ public class GridControllerSystem : GameSystem
             if (!includeCloud && _gridHelper.IsCloudTilePos(pos)) continue;
 
             int treeId = treeMap[pos].GetItemId();
-            if (includeCloud) {
-                if (treeNumMap.ContainsKey(treeId))
-                    treeNumMap[treeId]++;
-                else treeNumMap.Add(treeId,1);
-            }
+            if (treeNumMap.ContainsKey(treeId))
+                treeNumMap[treeId]++;
+            else treeNumMap.Add(treeId, 1);
         }
 
-        foreach (int treeId in treeNumMap.Keys) {
+        foreach (int treeId in treeNumMap.Keys)
+        {
             TreeConfig treeConfig = ConfigSystem.GetTreeConfig(treeId);
-            lv1Count += DropAlgorithmHelper.GetTreeDropOfItem(treeConfig,chainId);
+            lv1Count += DropAlgorithmHelper.GetTreeDropOfItem(treeConfig, chainId);
         }
         Debug.Log(lv1Count);
 
 
-        Dictionary<int,int> normalNumMap = new Dictionary<int,int>();
+        Dictionary<int, int> normalNumMap = new Dictionary<int, int>();
         Dictionary<Vector2Int, TileItem> normalMap = itemMap[ItemType.NORMAL];
-        foreach (Vector2Int pos in normalMap.Keys) {
+        foreach (Vector2Int pos in normalMap.Keys)
+        {
             if (!includeCloud && _gridHelper.IsCloudTilePos(pos)) continue;
 
             int normalId = normalMap[pos].GetItemId();
-            if (includeCloud) {
-                if (normalNumMap.ContainsKey(normalId))
-                    normalNumMap[normalId]++;
-                else normalNumMap.Add(normalId,1);
-            }
+            if (normalNumMap.ContainsKey(normalId))
+                normalNumMap[normalId]++;
+            else normalNumMap.Add(normalId, 1);
         }
 
         foreach (int normalId in normalNumMap.Keys) {
