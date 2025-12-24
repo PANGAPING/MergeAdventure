@@ -822,6 +822,7 @@ public class GridControllerSystem : GameSystem
             TreeConfig treeConfig = ConfigSystem.GetTreeConfig(treeId);
             lv1Count += DropAlgorithmHelper.GetTreeDropOfItem(treeConfig,chainId);
         }
+        Debug.Log(lv1Count);
 
 
         Dictionary<int,int> normalNumMap = new Dictionary<int,int>();
