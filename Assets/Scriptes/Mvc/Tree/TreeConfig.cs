@@ -28,5 +28,6 @@ public class TreeConfig : FlyEggConfig
 
     [JsonConverter(typeof(IntegerArrayJsonConverter))]
     public int[] EnergyCost;
+
 }
 

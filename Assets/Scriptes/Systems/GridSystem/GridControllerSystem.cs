@@ -799,6 +799,51 @@ public class GridControllerSystem : GameSystem
         }
     }
 
+    private int GetAvailableItemFromBoard(int itemId,bool includeCloud = false) {
+
+        float lv1Count = 0;
+        int chainId = ChainHelper.GetChainRoot(itemId);
+        int mergeNeedRootCount = ChainHelper.ConvertItemIntoRootCount(itemId);
+
+        Dictionary<int,int> treeNumMap = new Dictionary<int,int>();
+        Dictionary<Vector2Int, TileItem> treeMap = itemMap[ItemType.TREE];
+        foreach (Vector2Int pos in treeMap.Keys) {
+            if (!includeCloud && _gridHelper.IsCloudTilePos(pos)) continue;
+
+            int treeId = treeMap[pos].GetItemId();
+            if (includeCloud) {
+                if (treeNumMap.ContainsKey(treeId))
+                    treeNumMap[treeId]++;
+                else treeNumMap.Add(treeId,1);
+            }
+        }
+
+        foreach (int treeId in treeNumMap.Keys) {
+            TreeConfig treeConfig = ConfigSystem.GetTreeConfig(treeId);
+            lv1Count += DropAlgorithmHelper.GetTreeDropOfItem(treeConfig,chainId);
+        }
+
+
+        Dictionary<int,int> normalNumMap = new Dictionary<int,int>();
+        Dictionary<Vector2Int, TileItem> normalMap = itemMap[ItemType.NORMAL];
+        foreach (Vector2Int pos in normalMap.Keys) {
+            if (!includeCloud && _gridHelper.IsCloudTilePos(pos)) continue;
+
+            int normalId = normalMap[pos].GetItemId();
+            if (includeCloud) {
+                if (normalNumMap.ContainsKey(normalId))
+                    normalNumMap[normalId]++;
+                else normalNumMap.Add(normalId,1);
+            }
+        }
+
+        foreach (int normalId in normalNumMap.Keys) {
+            lv1Count += ChainHelper.ConvertItemIntoRootCount(normalId);
+        }
+
+        return (int)(lv1Count / mergeNeedRootCount);
+    }
+
     private void GroundItemChangeEvent() {
         UpdateWhiteGroundItemNumMap();
         if (_onGroundItemChange != null) {

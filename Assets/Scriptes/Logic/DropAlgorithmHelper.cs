@@ -7,6 +7,23 @@ using Random = UnityEngine.Random;
 public static class DropAlgorithmHelper
 {
 
+    public static float GetTreeDropOfItem(TreeConfig treeConfig, int targetId) {
+        float lv1Count = 0;
+
+        int chainId = ChainHelper.GetChainRoot(targetId);
+        int mergeNeedRootCount = ChainHelper.ConvertItemIntoRootCount(targetId);
+
+        for (int i = 0; i < treeConfig.DropItemIds.Length; i++) { 
+            int itemId = treeConfig.DropItemIds[i];
+            float itemRatio = treeConfig.DropItemRatios[i];
+            if (itemId == chainId) { 
+                lv1Count += itemRatio * treeConfig.DropItemCount;
+            }
+        }
+
+        return lv1Count / mergeNeedRootCount;
+    }
+
     public static Dictionary<int, int> GetGeneratorDropResult(Generator generator,out bool luck) { 
         Dictionary<int, int> result = new Dictionary<int, int>();
         luck = false;
