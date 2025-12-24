@@ -823,6 +823,7 @@ public class GridControllerSystem : GameSystem
         }
 
 
+
         Dictionary<int, int> normalNumMap = new Dictionary<int, int>();
         Dictionary<Vector2Int, TileItem> normalMap = itemMap[ItemType.NORMAL];
         foreach (Vector2Int pos in normalMap.Keys)

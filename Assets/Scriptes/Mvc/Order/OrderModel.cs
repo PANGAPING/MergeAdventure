@@ -21,8 +21,8 @@ public class OrderModel : FlyEggModel
     public int[] RewardItemNum;
 
     public void AddNeedItem(int itemId, int count) {
-        List<int> newItemId = RewardItemId.ToList();
-        List<int> newItemNum = RewardItemNum.ToList();
+        List<int> newItemId = NeedItemId.ToList();
+        List<int> newItemNum =NeedItemNum.ToList();
 
         if (newItemId.Contains(itemId))
         {
@@ -32,5 +32,7 @@ public class OrderModel : FlyEggModel
             newItemId.Add(itemId); 
             newItemNum.Add(count); 
         }
+        NeedItemId = newItemId.ToArray();
+        NeedItemNum = newItemNum.ToArray();
     }
 }
