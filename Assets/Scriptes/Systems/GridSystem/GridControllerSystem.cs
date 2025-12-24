@@ -799,7 +799,7 @@ public class GridControllerSystem : GameSystem
         }
     }
 
-    private int GetAvailableItemFromBoard(int itemId,bool includeCloud = false) {
+    public int GetAvailableItemFromBoard(int itemId,bool includeCloud = false) {
 
         float lv1Count = 0;
         int chainId = ChainHelper.GetChainRoot(itemId);

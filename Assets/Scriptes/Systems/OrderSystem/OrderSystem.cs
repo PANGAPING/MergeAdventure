@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.iOS;
@@ -38,7 +39,7 @@ public class OrderSystem : GameSystem
         _instance = this;
         base.InitSelf();
 
-        targetOrderModel = NewOrder(new List<int>() { 1100105 }, new List<int>() { 1 },new List<int> {1,2},new List<int> {100,200},true);
+        targetOrderModel = NewOrder(new List<int>() { 1100505 }, new List<int>() { 1 },new List<int> {1,2},new List<int> {100,200},true);
 
 
         //  NewOrder(new List<int>() { 1100105 }, new List<int>() { 1 },new List<int> {1,2},new List<int> {100,200},true);
@@ -73,6 +74,21 @@ public class OrderSystem : GameSystem
         }
 
         TryCreateNewOrdersFromPool();
+    }
+
+    public int GetAllNeedOfItem(int targetItem) {
+        int needCount = 0;
+
+        foreach (OrderModel orderModel in activeOrderModels)
+        {
+            int[] needItemIds = orderModel.NeedItemId;
+            int[] needItemCount= orderModel.NeedItemNum;
+            if (needItemIds.Contains(targetItem)) {
+                needCount += needItemCount[needItemIds.ToList().IndexOf(targetItem)];
+            }
+        }
+
+        return needCount;
     }
 
     private void TryCreateNewOrdersFromPool()

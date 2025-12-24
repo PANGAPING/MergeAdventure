@@ -36,6 +36,7 @@ public class OrderAlgorithmHelper
 
         // 3) 决定订单难度（Easy/Core/Strech个需求）
         OrderHardType orderHardType = RollOrderHardType(); ;
+
         Vector2 hardnessDomain = HardnessDomainMap[orderHardType];
 
         // 4) 采样多个候选，选“得分最高”的那张（稳定、好调）
@@ -62,6 +63,23 @@ public class OrderAlgorithmHelper
             // 更新 recentChains
             int chainId = GetMainChainId(best);
             recentChains.Enqueue(chainId);
+
+            int magicToolCount = 1;
+            if (orderHardType == OrderHardType.CORE)
+            {
+                magicToolCount = 2;
+            }
+            else if (orderHardType == OrderHardType.STRETCH) {
+                magicToolCount = 3; 
+            }
+
+            magicToolCount = Mathf.Min(magicToolCount, GridControllerSystem._instance.GetAvailableItemFromBoard(_spawnConfig.magicToolId) - OrderSystem._instance.GetAllNeedOfItem(_spawnConfig.magicToolId));
+
+            if (magicToolCount > 0)
+            {
+                best.AddNeedItem(_spawnConfig.magicToolId, magicToolCount);
+            }
+
             while (recentChains.Count > _spawnConfig.recentChainAvoidCount)
                 recentChains.Dequeue();
         }
