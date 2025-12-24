@@ -837,7 +837,11 @@ public class GridControllerSystem : GameSystem
         }
 
         foreach (int normalId in normalNumMap.Keys) {
-            lv1Count += ChainHelper.ConvertItemIntoRootCount(normalId) * normalNumMap[normalId];
+            int normalChainId = ChainHelper.GetChainRoot(normalId);
+            if (normalChainId == chainId)
+            {
+                lv1Count += ChainHelper.ConvertItemIntoRootCount(normalId) * normalNumMap[normalId];
+            }
         }
 
         return (int)(lv1Count / mergeNeedRootCount);

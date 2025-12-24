@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c912cd5e1abacb34e905723c72d2e2aa, type: 3}
   m_Name: OrderSpawnConfig
   m_EditorClassIdentifier: 
-  maxActiveOrders: 4
+  maxActiveOrders: 3
   refillOrderInterval: 3000
   orderStorageCapacity: 12
   easyOrderWeight: 50
@@ -32,3 +32,4 @@ MonoBehaviour:
   recentLoss: 1
   hardnessToCoinR: 0.4
   candidateSampleCount: 20
+  magicToolId: 1100403
