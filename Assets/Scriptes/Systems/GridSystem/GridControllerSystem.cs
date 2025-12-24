@@ -269,7 +269,7 @@ public class GridControllerSystem : GameSystem
         return mapSetting;
     }
     private void RefreshMap() {
-        _gridHelper.RefreshTilesState(new Vector2Int(1, 1));
+        _gridHelper.RefreshTilesState(new Vector2Int(5, 3));
         _gridHelper.RefreshTiles();
         UpdateWhiteGroundItemNumMap();
     }
