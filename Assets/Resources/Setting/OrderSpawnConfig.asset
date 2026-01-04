@@ -15,12 +15,12 @@ MonoBehaviour:
   maxActiveOrders: 3
   refillOrderInterval: 3000
   orderStorageCapacity: 12
-  easyOrderWeight: 50
-  coreOrderWeight: 40
-  stretchOrderWeight: 10
+  easyOrderWeight: 80
+  coreOrderWeight: 20
+  stretchOrderWeight: 0
   easyDifficultyDomain: {x: 10, y: 20}
-  coreDifficultyDomain: {x: 20, y: 50}
-  stretchDifficultyDomain: {x: 50, y: 100}
+  coreDifficultyDomain: {x: 20, y: 40}
+  stretchDifficultyDomain: {x: 40, y: 60}
   aveDiffculty: 50
   oneItemOrderWeight: 50
   twoItemOrderWeight: 50
@@ -31,5 +31,5 @@ MonoBehaviour:
   stackLoss: 1
   recentLoss: 1
   hardnessToCoinR: 0.4
-  candidateSampleCount: 20
+  candidateSampleCount: 40
   magicToolId: 1100403
