@@ -136,6 +136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b83c2cbf4299b41bc4a29ae3fea9e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _chainBottomPanel: {fileID: 5277778843932406690}
+  _inItemPanel: {fileID: 2818281185505195228}
+  _occupyItemId: 0
 --- !u!1 &2711040502389499572
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,7 +151,7 @@ GameObject:
   - component: {fileID: 6834470828385344683}
   - component: {fileID: 3382668453906163264}
   m_Layer: 5
-  m_Name: Chain
+  m_Name: Img
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -229,7 +232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2618212835134816288
 RectTransform:
   m_ObjectHideFlags: 0
@@ -384,7 +387,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

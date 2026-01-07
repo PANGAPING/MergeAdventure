@@ -43,14 +43,15 @@ public enum ItemType
     CHAIN,
     [StringValue("STACK")]
     STACK,
+    [StringValue("GENERATOR")]
+    GENERATOR,
     [StringValue("ELFCLOUD")]
     ELFCLOUD,
  [StringValue("ASSET")]
     ASSET,
     [StringValue("ELF")]
     ELF,
-    [StringValue("GENERATOR")]
-    GENERATOR,
+
     [StringValue("TREE")]
     TREE,
     [StringValue("NORMAL")]

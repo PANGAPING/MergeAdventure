@@ -6,26 +6,48 @@ using UnityEngine.UI;
 public class Chain : Mechanism
 {
     [SerializeField]
-    protected Image _chainPanel;
-    [SerializeField]
     protected Image _chainBottomPanel;
     [SerializeField]
-    protected Image _itemPanel;
+    protected Image _inItemPanel;
+
+    public int _occupyItemId = -1;
+
+    public override void MountModel(ItemModel itemModel)
+    {
+        base.MountModel(itemModel);
+        _inItemPanel.gameObject.SetActive(false);
+    }
+
+    public void SetOccpyItem(int itemId) { 
+        _occupyItemId = itemId;
+        _inItemPanel.gameObject.SetActive(true);
+        ItemConfig itemConfig = ConfigSystem.GetItemConfig(itemId);
+        _inItemPanel.sprite = ResourceHelper.GetItemSprite(itemConfig);
+        _inItemPanel.rectTransform.pivot = Vector2.one -   ResourceHelper.ConvertSpritePivotToRectTransform(_inItemPanel.sprite);
+        _inItemPanel.SetNativeSize();
+        _inItemPanel.rectTransform.localPosition = Vector3.zero;
+    }
+
+    public int GetOccupyItem() { 
+        return _occupyItemId;
+    }
 
 
     public override void SetWhiteColor()
     {
         base.SetWhiteColor();
 
-        _itemPanel.color = _whiteColor;
-        _chainPanel.color = _whiteColor;
+        _inItemPanel.color = _whiteColor;
+        _itemImage.color = _whiteColor;
+        _chainBottomPanel.color = _whiteColor;
     }
 
     public override void SetGrayColor()
     {
         base.SetGrayColor();
 
-        _itemPanel.color = _grayColor;
-        _chainPanel.color = _grayColor;
+        _inItemPanel.color = _grayColor;
+        _itemImage.color = _grayColor;
+        _chainBottomPanel.color = _grayColor;
     }
 }

@@ -123,6 +123,16 @@ public class TileBase : MonoBehaviour
         OccupiedItems.Add(item);
     }
 
+    public virtual TileItem GetItemOfLayer(int layer) {
+        foreach (TileItem tileItem in OccupiedItems) {
+            if (tileItem.GetLayer() == layer) {
+                return tileItem;
+            }    
+        }
+
+        return null;
+    }
+
     public virtual void RemoveOccupyItem(TileItem item) {
         if (OccupiedItems.Contains(item)) { 
             OccupiedItems.Remove(item);

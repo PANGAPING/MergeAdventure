@@ -116,9 +116,14 @@ public class GridControllerSystem : GameSystem
 
         InitTileCursor();
         LoadMap();
-        InitCloudGroup();
+        InitMachnisms();
         RefreshMap();
         InitShelterTiles();
+    }
+
+    public void InitMachnisms() { 
+        InitCloudGroup();
+        InitChains();
     }
 
 
@@ -251,7 +256,19 @@ public class GridControllerSystem : GameSystem
             _groupUnlockedMap.Add(groupId, false);
             _groupElfCloudMap.Add(groupId, cloudItems.Values.ToList().FindAll(x => x.GetGroup() == groupId).ToList());
         }
+    }
 
+    public void InitChains() { 
+        Dictionary<Vector2Int, TileItem> chainItems = itemMap[ItemType.CHAIN];
+        foreach (TileItem tileItem in chainItems.Values) {
+            Chain chain = (Chain)tileItem;
+            Vector2Int pos = chain.GetPos();
+            TileItem item = _gridHelper.GetTileBase(pos).GetItemOfLayer(1);
+            if (item != null)
+            {
+                chain.SetOccpyItem(item.GetItemId());
+            }
+        }
     }
 
     public MapSetting GetCurMapSetting() {
@@ -701,8 +718,18 @@ public class GridControllerSystem : GameSystem
                 draggingItem = null;
                 return;
             }
-            if (targetTileItem.GetItemType() == ItemType.WONDERSKETCH && CheckCanFeedWonderSketch(draggingItem, (WonderSketch)targetTileItem)) {
-                TryFeedWonderSketch(draggingItem, (WonderSketch)targetTileItem); 
+
+            if (targetTileItem.GetItemType() == ItemType.WONDERSKETCH && CheckCanFeedWonderSketch(draggingItem, (WonderSketch)targetTileItem))
+            {
+                TryFeedWonderSketch(draggingItem, (WonderSketch)targetTileItem);
+            }
+            else if (targetTileItem.GetItemType() == ItemType.CHAIN && CheckCanFeedChain(draggingItem,(Chain) targetTileItem)) {
+                Chain chain = (Chain) targetTileItem;
+                DestroySpecialTileItems(new List<TileItem>() { chain });
+                Merge(draggingItem,_gridHelper.GetTileBase(highlightTilePos).GetItemOfLayer(1), highlightTilePos);
+                dragging = false;
+                draggingItem = null;
+                return;
             }
             else if (targetTileItem.IsMovable())
             {
@@ -713,7 +740,7 @@ public class GridControllerSystem : GameSystem
                 targetTileItem.SetPos(closetEmptyTile.GetPos());
                 MountItemMap(targetTileItem);
 
-                targetTileItem.MoveAnimation(_gridHelper.GetCellWorldPosition(closetEmptyTile.GetPos()),AnimationEndActionType.NONE,0.2f);
+                targetTileItem.MoveAnimation(_gridHelper.GetCellWorldPosition(closetEmptyTile.GetPos()), AnimationEndActionType.NONE, 0.2f);
             }
             else
             {
@@ -894,6 +921,9 @@ public class GridControllerSystem : GameSystem
         return satisfy;
     }
 
+    public bool CheckCanFeedChain(TileItem tileItem, Chain chain) {
+        return chain.GetOccupyItem() == tileItem.GetItemId();
+    }
     private void UpdateWhiteGroundItemNumMap() { 
         _groundWhiteItemNumMap = new Dictionary<int, int>();
 

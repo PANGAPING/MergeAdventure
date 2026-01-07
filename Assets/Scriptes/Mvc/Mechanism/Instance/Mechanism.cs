@@ -5,6 +5,10 @@ using FlyEggFrameWork;
 
 public class Mechanism : TileItem
 {
+    public override void MountModel(ItemModel itemModel)
+    {
+        base.MountModel(itemModel);
+    }
     protected override void ShowInEditor()
     {
         base.ShowInEditor();

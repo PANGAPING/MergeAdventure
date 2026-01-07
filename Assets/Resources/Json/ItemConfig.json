@@ -1399,7 +1399,7 @@
     "NextLevelID": 0.0,
     "Type": "CHAIN",
     "Movable": 0.0,
-    "Obstacle": 0.0,
+    "Obstacle": 1.0,
     "Layer": 2.0,
     "IntData": "[]"
   },
