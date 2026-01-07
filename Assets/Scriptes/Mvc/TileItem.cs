@@ -4,6 +4,7 @@ using FlyEggFrameWork.Tools;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -85,8 +86,14 @@ public class TileItem : FlyEggInstance
         return Model.IntData;
     }
 
-    public void SetGroup(int value) {
+    public void SetGroup(int value)
+    {
         Model.IntData = value;
+        Transform groupPanel = transform.Find("GroupPanel");
+        if (groupPanel != null)
+        {
+            groupPanel.GetComponent<TextMeshProUGUI>().text = value.ToString();
+        }
         ShowInEditor();
     }
 
@@ -236,8 +243,13 @@ public class TileItem : FlyEggInstance
          
     }
 
-    protected virtual void ShowInPlayMode() { 
-    
+    protected virtual void ShowInPlayMode() {
+        Transform groupPanel = transform.Find("GroupPanel");
+        if (groupPanel != null)
+        {
+            groupPanel.gameObject.SetActive(false);
+        }
+
     }
 
     public virtual Transform GetUIPivotPoint(bool bottom = false) {

@@ -1421,7 +1421,7 @@
     "Name": "Stack",
     "ItemBaseSize": "[1,1]",
     "SpritePath": "Stack/GrassStack",
-    "PrefabPath": null,
+    "PrefabPath": "TileItem/Stack",
     "NextLevelID": 0.0,
     "Type": "STACK",
     "Movable": 0.0,
