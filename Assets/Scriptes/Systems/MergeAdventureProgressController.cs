@@ -15,6 +15,8 @@ public class MergeAdventureProgressController : GameProgressController
 
     public static MergeAdventureProgressController _instance;
 
+    public const int _testLevel = 5;
+
     protected override void InitProgress()
     {
         _instance = this;
@@ -25,6 +27,9 @@ public class MergeAdventureProgressController : GameProgressController
     }
 
     public int GetLevelId() {
+        if (_testLevel > 0) {
+            return _testLevel; 
+        }
         return _userData.CurrentLevelId;
     }
 
@@ -34,9 +39,9 @@ public class MergeAdventureProgressController : GameProgressController
 
     public MapSetting GetMapSetting()
     {
-        MapSetting usedMapSetting = _userData.MapDatas.ToList().Find(x => x.Level == _userData.CurrentLevelId);
+        MapSetting usedMapSetting = _userData.MapDatas.ToList().Find(x => x.Level == GetLevelId());
         if (usedMapSetting == null) {
-            return ConfigSystem.GetMapSetting(_userData.CurrentLevelId);     
+            return ConfigSystem.GetMapSetting(GetLevelId());     
         }
         return usedMapSetting;
     }    
