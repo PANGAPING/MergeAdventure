@@ -1118,6 +1118,45 @@
     "IntData": "[]"
   },
   {
+    "ID": 2000401.0,
+    "Name": "ToolBox_Lv1",
+    "ItemBaseSize": "[1,1]",
+    "SpritePath": "Generator/ToolBox/ToolBox_Lv1",
+    "PrefabPath": null,
+    "NextLevelID": 2000402.0,
+    "Type": "NORMAL",
+    "Movable": 1.0,
+    "Obstacle": 0.0,
+    "Layer": 1.0,
+    "IntData": "[]"
+  },
+  {
+    "ID": 2000402.0,
+    "Name": "ToolBox_Lv2",
+    "ItemBaseSize": "[1,1]",
+    "SpritePath": "Generator/ToolBox/ToolBox_Lv2",
+    "PrefabPath": null,
+    "NextLevelID": 2000403.0,
+    "Type": "NORMAL",
+    "Movable": 1.0,
+    "Obstacle": 0.0,
+    "Layer": 1.0,
+    "IntData": "[]"
+  },
+  {
+    "ID": 2000403.0,
+    "Name": "ToolBox_Lv3",
+    "ItemBaseSize": "[1,1]",
+    "SpritePath": "Generator/ToolBox/ToolBox_Lv3",
+    "PrefabPath": "TileItem/Generator",
+    "NextLevelID": 0.0,
+    "Type": "GENERATOR",
+    "Movable": 1.0,
+    "Obstacle": 0.0,
+    "Layer": 1.0,
+    "IntData": "[]"
+  },
+  {
     "ID": 3000101.0,
     "Name": "Fog",
     "ItemBaseSize": "[1,1]",
