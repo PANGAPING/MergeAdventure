@@ -1404,11 +1404,37 @@
     "IntData": "[]"
   },
   {
+    "ID": 3000302.0,
+    "Name": "ChainStackHead",
+    "ItemBaseSize": "[1,1]",
+    "SpritePath": "Chain/Chain",
+    "PrefabPath": "TileItem/ChainStackHead",
+    "NextLevelID": 0.0,
+    "Type": "CHAIN",
+    "Movable": 0.0,
+    "Obstacle": 1.0,
+    "Layer": 2.0,
+    "IntData": "[]"
+  },
+  {
     "ID": 3000401.0,
     "Name": "Stack",
     "ItemBaseSize": "[1,1]",
     "SpritePath": "Stack/GrassStack",
     "PrefabPath": null,
+    "NextLevelID": 0.0,
+    "Type": "STACK",
+    "Movable": 0.0,
+    "Obstacle": 1.0,
+    "Layer": 3.0,
+    "IntData": "[]"
+  },
+  {
+    "ID": 3000402.0,
+    "Name": "ChainStack",
+    "ItemBaseSize": "[1,1]",
+    "SpritePath": "Stack/ChainStack",
+    "PrefabPath": "Stack/ChainStack",
     "NextLevelID": 0.0,
     "Type": "STACK",
     "Movable": 0.0,
