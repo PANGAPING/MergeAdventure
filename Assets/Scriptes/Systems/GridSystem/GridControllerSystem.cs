@@ -525,7 +525,7 @@ public class GridControllerSystem : GameSystem
 
             List<TileItem> stacks = itemMap[ItemType.STACK].Values.ToList().FindAll(x => x.GetGroup() == group);
 
-            StartCoroutine(OpenStacksWithInterval(stacks, 0.3f));
+            StartCoroutine(OpenStacksWithInterval(stacks, 0.4f));
         }
     }
 
