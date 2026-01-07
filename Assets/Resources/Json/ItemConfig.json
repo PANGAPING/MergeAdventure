@@ -1434,7 +1434,7 @@
     "Name": "ChainStack",
     "ItemBaseSize": "[1,1]",
     "SpritePath": "Stack/ChainStack",
-    "PrefabPath": "Stack/Stack",
+    "PrefabPath": "TileItem/Stack",
     "NextLevelID": 0.0,
     "Type": "STACK",
     "Movable": 0.0,
