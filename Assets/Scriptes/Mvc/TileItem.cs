@@ -240,6 +240,11 @@ public class TileItem : FlyEggInstance
     }
 
     protected virtual void ShowInEditor() { 
+        Transform groupPanel = transform.Find("GroupPanel");
+        if (groupPanel != null)
+        {
+            groupPanel.GetComponent<TextMeshProUGUI>().text =GetGroup().ToString();
+        }
          
     }
 
