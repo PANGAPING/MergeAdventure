@@ -1407,7 +1407,7 @@
     "ID": 3000302.0,
     "Name": "ChainStackHead",
     "ItemBaseSize": "[1,1]",
-    "SpritePath": "Chain/Chain",
+    "SpritePath": "Chain/ChainStackHead",
     "PrefabPath": "TileItem/Chain",
     "NextLevelID": 0.0,
     "Type": "CHAIN",
