@@ -1395,7 +1395,7 @@
     "Name": "Chain",
     "ItemBaseSize": "[1,1]",
     "SpritePath": "Chain/Chain",
-    "PrefabPath": null,
+    "PrefabPath": "TileItem/Chain",
     "NextLevelID": 0.0,
     "Type": "CHAIN",
     "Movable": 0.0,

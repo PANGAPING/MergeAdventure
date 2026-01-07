@@ -14,4 +14,14 @@ public class Mechanism : TileItem
     {
         base.ShowInPlayMode();
     }
+
+    public override void SetGrayColor()
+    {
+        base.SetGrayColor();
+    }
+
+    public override void SetWhiteColor()
+    {
+        base.SetWhiteColor();
+    }
 }

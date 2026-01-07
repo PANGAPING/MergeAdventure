@@ -25,7 +25,7 @@ public class OrderAlgorithmHelper
     {
         // 1) 从玩家当前生成器构建“可订单物品池”
         // 你需要实现：获取玩家解锁的 generatorId 列表，然后拿到它们的可产出物。
-        List<int> unlockedGenerators = GridControllerSystem._instance.GetGeneratorItemIds();
+        List<int> unlockedGenerators = GridControllerSystem._instance.GetGeneratorItemIds(false);
         List<ItemMeta> candidateChainTarget = BuildCandidateItemTargets(unlockedGenerators);
 
         Debug.Log(candidateChainTarget);

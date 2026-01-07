@@ -20,9 +20,9 @@ public class TileItem : FlyEggInstance
 
     private Vector3 originalScale;
 
-    private static Color _whiteColor = new Color(255f / 255, 255f / 255, 255f / 255);
+    protected static Color _whiteColor = new Color(255f / 255, 255f / 255, 255f / 255);
 
-    private static Color _grayColor = new Color(113f / 255, 113f / 255, 113f / 255);
+    protected static Color _grayColor = new Color(113f / 255, 113f / 255, 113f / 255);
 
     protected Image _itemImage;
 

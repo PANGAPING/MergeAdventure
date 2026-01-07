@@ -69,7 +69,7 @@ public class GridControllerSystem : GameSystem
 
     public Dictionary<int,bool> _groupUnlockedMap = new Dictionary<int,bool>();
 
-    public Vector2Int _testStartPos = new Vector2Int(4,5);
+    public Vector2Int _testStartPos = new Vector2Int(3,5);
 
     protected override void InitSelf()
     {
