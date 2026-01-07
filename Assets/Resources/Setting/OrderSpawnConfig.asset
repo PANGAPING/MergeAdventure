@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c912cd5e1abacb34e905723c72d2e2aa, type: 3}
   m_Name: OrderSpawnConfig
   m_EditorClassIdentifier: 
-  maxActiveOrders: 3
+  maxActiveOrders: 2
   refillOrderInterval: 3000
   orderStorageCapacity: 12
-  easyOrderWeight: 80
-  coreOrderWeight: 20
+  easyOrderWeight: 90
+  coreOrderWeight: 10
   stretchOrderWeight: 0
   easyDifficultyDomain: {x: 10, y: 20}
-  coreDifficultyDomain: {x: 20, y: 40}
-  stretchDifficultyDomain: {x: 40, y: 60}
+  coreDifficultyDomain: {x: 20, y: 30}
+  stretchDifficultyDomain: {x: 30, y: 40}
   aveDiffculty: 50
   oneItemOrderWeight: 50
   twoItemOrderWeight: 50
