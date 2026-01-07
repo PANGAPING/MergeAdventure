@@ -8,6 +8,7 @@ public class Stack : Mechanism
     StackType _stackType = StackType.STACK;
     public override void MountModel(ItemModel itemModel)
     {
+        base.MountModel(itemModel);
         EnumUtils.TryParseFromStringValue<StackType>(itemModel.GetItemConfig().Name, out _stackType);
     }
 
