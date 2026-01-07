@@ -67,7 +67,9 @@ public class GridControllerSystem : GameSystem
     //Group
     public Dictionary<int,List<TileItem>> _groupElfCloudMap= new Dictionary<int,List<TileItem>>();
 
-    public Dictionary<int,bool> _groupUnlockedMap = new Dictionary<int,bool>(); 
+    public Dictionary<int,bool> _groupUnlockedMap = new Dictionary<int,bool>();
+
+    public Vector2Int _testStartPos = new Vector2Int(4,5);
 
     protected override void InitSelf()
     {
@@ -269,7 +271,7 @@ public class GridControllerSystem : GameSystem
         return mapSetting;
     }
     private void RefreshMap() {
-        _gridHelper.RefreshTilesState(new Vector2Int(5, 3));
+        _gridHelper.RefreshTilesState(_testStartPos);
         _gridHelper.RefreshTiles();
         UpdateWhiteGroundItemNumMap();
     }
