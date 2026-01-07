@@ -117,13 +117,13 @@ public class GridControllerSystem : GameSystem
 
         InitTileCursor();
         LoadMap();
+        InitBasicMapSettingItem();
         InitMachnisms();
         RefreshMap();
         InitShelterTiles();
     }
 
     public void InitMachnisms() {
-        InitBasicMapSettingItem();
         InitCloudGroup();
         InitChains();
     }
@@ -245,7 +245,10 @@ public class GridControllerSystem : GameSystem
         MapSetting oriMapSetting = GetOriMapSetting();
 
         ItemModel startPosItem = oriMapSetting.Items.ToList().Find(x => x.GetItemConfig().Name == "StartPos");
-        _startPos = CommonTool.ArrayToVector2Int(startPosItem.TilePos);
+        if (startPosItem != null)
+        {
+            _startPos = CommonTool.ArrayToVector2Int(startPosItem.TilePos);
+        }
     }
 
 
