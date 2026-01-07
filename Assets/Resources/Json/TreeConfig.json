@@ -58,5 +58,35 @@
     "DropItemRatios": "[0.5,0.5]",
     "MaxHealthCount": 4.0,
     "EnergyCost": "[10,15,15,25]"
+  },
+  {
+    "ID": 1200301.0,
+    "Name": "Shu3_Lv1",
+    "ItemID": 1200301.0,
+    "DropItemCount": 8.0,
+    "DropItemIds": "[1100901,2000401,4000201]",
+    "DropItemRatios": "[0.4,0.4,0.2]",
+    "MaxHealthCount": 2.0,
+    "EnergyCost": "[5,15]"
+  },
+  {
+    "ID": 1200302.0,
+    "Name": "Shu3_Lv2",
+    "ItemID": 1200302.0,
+    "DropItemCount": 14.0,
+    "DropItemIds": "[1100901,2000401,4000201]",
+    "DropItemRatios": "[0.4,0.4,0.2]",
+    "MaxHealthCount": 3.0,
+    "EnergyCost": "[5,10,20]"
+  },
+  {
+    "ID": 1200303.0,
+    "Name": "Shu3_Lv3",
+    "ItemID": 1200303.0,
+    "DropItemCount": 28.0,
+    "DropItemIds": "[1100901,2000401,4000201]",
+    "DropItemRatios": "[0.4,0.4,0.2]",
+    "MaxHealthCount": 5.0,
+    "EnergyCost": "[10,15,15,15,25]"
   }
 ]

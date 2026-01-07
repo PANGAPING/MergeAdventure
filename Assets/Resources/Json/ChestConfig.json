@@ -14,5 +14,29 @@
     "DropItemIds": "[4000101,4000102,4000103,4000104]",
     "DropItemRatios": "[0.4,0.3,0.2,0.1]",
     "ItemCount": 5.0
+  },
+  {
+    "ID": 3000804.0,
+    "Name": "CommonChest_Lv2",
+    "ItemID": 3000804.0,
+    "DropItemIds": "[4000201,4000202,4000202,4000101,4000102,4000103]",
+    "DropItemRatios": "[0.2,0.2,0,0.2,0.2,0]",
+    "ItemCount": 2.0
+  },
+  {
+    "ID": 3000805.0,
+    "Name": "CommonChest_Lv3",
+    "ItemID": 3000805.0,
+    "DropItemIds": "[4000201,4000202,4000202,4000101,4000102,4000103]",
+    "DropItemRatios": "[0.1,0.2,0.2,0.1,0.2,0.2]",
+    "ItemCount": 4.0
+  },
+  {
+    "ID": 3000806.0,
+    "Name": "CommonChest_Lv4",
+    "ItemID": 3000806.0,
+    "DropItemIds": "[4000201,4000202,4000202,4000101,4000102,4000103]",
+    "DropItemRatios": "[0,0.2,0.2,0,0.2,0.2]",
+    "ItemCount": 8.0
   }
 ]

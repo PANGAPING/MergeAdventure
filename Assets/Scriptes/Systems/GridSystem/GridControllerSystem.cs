@@ -608,7 +608,6 @@ public class GridControllerSystem : GameSystem
             return;
         }
 
-
         success = Drop(dropMap, tileItem.GetPos(), luck);
         if (!success) {
             GridUISystem._instance.ShowPopup(_gridHelper.GetCellWorldPosition(tileItem.GetPos()), "Board Full!", Color.white);
@@ -617,7 +616,12 @@ public class GridControllerSystem : GameSystem
 
         InventorySystem._instance.RemoveAsset(ASSETTYPE.ENERGY, 1);
 
-        //Lucky µ¯Ä»
+
+        bool die = generator.GetCut(1);
+        if (die)
+        {
+            DestroySpecialTileItems(new List<TileItem> { tileItem });
+        }
     }
 
     private void TapChest(TileItem tileItem) {
