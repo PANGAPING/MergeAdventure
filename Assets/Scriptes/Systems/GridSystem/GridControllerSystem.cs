@@ -515,6 +515,33 @@ public class GridControllerSystem : GameSystem
         wonderSketch.GetCompleted();
     }
 
+    public void TryFeedChain(TileItem tileItem, Chain chain) {
+        DestroySpecialTileItems(new List<TileItem>() { chain });
+        Merge(draggingItem, _gridHelper.GetTileBase(highlightTilePos).GetItemOfLayer(1), highlightTilePos);
+
+        ChainType chainType = chain._chainType;
+        if (chainType == ChainType.CHAINSTACKHEAD) {
+            int group = chain.GetGroup();
+
+            List<TileItem> stacks = itemMap[ItemType.STACK].Values.ToList().FindAll(x => x.GetGroup() == group);
+
+            StartCoroutine(OpenStacksWithInterval(stacks, 0.3f));
+        }
+    }
+
+
+    private IEnumerator OpenStacksWithInterval(
+    List<TileItem> stacks,
+    float interval
+)
+    {
+        foreach (TileItem stack in stacks)
+        {
+            TryOpenStack(stack);
+            yield return new WaitForSeconds(interval);
+        }
+    }
+
     public void TryFeedElf(Elf elf) { 
         Dictionary<int,int> needItem = elf.GetDemandItems();
 
@@ -738,8 +765,9 @@ public class GridControllerSystem : GameSystem
             }
             else if (targetTileItem.GetItemType() == ItemType.CHAIN && CheckCanFeedChain(draggingItem,(Chain) targetTileItem)) {
                 Chain chain = (Chain) targetTileItem;
-                DestroySpecialTileItems(new List<TileItem>() { chain });
-                Merge(draggingItem,_gridHelper.GetTileBase(highlightTilePos).GetItemOfLayer(1), highlightTilePos);
+
+                TryFeedChain(draggingItem, chain);
+
                 dragging = false;
                 draggingItem = null;
                 return;
