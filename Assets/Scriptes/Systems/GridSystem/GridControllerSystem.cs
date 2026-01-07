@@ -512,12 +512,15 @@ public class GridControllerSystem : GameSystem
         return -1;
     }
 
-    public List<int> GetGeneratorItemIds() { 
+    public List<int> GetGeneratorItemIds(bool withTreeGenerator = true) { 
         List<int> generatorIds = new List<int>();
 
         foreach (int itemId in _groundWhiteItemNumMap.Keys) { 
             ItemConfig itemConfig = ConfigSystem.GetItemConfig(itemId);
-            if (itemConfig.Type == ItemType.GENERATOR) { 
+            if (itemConfig.Type == ItemType.GENERATOR) {
+                if (!withTreeGenerator && itemConfig.Movable != 1) {
+                    continue; 
+                }
                 generatorIds.Add(itemId);
             }
         }
