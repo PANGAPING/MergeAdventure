@@ -367,6 +367,14 @@ public class LevelEditor : EditorWindow
                         {
                             activeTileBase.GetItemOfType(ItemType.ELF).SetGroup(groupValue);
                         }
+                        else if (activeTileBase.ExistItemOfType(ItemType.STACK) && NodeMap[ItemType.STACK].gameObject.activeSelf)
+                        {
+                            activeTileBase.GetItemOfType(ItemType.STACK).SetGroup(groupValue);
+                        }
+                        else if (activeTileBase.ExistItemOfType(ItemType.CHAIN) && NodeMap[ItemType.CHAIN].gameObject.activeSelf)
+                        {
+                            activeTileBase.GetItemOfType(ItemType.CHAIN).SetGroup(groupValue);
+                        }
 
                     }
                 }
@@ -579,7 +587,9 @@ public class LevelEditor : EditorWindow
             return;
         }
 
-        if (usingItem.Name == "GroupPainter" || usingItem.Name =="GroupLocker" || usingItem.Name.StartsWith("ElfCloud"))
+        string usingItemName = usingItem.Name;
+
+        if (usingItemName == "GroupPainter" || usingItemName =="GroupLocker" || usingItemName.StartsWith("ElfCloud") || usingItem.Type == ItemType.STACK || usingItem.Type == ItemType.CHAIN)
         {
             GUILayout.BeginHorizontal();
             GUILayout.Space(10);
