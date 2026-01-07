@@ -69,7 +69,8 @@ public class GridControllerSystem : GameSystem
 
     public Dictionary<int,bool> _groupUnlockedMap = new Dictionary<int,bool>();
 
-    public Vector2Int _testStartPos = new Vector2Int(3,5);
+    public Vector2Int _startPos = new Vector2Int(3,5);
+
 
     protected override void InitSelf()
     {
@@ -121,7 +122,8 @@ public class GridControllerSystem : GameSystem
         InitShelterTiles();
     }
 
-    public void InitMachnisms() { 
+    public void InitMachnisms() {
+        InitBasicMapSettingItem();
         InitCloudGroup();
         InitChains();
     }
@@ -239,6 +241,14 @@ public class GridControllerSystem : GameSystem
         }
     }
 
+    public void InitBasicMapSettingItem() {
+        MapSetting oriMapSetting = GetOriMapSetting();
+
+        ItemModel startPosItem = oriMapSetting.Items.ToList().Find(x => x.GetItemConfig().Name == "StartPos");
+        _startPos = CommonTool.ArrayToVector2Int(startPosItem.TilePos);
+    }
+
+
     public void InitCloudGroup() { 
          _groupElfCloudMap = new Dictionary<int, List<TileItem>>();
         _groupUnlockedMap = new Dictionary<int,bool>();
@@ -288,7 +298,7 @@ public class GridControllerSystem : GameSystem
         return mapSetting;
     }
     private void RefreshMap() {
-        _gridHelper.RefreshTilesState(_testStartPos);
+        _gridHelper.RefreshTilesState(_startPos);
         _gridHelper.RefreshTiles();
         UpdateWhiteGroundItemNumMap();
     }

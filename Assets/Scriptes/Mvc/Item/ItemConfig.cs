@@ -47,11 +47,10 @@ public enum ItemType
     GENERATOR,
     [StringValue("ELFCLOUD")]
     ELFCLOUD,
- [StringValue("ASSET")]
+    [StringValue("ASSET")]
     ASSET,
     [StringValue("ELF")]
     ELF,
-
     [StringValue("TREE")]
     TREE,
     [StringValue("NORMAL")]
