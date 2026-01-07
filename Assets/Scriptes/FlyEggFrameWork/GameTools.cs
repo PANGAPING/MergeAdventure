@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -422,7 +423,36 @@ namespace FlyEggFrameWork.Tools
             }
             return null;
         }
+
+        public static bool TryParseFromStringValue<TEnum>(
+        string input,
+        out TEnum result
+    ) where TEnum : struct, Enum
+        {
+            result = default;
+
+            if (string.IsNullOrEmpty(input))
+                return false;
+
+            var type = typeof(TEnum);
+
+            foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Static))
+            {
+                var attr = field.GetCustomAttribute<StringValueAttribute>();
+                if (attr == null)
+                    continue;
+
+                if (string.Equals(attr.Value, input, StringComparison.OrdinalIgnoreCase))
+                {
+                    result = (TEnum)field.GetValue(null);
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
+
 
 
 }

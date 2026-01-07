@@ -1,3 +1,4 @@
+using FlyEggFrameWork.Tools;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,10 +13,13 @@ public class Chain : Mechanism
 
     public int _occupyItemId = -1;
 
+    public ChainType _chainType = ChainType.CHAIN;
+
     public override void MountModel(ItemModel itemModel)
     {
         base.MountModel(itemModel);
         _inItemPanel.gameObject.SetActive(false);
+        EnumUtils.TryParseFromStringValue<ChainType>(itemModel.GetItemConfig().Name, out _chainType);
     }
 
     public void SetOccpyItem(int itemId) { 
@@ -51,3 +55,12 @@ public class Chain : Mechanism
         _chainBottomPanel.color = _grayColor;
     }
 }
+public enum ChainType
+{
+    [StringValue("CHAIN")]
+    CHAIN,
+    [StringValue("CHAINSTACKHEAD")]
+    CHAINSTACKHEAD
+}
+
+
