@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: OrderSpawnConfig
   m_EditorClassIdentifier: 
   maxActiveOrders: 2
-  refillOrderInterval: 3000
+  refillOrderInterval: 60
   orderStorageCapacity: 12
   easyOrderWeight: 60
   coreOrderWeight: 30
