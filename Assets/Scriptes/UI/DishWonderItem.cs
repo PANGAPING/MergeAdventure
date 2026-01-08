@@ -18,6 +18,8 @@ public class DishWonderItem : DishNeedItem
         else {
             WhatSymbolObj.SetActive(true);
         }
+
+        WhatSymbolObj?.SetActive(false);
     }
 
 }

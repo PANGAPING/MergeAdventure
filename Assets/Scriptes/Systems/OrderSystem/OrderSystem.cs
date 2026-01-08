@@ -22,7 +22,7 @@ public class OrderSystem : GameSystem
 
     protected List<OrderModel> activeOrderModels = new List<OrderModel>();
 
-    protected OrderModel targetOrderModel;
+    protected List<OrderModel> targetOrderModels = new List<OrderModel>();
 
     //Generate Order paras
 
@@ -39,7 +39,16 @@ public class OrderSystem : GameSystem
         _instance = this;
         base.InitSelf();
 
-        targetOrderModel = NewOrder(new List<int>() { 1100505 }, new List<int>() { 1 },new List<int> {1,2},new List<int> {100,200},true);
+        targetOrderModels = new List<OrderModel>();
+        //targetOrderModels.Add( NewOrder(new List<int>() { 1100904,1100305 }, new List<int>() { 1 },new List<int> {1,2},new List<int> {30,200},true));
+        //targetOrderModels.Add( NewOrder(new List<int>() { 1100907,1100306 }, new List<int>() { 1 },new List<int> {1,2},new List<int> {50,200},true));
+        //targetOrderModels.Add( NewOrder(new List<int>() { 1100910,1100307 }, new List<int>() { 1 },new List<int> {1,2},new List<int> {100,200},true));
+
+        targetOrderModels.Add( NewOrder(new List<int>() { 1100905}, new List<int>() { 1 },new List<int> {1,2},new List<int> {30,200},true));
+        targetOrderModels.Add( NewOrder(new List<int>() { 1100907}, new List<int>() { 1 },new List<int> {1,2},new List<int> {50,200},true));
+        targetOrderModels.Add( NewOrder(new List<int>() { 1100910}, new List<int>() { 1 },new List<int> {1,2},new List<int> {100,200},true));
+
+
 
 
         //  NewOrder(new List<int>() { 1100105 }, new List<int>() { 1 },new List<int> {1,2},new List<int> {100,200},true);
@@ -160,6 +169,17 @@ public class OrderSystem : GameSystem
             }
         }
 
+        if (orderModel.IsLevelTarget) {
+            OrderModel finishedOrder = targetOrderModels[0];
+
+            GridControllerSystem._instance.Drop(new Dictionary<int, int> { { finishedOrder.NeedItemId[0], 1 } },new Vector2Int(4,9),true);
+
+            targetOrderModels.RemoveAt(0);
+            if (targetOrderModels.Count > 0) {
+                _onOrderAdd.Invoke(targetOrderModels[0]);
+            }
+        }
+
         if (activeOrderModels.Contains(orderModel)) { 
             activeOrderModels.Remove(orderModel);
         }
@@ -176,7 +196,7 @@ public class OrderSystem : GameSystem
     }
 
     public OrderModel GetLevelTargetOrder() {
-        return targetOrderModel;
+        return targetOrderModels[0];
     }
 
 }
