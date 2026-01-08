@@ -189,7 +189,7 @@ public class LevelEditor : EditorWindow
     }
 
     private void LoadMap() {
-        MapSetting = ConfigSystem.GetMapSetting(editingLevel);
+        MapSetting = ConfigSystem.GetMapSetting(editingLevel,false);
 
         NodeMap = new Dictionary<ItemType, Transform>();
         LayerNodeMap = new Dictionary<int, Transform>();

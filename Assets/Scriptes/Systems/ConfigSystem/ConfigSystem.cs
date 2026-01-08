@@ -222,13 +222,24 @@ public static class ConfigSystem
     }
 
 
-    public static MapSetting GetMapSetting(int level = 1)
+    public static MapSetting GetMapSetting(int level = 1,bool runtime = true)
     {
 
         string mapSettingPath = Path.Combine(FoldPath.ResourcesFolderPath, FoldPath.MapSettingFolderPath, "MapSetting_" + level.ToString() +".json");
         MapSetting mapSetting = new MapSetting(level);
         mapSetting.Items = new ItemModel[0];
         mapSetting.StartPos = new int[2] { 0, 0 };
+
+        if (runtime) {
+            string json = Resources.Load<TextAsset>(Path.Combine(FoldPath.MapSettingFolderPath, "MapSetting_" + level.ToString())).text;
+            mapSetting = JsonConvert.DeserializeObject<MapSetting>(json);
+            if (mapSetting.StartPos == null || mapSetting.StartPos.Length != 2)
+            {
+                mapSetting.StartPos = new int[2] { 0, 0 };
+            }
+            return mapSetting;
+        }
+
 
         if (!File.Exists(mapSettingPath))
         {
