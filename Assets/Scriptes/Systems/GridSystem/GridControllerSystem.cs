@@ -520,11 +520,16 @@ public class GridControllerSystem : GameSystem
         Merge(draggingItem, _gridHelper.GetTileBase(highlightTilePos).GetItemOfLayer(1), highlightTilePos);
 
         ChainType chainType = chain._chainType;
-        if (chainType == ChainType.CHAINSTACKHEAD) {
+        if (chainType == ChainType.CHAIN) {
+            List<Vector2Int> surroundPoses = _gridHelper.GetSurroundPoses(chain.GetPos(), false);
+            List<TileItem> stacks = itemMap[ItemType.STACK].Values.ToList().FindAll(x => ((Stack)x)._stackType == StackType.GRASSSTACK && surroundPoses.Contains(x.GetPos()));
+            StartCoroutine(OpenStacksWithInterval(stacks, 0.05f));
+
+        }
+        else if (chainType == ChainType.CHAINSTACKHEAD)
+        {
             int group = chain.GetGroup();
-
             List<TileItem> stacks = itemMap[ItemType.STACK].Values.ToList().FindAll(x => x.GetGroup() == group);
-
             StartCoroutine(OpenStacksWithInterval(stacks, 0.4f));
         }
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Stack : Mechanism
 {
-    StackType _stackType = StackType.STACK;
+   public StackType _stackType = StackType.GRASSSTACK;
     public override void MountModel(ItemModel itemModel)
     {
         base.MountModel(itemModel);
@@ -15,8 +15,8 @@ public class Stack : Mechanism
 }
 public enum StackType
 {
-    [StringValue("STACK")]
-    STACK,
+    [StringValue("GRASSSTACK")]
+    GRASSSTACK,
     [StringValue("CHAINSTACK")]
     CHAINSTACK
 }

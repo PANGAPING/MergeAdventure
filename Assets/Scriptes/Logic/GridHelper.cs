@@ -397,6 +397,30 @@ public class GridHelper
         return resultTile;
     }
 
+    public List<Vector2Int> GetSurroundPoses(Vector2Int centerPos,bool withCorner) {
+        List<Vector2Int> poses = new List<Vector2Int>();
+
+        List<int> offset = new List<int>() { -1,0,1};
+
+        foreach (int offsetX in offset) {
+            foreach (int offsetY in offset) {
+                Vector2Int pos = new Vector2Int(offsetX, offsetY) + centerPos;
+                if (pos == centerPos || !IsValidTilePos(pos)) {
+                    continue;
+                }
+
+                if (!withCorner && MathF.Abs(offsetX + offsetY) != 1)
+                {
+                    continue;
+                }
+                poses.Add(pos);
+            } 
+        }
+
+
+        return poses;
+    }
+
     public List<TileBase> GetEmptyPoses(Vector2Int startPos, int count) {
         return GetFloorMatchedTiles(startPos, (TileBase x) => { return IsWhiteTilePos(x.GetPos()) && IsEmptyTilePos(x.GetPos()); },count);
     }
