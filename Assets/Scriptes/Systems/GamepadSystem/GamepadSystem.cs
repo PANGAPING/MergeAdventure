@@ -42,7 +42,7 @@ public class GamepadSystem : GameSystem
     protected override void InitGamePlay()
     {
         base.InitGamePlay();
-        _gamePlay.UI.Click.performed += OnClickDown;
+        _gamePlay.UI.Click.started += OnClickDown;
         _gamePlay.UI.Click.canceled += OnClickUp;
     }
 
