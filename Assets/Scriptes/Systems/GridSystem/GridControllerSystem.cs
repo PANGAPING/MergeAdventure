@@ -193,9 +193,6 @@ public class GridControllerSystem : GameSystem
             return;
         }
 
-                Debug.Log("Dragging" + dragging.ToString());
-                Debug.Log("TapingDown" + tapDowning.ToString());
-
         if (!dragging && tapDowning)
         {
             if (tapDownPos != highlightTilePos && _gridHelper.IsValidTilePos(tapDownPos))
@@ -380,6 +377,7 @@ public class GridControllerSystem : GameSystem
             return;
         }
 
+        UpdateTileCursor(Input.mousePosition);
         tapDownPos = highlightTilePos;
         dragging = false;
         tapDowning = true;

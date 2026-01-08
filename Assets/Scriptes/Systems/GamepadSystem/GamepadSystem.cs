@@ -91,6 +91,7 @@ public class GamepadSystem : GameSystem
     }
     public void OnClickUp(InputAction.CallbackContext callbackContext)
     {
+        Debug.Log("Up!!!");
         if (_onClickUp != null)
         {
             _onClickUp.Invoke();

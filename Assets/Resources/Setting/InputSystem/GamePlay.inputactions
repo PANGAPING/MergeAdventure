@@ -9,7 +9,7 @@
                     "name": "Click",
                     "type": "Button",
                     "id": "a2c09af8-e824-4c65-92bc-0b0b4bf9702a",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -59,7 +59,7 @@
                 {
                     "name": "",
                     "id": "db7ea8f2-9351-473d-bf12-295039ba88e0",
-                    "path": "<Touchscreen>/touch0/tap",
+                    "path": "<Touchscreen>/touch*/Press",
                     "interactions": "",
                     "processors": "",
                     "groups": "Phone",
