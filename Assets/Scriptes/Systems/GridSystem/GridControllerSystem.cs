@@ -530,7 +530,7 @@ public class GridControllerSystem : GameSystem
         {
             int group = chain.GetGroup();
             List<TileItem> stacks = itemMap[ItemType.STACK].Values.ToList().FindAll(x => x.GetGroup() == group);
-            StartCoroutine(OpenStacksWithInterval(stacks, 0.4f));
+            StartCoroutine(OpenStacksWithInterval(stacks, 0.2f));
         }
     }
 
