@@ -224,7 +224,8 @@ public static class ConfigSystem
 
     public static MapSetting GetMapSetting(int level = 1)
     {
-        string mapSettingPath = Path.Combine(FoldPath.MapSettingFolderPath, "MapSetting_" + level.ToString());
+
+        string mapSettingPath = Path.Combine(FoldPath.ResourcesFolderPath, FoldPath.MapSettingFolderPath, "MapSetting_" + level.ToString() +".json");
         MapSetting mapSetting = new MapSetting(level);
         mapSetting.Items = new ItemModel[0];
         mapSetting.StartPos = new int[2] { 0, 0 };
@@ -235,7 +236,7 @@ public static class ConfigSystem
         }
         else
         {
-            string json = File.ReadAllText(mapSettingPath);
+            string json = Resources.Load<TextAsset>(Path.Combine(FoldPath.MapSettingFolderPath, "MapSetting_" + level.ToString())).text;
             mapSetting = JsonConvert.DeserializeObject<MapSetting>(json);
             if (mapSetting.StartPos == null || mapSetting.StartPos.Length != 2)
             {
@@ -247,11 +248,12 @@ public static class ConfigSystem
 
     public static void SaveMapSetting(int level = 1, MapSetting mapSetting = null)
     {
-        string mapSettingPath = Path.Combine(FoldPath.MapSettingFolderPath, "MapSetting_" + level.ToString());
+        string mapSettingPath = Path.Combine(FoldPath.ResourcesFolderPath, FoldPath.MapSettingFolderPath, "MapSetting_" + level.ToString()+".json");
 
         if (File.Exists(mapSettingPath))
         {
             File.Delete(mapSettingPath);
+            Debug.Log("Delete");
         }
 
         File.WriteAllText(mapSettingPath, JsonConvert.SerializeObject(mapSetting));

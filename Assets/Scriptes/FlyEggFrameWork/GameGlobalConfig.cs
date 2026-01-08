@@ -49,7 +49,7 @@ namespace FlyEggFrameWork.GameGlobalConfig
 
         public static string MapGridFolderPath = Path.Combine("MapGrid");
 
-        public static string MapSettingFolderPath = Path.Combine(Application.dataPath, "MapSetting");
+        public static string MapSettingFolderPath = Path.Combine("MapSetting");
 
         public static string SettingFolderPath = Path.Combine( "Setting");
 
