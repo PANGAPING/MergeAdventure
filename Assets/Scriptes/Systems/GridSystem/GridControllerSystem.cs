@@ -456,6 +456,7 @@ public class GridControllerSystem : GameSystem
         ItemType itemType = tileItem.GetItemType();
         if (itemType == ItemType.STACK)
         {
+            return;
             GridUISystem._instance.OpenButtonTips(tileItem, TryOpenStack);
         }
         else if (itemType == ItemType.TREE)
@@ -897,13 +898,27 @@ public class GridControllerSystem : GameSystem
                 treeNumMap[treeId]++;
             else treeNumMap.Add(treeId, 1);
         }
-
         foreach (int treeId in treeNumMap.Keys)
         {
             TreeConfig treeConfig = ConfigSystem.GetTreeConfig(treeId);
             lv1Count += DropAlgorithmHelper.GetTreeDropOfItem(treeConfig, chainId) * treeNumMap[treeId];
         }
 
+        Dictionary<int,int> generatorNumMap = new Dictionary<int,int>();
+        Dictionary<Vector2Int, TileItem> generatorMap = itemMap[ItemType.GENERATOR];
+        foreach (Vector2Int pos in generatorMap.Keys) {
+            if (!includeCloud && _gridHelper.IsCloudTilePos(pos)) continue;
+
+            int generatorId = generatorMap[pos].GetItemId();
+            if (generatorNumMap.ContainsKey(generatorId))
+                generatorNumMap[generatorId]++;
+            else generatorNumMap.Add(generatorId, 1);
+        }
+        foreach (int generatorId in generatorNumMap.Keys)
+        {
+            GeneratorConfig generatorConfig = ConfigSystem.GetGeneratorConfig(generatorId);
+            lv1Count += DropAlgorithmHelper.GetGeneratorDropOfItem(generatorConfig, chainId) * generatorNumMap[generatorId];
+        }
 
 
         Dictionary<int, int> normalNumMap = new Dictionary<int, int>();

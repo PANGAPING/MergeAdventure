@@ -202,7 +202,7 @@ public class OrderAlgorithmHelper
     }
 
     private int GetTrueOrderHardness(OrderModel order) {
-        List<int> genItemIds = GridControllerSystem._instance.GetGeneratorItemIds();
+        List<int> genItemIds = GridControllerSystem._instance.GetGeneratorItemIds(false);
         List<GeneratorConfig> gens = new List<GeneratorConfig>();
         foreach (var id in genItemIds) gens.Add(ConfigSystem.GetGeneratorConfig(id));
 

@@ -24,6 +24,23 @@ public static class DropAlgorithmHelper
         return lv1Count / mergeNeedRootCount;
     }
 
+    public static float GetGeneratorDropOfItem(GeneratorConfig generatorConfig, int targetId) { 
+         float lv1Count = 0;
+
+        int chainId = ChainHelper.GetChainRoot(targetId);
+        int mergeNeedRootCount = ChainHelper.ConvertItemIntoRootCount(targetId);
+
+        for (int i = 0; i < generatorConfig.DropItemIds.Length; i++) { 
+            int itemId = generatorConfig.DropItemIds[i];
+            float itemRatio = generatorConfig.DropItemRatios[i];
+            if (itemId == chainId) { 
+                lv1Count += itemRatio * generatorConfig.MaxHealthCount;
+            }
+        }
+
+        return lv1Count / mergeNeedRootCount;   
+    }
+
     public static Dictionary<int, int> GetGeneratorDropResult(Generator generator,out bool luck) { 
         Dictionary<int, int> result = new Dictionary<int, int>();
         luck = false;
