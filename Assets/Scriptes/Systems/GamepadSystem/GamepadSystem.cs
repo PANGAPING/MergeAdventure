@@ -52,7 +52,7 @@ public class GamepadSystem : GameSystem
     {
         base.Update();
 
-         mouseIsOverUI = EventSystem.current.IsPointerOverGameObject();
+        // mouseIsOverUI = EventSystem.current.IsPointerOverGameObject();
 
       //  Vector2 mousePosition = activeMouse.position.ReadValue();
       //  mousePositionDelta = (mousePosition - lastMousePosition) / Time.deltaTime;
