@@ -17,6 +17,7 @@ public static class SaveSystem
         {
             File.Delete(userDataPath);
         }
+        EnsureDirectoryForFile(userDataPath);
 
         File.WriteAllText(userDataPath, JsonConvert.SerializeObject(userData));
 
@@ -60,5 +61,17 @@ public static class SaveSystem
         return userData;
     }
 
+    public static void EnsureDirectoryForFile(string filePath)
+    {
+        var dir = Path.GetDirectoryName(filePath);
+        if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+            Directory.CreateDirectory(dir);
+    }
+
+    public static void EnsureDirectory(string dirPath)
+    {
+        if (!Directory.Exists(dirPath))
+            Directory.CreateDirectory(dirPath);
+    }
 
 }
