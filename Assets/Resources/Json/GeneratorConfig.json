@@ -185,5 +185,16 @@
     "LuckyRatio": 0.2,
     "LuckDropItemRatio": "[100]",
     "": null
+  },
+  {
+    "ID": 2000601.0,
+    "Name": "GiftBag_Lv1",
+    "ItemID": 2000601.0,
+    "DropItemIds": "[4000201,4000202,4000202,4000101,4000102,4000103]",
+    "DropItemRatios": "[0,0.2,0.2,0,0.2,0.2]",
+    "MaxHealthCount": 4.0,
+    "LuckyRatio": 0.2,
+    "LuckDropItemRatio": "[100]",
+    "": null
   }
 ]
