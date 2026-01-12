@@ -1365,6 +1365,19 @@
     "IntData": "[]"
   },
   {
+    "ID": 2000601.0,
+    "Name": "GiftBag_Lv1",
+    "ItemBaseSize": "[1,1]",
+    "SpritePath": "Generator/GiftBag/GiftBag_Lv1",
+    "PrefabPath": "TileItem/Generator",
+    "NextLevelID": 0.0,
+    "Type": "GENERATOR",
+    "Movable": 0.0,
+    "Obstacle": 0.0,
+    "Layer": 1.0,
+    "IntData": "[]"
+  },
+  {
     "ID": 3000101.0,
     "Name": "Fog",
     "ItemBaseSize": "[1,1]",
@@ -1417,6 +1430,19 @@
     "IntData": "[]"
   },
   {
+    "ID": 3000303.0,
+    "Name": "WoodenStackHead",
+    "ItemBaseSize": "[1,1]",
+    "SpritePath": "Chain/WoodenStackHead",
+    "PrefabPath": "TileItem/Chain",
+    "NextLevelID": 0.0,
+    "Type": "CHAIN",
+    "Movable": 0.0,
+    "Obstacle": 1.0,
+    "Layer": 2.0,
+    "IntData": "[]"
+  },
+  {
     "ID": 3000401.0,
     "Name": "GrassStack",
     "ItemBaseSize": "[1,1]",
@@ -1434,6 +1460,19 @@
     "Name": "ChainStack",
     "ItemBaseSize": "[1,1]",
     "SpritePath": "Stack/ChainStack",
+    "PrefabPath": "TileItem/Stack",
+    "NextLevelID": 0.0,
+    "Type": "STACK",
+    "Movable": 0.0,
+    "Obstacle": 1.0,
+    "Layer": 3.0,
+    "IntData": "[]"
+  },
+  {
+    "ID": 3000403.0,
+    "Name": "WoodenStack",
+    "ItemBaseSize": "[1,1]",
+    "SpritePath": "Stack/WoodenStack",
     "PrefabPath": "TileItem/Stack",
     "NextLevelID": 0.0,
     "Type": "STACK",
