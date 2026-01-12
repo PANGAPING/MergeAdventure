@@ -884,6 +884,19 @@
     "IntData": "[]"
   },
   {
+    "ID": 1110001.0,
+    "Name": "Star",
+    "ItemBaseSize": "[1,1]",
+    "SpritePath": "Item/Sketch/Star",
+    "PrefabPath": null,
+    "NextLevelID": 0.0,
+    "Type": "NORMAL",
+    "Movable": 1.0,
+    "Obstacle": 0.0,
+    "Layer": 1.0,
+    "IntData": "[]"
+  },
+  {
     "ID": 1200101.0,
     "Name": "Shu1_Lv1",
     "ItemBaseSize": "[1,1]",
