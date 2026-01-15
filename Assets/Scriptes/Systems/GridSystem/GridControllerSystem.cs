@@ -530,7 +530,7 @@ public class GridControllerSystem : GameSystem
         else if (chainType == ChainType.CHAINSTACKHEAD)
         {
             int group = chain.GetGroup();
-            List<TileItem> stacks = itemMap[ItemType.STACK].Values.ToList().FindAll(x => x.GetGroup() == group);
+            List<TileItem> stacks = itemMap[ItemType.STACK].Values.ToList().FindAll(x => x.GetGroup() == group && ((Stack)x)._stackType == StackType.CHAINSTACK);
             StartCoroutine(OpenStacksWithInterval(stacks, 0.2f));
         }
     }
