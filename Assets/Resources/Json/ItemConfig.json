@@ -1495,6 +1495,19 @@
     "IntData": "[]"
   },
   {
+    "ID": 3000404.0,
+    "Name": "StoneStack",
+    "ItemBaseSize": "[1,1]",
+    "SpritePath": "Stack/StoneStack",
+    "PrefabPath": "TileItem/Stack",
+    "NextLevelID": 0.0,
+    "Type": "STACK",
+    "Movable": 0.0,
+    "Obstacle": 1.0,
+    "Layer": 3.0,
+    "IntData": "[]"
+  },
+  {
     "ID": 3000501.0,
     "Name": "ElfCloud_11",
     "ItemBaseSize": "[1,1]",
@@ -1622,6 +1635,45 @@
     "Movable": 1.0,
     "Obstacle": 0.0,
     "Layer": 1.0,
+    "IntData": "[]"
+  },
+  {
+    "ID": 3000901.0,
+    "Name": "StickArrow",
+    "ItemBaseSize": "[1,1]",
+    "SpritePath": "StickProp/StickArrow",
+    "PrefabPath": null,
+    "NextLevelID": 0.0,
+    "Type": "NORMAL",
+    "Movable": 0.0,
+    "Obstacle": 1.0,
+    "Layer": 4.0,
+    "IntData": "[]"
+  },
+  {
+    "ID": 3000902.0,
+    "Name": "StickBomb",
+    "ItemBaseSize": "[1,1]",
+    "SpritePath": "StickProp/StickBomb",
+    "PrefabPath": null,
+    "NextLevelID": 0.0,
+    "Type": "NORMAL",
+    "Movable": 0.0,
+    "Obstacle": 1.0,
+    "Layer": 4.0,
+    "IntData": "[]"
+  },
+  {
+    "ID": 3000903.0,
+    "Name": "StickFly",
+    "ItemBaseSize": "[1,1]",
+    "SpritePath": "StickProp/StickFly",
+    "PrefabPath": null,
+    "NextLevelID": 0.0,
+    "Type": "NORMAL",
+    "Movable": 0.0,
+    "Obstacle": 1.0,
+    "Layer": 4.0,
     "IntData": "[]"
   },
   {
