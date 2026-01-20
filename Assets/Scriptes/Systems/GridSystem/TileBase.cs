@@ -144,6 +144,9 @@ public class TileBase : MonoBehaviour
     public virtual void OccupyItem(TileItem item) { 
         OccupiedItems.Add(item);
         if (item.GetItemType() == ItemType.DIEDTILE) {
+            if (!Application.isPlaying) {
+                return; 
+            }
             isDieTile = true;
             Hide();
         }
@@ -163,6 +166,12 @@ public class TileBase : MonoBehaviour
         if (OccupiedItems.Contains(item)) { 
             OccupiedItems.Remove(item);
         }
+
+        if (item.GetItemType() == ItemType.DIEDTILE) {
+            isDieTile = true;
+            Show();
+        }
+
     }
 
     public bool IsEmpty() {
