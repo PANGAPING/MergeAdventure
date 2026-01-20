@@ -15,7 +15,11 @@ public class TileBase : MonoBehaviour
 
     protected TileItem topTileItem;
 
+    [SerializeField]
     protected Image _tileImage;
+    [SerializeField]
+    protected Image _borderImage;
+
 
     protected static Color _whiteColor = new Color(142f/255,184f/255,241f/255);
 
@@ -24,6 +28,8 @@ public class TileBase : MonoBehaviour
     protected static Color _hideColor = new Color(50f/255,50f/255,50f/255);
 
     protected bool dirty = false;
+
+    protected bool isDieTile = false;
 
     protected void Awake()
     {
@@ -45,6 +51,9 @@ public class TileBase : MonoBehaviour
     }
 
     public virtual void Refresh() {
+        if (isDieTile) {
+            return;
+        }
         SortItemsLayer();
         TileItem nowTopItem = GetLayerTopItem();
 
@@ -73,8 +82,22 @@ public class TileBase : MonoBehaviour
             dirty = false;
         }
 
-
         topTileItem = nowTopItem;
+    }
+
+    public virtual void Hide() {
+        _tileImage.gameObject.SetActive(false);
+        _borderImage.gameObject.SetActive(false);
+
+        foreach (var item in OccupiedItems) { 
+            item.Hide();
+        }
+    }
+
+    public virtual void Show()
+    {
+        _tileImage.gameObject.SetActive(true);
+        _borderImage.gameObject.SetActive(true);
     }
 
     public void SetDirty() { 
@@ -97,7 +120,6 @@ public class TileBase : MonoBehaviour
 
     public void Mount(Vector2Int pos) { 
         this.pos = pos;
-        _tileImage = GetComponent<Image>();
     }
 
     public Vector2Int GetPos() { 
@@ -121,6 +143,10 @@ public class TileBase : MonoBehaviour
 
     public virtual void OccupyItem(TileItem item) { 
         OccupiedItems.Add(item);
+        if (item.GetItemType() == ItemType.DIEDTILE) {
+            isDieTile = true;
+            Hide();
+        }
     }
 
     public virtual TileItem GetItemOfLayer(int layer) {

@@ -14,7 +14,7 @@ public class MergeAdventureProgressController : GameProgressController
 
     public static MergeAdventureProgressController _instance;
 
-    public const int _testLevel = 104;
+    public const int _testLevel = 101;
 
     protected override void InitProgress()
     {
