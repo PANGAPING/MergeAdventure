@@ -485,6 +485,10 @@ public class GridControllerSystem : GameSystem
         DestroySpecialTileItems(new List<TileItem> { tileItem });
     }
 
+    private void TryOpenFog(TileItem tileItem) { 
+        DestroySpecialTileItems(new List<TileItem> { tileItem });
+    }
+
     private void TryCutTree(TileItem tileItem) {
         Tree tree = (Tree)tileItem;
 
@@ -1002,6 +1006,11 @@ public class GridControllerSystem : GameSystem
                     else { 
                         _groundWhiteItemNumMap[itemId] = 1;
                     }
+
+                    if (tileItem.GetItemType() == ItemType.FOG) {
+                        TryOpenFog(tileItem); 
+                    }
+
                 }
             }
         }

@@ -18,11 +18,16 @@ public class GridBorderRenderer : MonoBehaviour
     [Header("Border Options")]
     public float borderThickness = 6f;
 
-    [Tooltip("为了确保不被格子压住，向外额外偏移一点点（单位：像素）")]
-    public float outwardEpsilon = 0.5f;
+    [Tooltip("向外额外偏移一点点（像素），减少贴边穿帮")]
+    public float outwardEpsilon = 0.75f;
+
+    [Tooltip("圆角细分（建议 8~16）")]
+    [Range(2, 64)] public int cornerArcSteps = 12;
 
     private readonly HashSet<Vector2Int> _occupied = new HashSet<Vector2Int>();
     private readonly List<UISegmentsBorderGraphic.Segment> _segments = new List<UISegmentsBorderGraphic.Segment>(512);
+    private readonly List<UISegmentsBorderGraphic.Join> _joins = new List<UISegmentsBorderGraphic.Join>(256);
+
     private Coroutine _refreshCo;
 
     private void Awake()
@@ -34,28 +39,35 @@ public class GridBorderRenderer : MonoBehaviour
     private void OnValidate()
     {
         AutoBindIfNeeded();
-        if (borderGraphic) borderGraphic.Thickness = borderThickness;
+        if (borderGraphic)
+        {
+            borderGraphic.Thickness = borderThickness;
+            borderGraphic.ArcSteps = cornerArcSteps;
+        }
     }
 #endif
 
-    /// <summary>外部触发刷新（立即）</summary>
+    /// <summary>外部触发：立即刷新</summary>
     public void Refresh()
     {
         AutoBindIfNeeded();
         if (!grid || !gridRect || !borderGraphic) return;
 
         borderGraphic.Thickness = borderThickness;
+        borderGraphic.ArcSteps = cornerArcSteps;
 
         BuildOccupiedCells(_occupied);
 
         _segments.Clear();
+        _joins.Clear();
+
         if (_occupied.Count == 0)
         {
-            borderGraphic.SetSegments(_segments);
+            borderGraphic.SetGeometry(_segments, _joins);
             return;
         }
 
-        // 暴露边 => segment（多连通块/多个闭合区域天然支持）
+        // 1) 暴露边 => segments（多区域/多闭合块天然支持）
         foreach (var c in _occupied)
         {
             var left  = new Vector2Int(c.x - 1, c.y);
@@ -74,12 +86,13 @@ public class GridBorderRenderer : MonoBehaviour
             if (!_occupied.Contains(up))    AddSegment(tl, tr, Vector2.up);
         }
 
-        borderGraphic.SetSegments(_segments);
+        // 2) 外凸角圆角：角点周围四格恰好 1 个占用 => 外凸
+        AddConvexCornerJoins();
+
+        borderGraphic.SetGeometry(_segments, _joins);
     }
 
-    /// <summary>
-    /// 外部触发刷新（下一帧）：适合你先 SetActive / 改内容，再让 LayoutGroup 结算完再算边界
-    /// </summary>
+    /// <summary>外部触发：下一帧刷新（等 LayoutGroup/ContentSizeFitter 结算）</summary>
     public void RefreshNextFrame()
     {
         if (_refreshCo != null) StopCoroutine(_refreshCo);
@@ -88,7 +101,7 @@ public class GridBorderRenderer : MonoBehaviour
 
     private IEnumerator RefreshNextFrameCo()
     {
-        yield return null; // 等一帧：LayoutGroup/ContentSizeFitter 等结算
+        yield return null;
         _refreshCo = null;
         Refresh();
     }
@@ -98,12 +111,66 @@ public class GridBorderRenderer : MonoBehaviour
         Vector2 a = GridCornerToLocal(cornerA);
         Vector2 b = GridCornerToLocal(cornerB);
 
-        // 额外向外推一点点，避免“刚好压线”被覆盖（视觉上更稳）
+        // 额外向外推一点点，降低贴边“压线穿帮”
         Vector2 eps = outward.normalized * outwardEpsilon;
         a += eps;
         b += eps;
 
         _segments.Add(new UISegmentsBorderGraphic.Segment(a, b, outward));
+    }
+
+    private void AddConvexCornerJoins()
+    {
+        float radius = borderThickness; // 关键：圆角半径=thickness（不是 half）
+
+        // 扫描占用区外接范围（角点范围 [min..max+1]）
+        int minX = int.MaxValue, minY = int.MaxValue, maxX = int.MinValue, maxY = int.MinValue;
+        foreach (var c in _occupied)
+        {
+            if (c.x < minX) minX = c.x;
+            if (c.y < minY) minY = c.y;
+            if (c.x > maxX) maxX = c.x;
+            if (c.y > maxY) maxY = c.y;
+        }
+
+        for (int cx = minX; cx <= maxX + 1; cx++)
+        {
+            for (int cy = minY; cy <= maxY + 1; cy++)
+            {
+                // 角点 (cx,cy) 四象限格子占用情况
+                bool bl = _occupied.Contains(new Vector2Int(cx - 1, cy - 1));
+                bool br = _occupied.Contains(new Vector2Int(cx,     cy - 1));
+                bool tl = _occupied.Contains(new Vector2Int(cx - 1, cy));
+                bool tr = _occupied.Contains(new Vector2Int(cx,     cy));
+
+                int count = (bl ? 1 : 0) + (br ? 1 : 0) + (tl ? 1 : 0) + (tr ? 1 : 0);
+                if (count != 1) continue; // 只补外凸角
+
+                // 外凸角对应两条外法线（决定四分之一圆的扇区）
+                Vector2 n1, n2;
+                if (tr) { n1 = Vector2.left;  n2 = Vector2.down; }
+                else if (tl) { n1 = Vector2.right; n2 = Vector2.down; }
+                else if (br) { n1 = Vector2.left;  n2 = Vector2.up; }
+                else { n1 = Vector2.right; n2 = Vector2.up; } // bl
+
+                // 圆心：角点（可沿角平分线推 epsilon，避免贴边穿帮）
+                Vector2 corner = GridCornerToLocal(new Vector2Int(cx, cy));
+                Vector2 bis = (n1 + n2).normalized;
+                Vector2 center = corner + bis * outwardEpsilon;
+
+                float a1 = Angle0_360(n1);
+                float a2 = Angle0_360(n2);
+
+                _joins.Add(new UISegmentsBorderGraphic.Join(center, radius, a1, a2));
+            }
+        }
+    }
+
+    private static float Angle0_360(Vector2 v)
+    {
+        float a = Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
+        if (a < 0) a += 360f;
+        return a;
     }
 
     private void AutoBindIfNeeded()
@@ -119,6 +186,7 @@ public class GridBorderRenderer : MonoBehaviour
     private void BuildOccupiedCells(HashSet<Vector2Int> occupied)
     {
         occupied.Clear();
+
         int childCount = gridRect.childCount;
 
         int cols, rows;
@@ -148,7 +216,6 @@ public class GridBorderRenderer : MonoBehaviour
             var cr = go.GetComponent<CanvasRenderer>();
             if (cr != null && cr.GetAlpha() <= alphaThreshold) return false;
         }
-
         var b = go.GetComponent<TileBase>();
         if (b != null) {
             return !b.IsDieTile();
@@ -172,6 +239,7 @@ public class GridBorderRenderer : MonoBehaviour
         }
         else
         {
+            // Flexible：按 rect 宽度估算列数（UGUI 常见行为）
             Vector2 step = grid.cellSize + grid.spacing;
             float width = gridRect.rect.width - grid.padding.left - grid.padding.right;
             cols = Mathf.Max(1, Mathf.FloorToInt((width + grid.spacing.x + 0.0001f) / Mathf.Max(1f, step.x)));
@@ -197,6 +265,8 @@ public class GridBorderRenderer : MonoBehaviour
         bool right = grid.startCorner == GridLayoutGroup.Corner.UpperRight || grid.startCorner == GridLayoutGroup.Corner.LowerRight;
 
         int cx = right ? (cols - 1 - x) : x;
+
+        // 我们定义 cell y=0 在“下方”
         int rowFromTop = y;
         int cy = upper ? (rows - 1 - rowFromTop) : rowFromTop;
 

@@ -160,6 +160,7 @@ MonoBehaviour:
   alphaThreshold: 0.01
   borderThickness: 12
   outwardEpsilon: 0.5
+  cornerArcSteps: 9
 --- !u!114 &5881547793702899428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,13 +175,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 0.2627451, g: 0.1764706, b: 0.047058824, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: -3, y: -3, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
   _thickness: 12
+  _arcSteps: 9
 --- !u!1001 &5901553923186378
 PrefabInstance:
   m_ObjectHideFlags: 0
