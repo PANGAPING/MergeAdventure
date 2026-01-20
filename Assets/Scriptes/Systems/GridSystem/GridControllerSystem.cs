@@ -70,6 +70,8 @@ public class GridControllerSystem : GameSystem
 
     public Vector2Int _startPos = new Vector2Int(3,5);
 
+    private GridBorderRenderer _gridBorderRenderer;
+
 
     protected override void InitSelf()
     {
@@ -101,10 +103,9 @@ public class GridControllerSystem : GameSystem
         GameObject boardObj = GameObject.Instantiate(boardPrefab, WorldNode);
 
         boardObj.transform.SetSiblingIndex(4);
-        
+        _gridBorderRenderer =boardObj.GetComponent<GridBorderRenderer>();
         boardPrefab.name = "GameBoard";
         _gridHelper = new GridHelper(boardObj.GetComponent<GridLayoutGroup>());
-
     }
 
 
@@ -120,6 +121,7 @@ public class GridControllerSystem : GameSystem
         InitMachnisms();
         RefreshMap();
         InitShelterTiles();
+        _gridBorderRenderer.RefreshNextFrame();
     }
 
     public void InitMachnisms() {

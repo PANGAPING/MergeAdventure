@@ -202,6 +202,10 @@ public class TileBase : MonoBehaviour
         TileItem tileItem = GetLayerTopItem();
         return state == TileState.WHITE && tileItem != null && tileItem.IsMovable(); ;
     }
+
+    public bool IsDieTile() {
+        return isDieTile;
+    }
 }
 
 public enum TileState { 
