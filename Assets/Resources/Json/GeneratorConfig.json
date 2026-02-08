@@ -160,7 +160,7 @@
     "DropItemIds": "[1100901,1100401]",
     "DropItemRatios": "[0.6,0.4]",
     "MaxHealthCount": 8.0,
-    "LuckyRatio": 0.2,
+    "LuckyRatio": 0.0,
     "LuckDropItemRatio": "[100]",
     "": null
   },
