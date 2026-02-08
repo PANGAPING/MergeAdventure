@@ -208,7 +208,10 @@ public class OrderSystem : GameSystem
                 for(int i = 0; i < nextOrderIds.Length; i++)
                 {
                     OrderConfig orderConfig = ConfigSystem.GetOrderConfig(i);
-                    NewOrder(OrderModel.FromConfig(orderConfig));
+                    if (orderConfig != null)
+                    {
+                        NewOrder(OrderModel.FromConfig(orderConfig));
+                    }
                 }
             }
         }
