@@ -12,10 +12,10 @@
   {
     "ID": 1090102.0,
     "IslandID": 109.0,
-    "NeedItemIds": "[1100404]",
-    "NeedItemNums": "[1]",
+    "NeedItemIds": "[1100404,1100404]",
+    "NeedItemNums": "[1,1]",
     "RewardIds": "[2]",
-    "RewardNums": "[10]",
+    "RewardNums": "[20]",
     "DefaultUnlock": 0.0,
     "NextOrderIds": "[-1]"
   }
