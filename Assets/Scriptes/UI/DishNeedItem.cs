@@ -26,11 +26,11 @@ public class DishNeedItem : GameUIPanel
         }
     }
 
-    public virtual void UpdateView(Dictionary<int,int> groundItemMap)
+    public virtual void UpdateView(Dictionary<int,int> groundItemMap,int sameItemIndex = 0)
     {
         base.UpdateView();
 
-        if (groundItemMap.ContainsKey(_itemId) && groundItemMap[_itemId] > 0)
+        if (groundItemMap.ContainsKey(_itemId) && groundItemMap[_itemId] > sameItemIndex)
         {
             _checkObj.SetActive(true);
             satisfied = true;
@@ -43,5 +43,10 @@ public class DishNeedItem : GameUIPanel
 
     public virtual bool IsSatisied() {
         return satisfied;
+    }
+
+    public int GetNeedItemId()
+    {
+        return _itemId;
     }
 }

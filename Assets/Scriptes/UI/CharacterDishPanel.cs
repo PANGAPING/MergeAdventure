@@ -68,7 +68,8 @@ public class CharacterDishPanel : GameUIPanel
         bool satisfied = true;
 
         foreach (DishNeedItem needItem in _dishNeedItems) {
-            needItem.UpdateView(groundItemMap);
+            int saveItemIndex = _dishNeedItems.FindAll(x=>x.GetNeedItemId() == needItem.GetNeedItemId() && _dishNeedItems.IndexOf(x)<= _dishNeedItems.IndexOf(needItem)).Count -1;
+            needItem.UpdateView(groundItemMap,saveItemIndex);
             if (!needItem.IsSatisied()) {
                 satisfied = false;
             }
