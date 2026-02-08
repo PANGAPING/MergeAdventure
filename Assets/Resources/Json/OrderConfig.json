@@ -36,18 +36,18 @@
     "NeedItemNums": "[1]",
     "RewardIds": "[2]",
     "RewardNums": "[10]",
-    "DefaultUnlock": 1.0,
-    "NextOrderIds": "[1110102,1110103]"
+    "DefaultUnlock": 0.0,
+    "NextOrderIds": null
   },
   {
     "ID": 1110201.0,
     "IslandID": 111.0,
-    "NeedItemIds": "[1100903,1100404]",
+    "NeedItemIds": "[1100904,1100404]",
     "NeedItemNums": "[1,1]",
     "RewardIds": "[2]",
     "RewardNums": "[20]",
     "DefaultUnlock": 1.0,
-    "NextOrderIds": "[1110202,1110203,1110204]"
+    "NextOrderIds": "[1110203,1110204]"
   },
   {
     "ID": 1110102.0,
@@ -102,12 +102,12 @@
   {
     "ID": 1110203.0,
     "IslandID": 111.0,
-    "NeedItemIds": "[1100304]",
+    "NeedItemIds": "[1100305]",
     "NeedItemNums": "[1]",
     "RewardIds": "[2]",
     "RewardNums": "[20]",
     "DefaultUnlock": 0.0,
-    "NextOrderIds": null
+    "NextOrderIds": "[1110102,1110103]"
   },
   {
     "ID": 1110204.0,
@@ -117,7 +117,7 @@
     "RewardIds": "[2]",
     "RewardNums": "[20]",
     "DefaultUnlock": 0.0,
-    "NextOrderIds": null
+    "NextOrderIds": "[1110202]"
   },
   {
     "ID": 1110205.0,
