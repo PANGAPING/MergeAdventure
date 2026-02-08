@@ -3,7 +3,7 @@
     "ID": 1090101.0,
     "IslandID": 109.0,
     "NeedItemIds": "[1100404]",
-    "NeedItemNums": null,
+    "NeedItemNums": "[1]",
     "RewardIds": "[2]",
     "RewardNums": "[10]",
     "DefaultUnlock": 1.0,
@@ -13,10 +13,10 @@
     "ID": 1090102.0,
     "IslandID": 109.0,
     "NeedItemIds": "[1100404]",
-    "NeedItemNums": null,
+    "NeedItemNums": "[1]",
     "RewardIds": "[2]",
     "RewardNums": "[10]",
-    "DefaultUnlock": 1.0,
+    "DefaultUnlock": 0.0,
     "NextOrderIds": "[-1]"
   }
 ]

@@ -176,7 +176,7 @@ public static class ConfigSystem
     {
         OrderConfigs = new Dictionary<int, OrderConfig>();
 
-        OrderConfig[] orderConfigs = LoadJsonConfigArray<OrderConfig>(ConfigPath.AssetItemConfig);
+        OrderConfig[] orderConfigs = LoadJsonConfigArray<OrderConfig>(ConfigPath.OrderConfig);
 
         for (int i = 0; i < orderConfigs.Length; i++)
         {

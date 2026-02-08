@@ -115,7 +115,11 @@ public class GridUISystem : GameSystem
     public void InitOrderDishes() {
         Transform dishesContainer = WorldNode.Find("Scrollbar/Viewport/Content/CharacterDishes");
         List<OrderModel> allModels = new List<OrderModel>();
-        allModels.Add(OrderSystem._instance.GetLevelTargetOrder());
+        OrderModel levelTargetOrder = OrderSystem._instance.GetLevelTargetOrder();
+        if (levelTargetOrder != null)
+        {
+            allModels.Add(levelTargetOrder);
+        }
         allModels.AddRange(OrderSystem._instance.GetOrderModels());
 
         characterDishPanels = new List<CharacterDishPanel>();

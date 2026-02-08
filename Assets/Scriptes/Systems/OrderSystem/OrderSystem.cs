@@ -223,6 +223,10 @@ public class OrderSystem : GameSystem
     }
 
     public OrderModel GetLevelTargetOrder() {
+        if(targetOrderModels==null || targetOrderModels.Count == 0)
+        {
+            return null;
+        }
         return targetOrderModels[0];
     }
 
