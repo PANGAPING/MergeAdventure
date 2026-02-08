@@ -33,6 +33,8 @@ public class OrderSystem : GameSystem
 
     private int _orderCountInPool = 8;
 
+    private bool _isOrderFormConfig = false;
+
     protected override void InitSelf()
     {
         _instance = this;
@@ -43,9 +45,9 @@ public class OrderSystem : GameSystem
         //targetOrderModels.Add( NewOrder(new List<int>() { 1100907,1100306 }, new List<int>() { 1 },new List<int> {1,2},new List<int> {50,200},true));
         //targetOrderModels.Add( NewOrder(new List<int>() { 1100910,1100307 }, new List<int>() { 1 },new List<int> {1,2},new List<int> {100,200},true));
 
-        targetOrderModels.Add( NewOrder(new List<int>() { 1100905}, new List<int>() { 1 },new List<int> {1,2},new List<int> {30,200},true));
-        targetOrderModels.Add( NewOrder(new List<int>() { 1100907}, new List<int>() { 1 },new List<int> {1,2},new List<int> {50,200},true));
-        targetOrderModels.Add( NewOrder(new List<int>() { 1100910}, new List<int>() { 1 },new List<int> {1,2},new List<int> {100,200},true));
+        //  targetOrderModels.Add( NewOrder(new List<int>() { 1100905}, new List<int>() { 1 },new List<int> {1,2},new List<int> {30,200},true));
+        //  targetOrderModels.Add( NewOrder(new List<int>() { 1100907}, new List<int>() { 1 },new List<int> {1,2},new List<int> {50,200},true));
+        //  targetOrderModels.Add( NewOrder(new List<int>() { 1100910}, new List<int>() { 1 },new List<int> {1,2},new List<int> {100,200},true));
 
 
 
@@ -53,6 +55,9 @@ public class OrderSystem : GameSystem
         //  NewOrder(new List<int>() { 1100105 }, new List<int>() { 1 },new List<int> {1,2},new List<int> {100,200},true);
         //  NewOrder(new List<int>() { 1100203,1100304 }, new List<int>() { 1,1 },new List<int> {101,2},new List<int> {1,20},false);
         //  NewOrder(new List<int>() { 1100204,1100305 }, new List<int>() { 1,1 },new List<int> {101,2},new List<int> {2,40},false);
+
+        List<OrderConfig> defaultOrders =  ConfigSystem.GetDefaultOrderOfIsland(MergeAdventureProgressController._instance.GetLevelId());
+        _isOrderFormConfig = defaultOrders.Count > 0;
 
         string orderSpawnConfigPath = Path.Combine(FoldPath.SettingFolderPath, "OrderSpawnConfig");
         _orderSpawnConfig = Resources.Load<OrderSpawnConfig>(orderSpawnConfigPath);
@@ -62,13 +67,21 @@ public class OrderSystem : GameSystem
     protected override void Init()
     {
         base.Init();
+        if (_isOrderFormConfig)
+        {
+            List<OrderConfig> defaultOrders =  ConfigSystem.GetDefaultOrderOfIsland(MergeAdventureProgressController._instance.GetLevelId());
+            foreach(OrderConfig orderConfig in defaultOrders)
+            {
+                NewOrder(OrderModel.FromConfig(orderConfig));
+            }
+        }
     }
 
     protected override void Update()
     {
         base.Update();
 
-        if (Time.time - _lastOrderPoolFillTime > _orderSpawnConfig.refillOrderInterval) {
+        if (Time.time - _lastOrderPoolFillTime > _orderSpawnConfig.refillOrderInterval && !_isOrderFormConfig) {
             AddOrderCountToPool(1); 
         }
     }
@@ -187,7 +200,22 @@ public class OrderSystem : GameSystem
             _onOrderFinished.Invoke(orderModel);
         }
 
-        TryCreateNewOrdersFromPool();
+        if (_isOrderFormConfig)
+        {
+            int[] nextOrderIds = orderModel.NextOrderIds;
+            if(nextOrderIds!=null && nextOrderIds.Length > 0)
+            {
+                for(int i = 0; i < nextOrderIds.Length; i++)
+                {
+                    OrderConfig orderConfig = ConfigSystem.GetOrderConfig(i);
+                    NewOrder(OrderModel.FromConfig(orderConfig));
+                }
+            }
+        }
+        else
+        {
+            TryCreateNewOrdersFromPool();
+        }
     }
 
     public List<OrderModel> GetOrderModels() {

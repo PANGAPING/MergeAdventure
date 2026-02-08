@@ -17,6 +17,7 @@ public static class ConfigSystem
     public static Dictionary<int,MechanismConfig> MechanismConfigs { get; set; }
     public static Dictionary<int,AssetConfig> AssetConfigs{ get; set; }
     public static Dictionary<int,AssetItemConfig> AssetItemConfigs{ get; set; }
+    public static Dictionary<int, OrderConfig> OrderConfigs { get; set; }
 
 
     public static void LoadConfigs()
@@ -28,6 +29,7 @@ public static class ConfigSystem
         InitChestConfig();
         InitAssetConfig();
         InitAssetItemConfig();
+        InitOrderConfig();
     }
 
     private static void InitItemConfig()
@@ -170,6 +172,19 @@ public static class ConfigSystem
         } 
     }
 
+    private static void InitOrderConfig()
+    {
+        OrderConfigs = new Dictionary<int, OrderConfig>();
+
+        OrderConfig[] orderConfigs = LoadJsonConfigArray<OrderConfig>(ConfigPath.AssetItemConfig);
+
+        for (int i = 0; i < orderConfigs.Length; i++)
+        {
+            OrderConfig OrderConfig = orderConfigs[i];
+            OrderConfigs[OrderConfig.ID] = OrderConfig;
+        }
+    }
+
     public static AssetItemConfig GetAssetItemConfig(int itemId)
     {
         try
@@ -181,6 +196,26 @@ public static class ConfigSystem
             Debug.LogError("There is no itemAssetConfig id:" + itemId.ToString());
             return null;
         }
+    }
+    public static OrderConfig GetOrderConfig(int orderID)
+    {
+        try
+        {
+            return OrderConfigs[orderID];
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("There is no order id:" + orderID.ToString());
+            return null;
+        }
+    }
+
+
+    public static List<OrderConfig> GetDefaultOrderOfIsland(int islandId)
+    {
+        List<OrderConfig> orderConfigs = new List<OrderConfig>();
+        orderConfigs = OrderConfigs.Values.ToList().FindAll(x => x.IslandID == islandId && x.DefaultUnlock == 1);
+        return orderConfigs;
     }
 
     public static GeneratorConfig GetGeneratorConfig(int itemID)

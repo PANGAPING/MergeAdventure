@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 public class OrderModel : FlyEggModel
 {
@@ -20,6 +21,8 @@ public class OrderModel : FlyEggModel
 
     public int[] RewardItemNum;
 
+    public int[] NextOrderIds;
+
     public void AddNeedItem(int itemId, int count) {
         List<int> newItemId = NeedItemId.ToList();
         List<int> newItemNum =NeedItemNum.ToList();
@@ -34,5 +37,19 @@ public class OrderModel : FlyEggModel
         }
         NeedItemId = newItemId.ToArray();
         NeedItemNum = newItemNum.ToArray();
+    }
+
+    public static OrderModel FromConfig(OrderConfig orderConfig)
+    {
+        OrderModel orderModel = new OrderModel();
+
+        orderModel.IsLevelTarget = false;
+        orderModel.NeedItemId = orderConfig.NeedItemIds;
+        orderModel.NeedItemNum = orderConfig.NeedItemNums;
+        orderModel.RewardItemType = orderConfig.RewardIds;
+        orderModel.RewardItemNum = orderConfig.RewardNums;
+        orderModel.NextOrderIds = orderConfig.NextOrderIds;
+        return orderModel;
+
     }
 }
